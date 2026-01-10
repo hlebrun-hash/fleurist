@@ -1,214 +1,242 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import { BouquetCard } from "@/components/ui/bouquet-card";
-import { HandWrittenTitle } from "@/components/ui/hand-writing-text";
-import { Metadata } from "next";
+import { useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
+import { products } from '@/lib/data';
+import { Search, Filter, ArrowRight, X } from 'lucide-react';
 
-const allBouquets = [
-    // Bouquets principaux
-    {
-        name: "La Douceur",
-        price: "29,90 €",
-        category: "Petit",
-        description: "Un bouquet délicat aux teintes pastel, parfait pour illuminer le quotidien.",
-        image: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=800&q=80",
-    },
-    {
-        name: "L'Éclat",
-        price: "49,90 €",
-        category: "Moyen",
-        description: "Une composition vibrante qui capture l'essence du printemps toute l'année.",
-        image: "https://images.unsplash.com/photo-1561181286-d3fee7d55364?w=800&q=80",
-    },
-    {
-        name: "Le Prestige",
-        price: "79,90 €",
-        category: "Grand",
-        description: "Notre création signature. Un arrangement luxueux pour les moments exceptionnels.",
-        image: "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=80",
-    },
-    // Bouquets supplémentaires
-    {
-        name: "L'Aurore",
-        price: "34,90 €",
-        category: "Petit",
-        description: "Des tons chauds de rose et d'orangé pour commencer la journée avec éclat.",
-        image: "https://images.unsplash.com/photo-1455659817273-f96807779a8a?w=800&q=80",
-    },
-    {
-        name: "Le Romantique",
-        price: "54,90 €",
-        category: "Moyen",
-        description: "Roses et pivoines pour déclarer votre amour avec élégance.",
-        image: "https://images.unsplash.com/photo-1518882605630-8f90a5227c90?w=800&q=80",
-    },
-    {
-        name: "Le Champêtre",
-        price: "39,90 €",
-        category: "Moyen",
-        description: "Un air de campagne française avec ses fleurs sauvages et ses herbes folles.",
-        image: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&q=80",
-    },
-    {
-        name: "L'Exotique",
-        price: "64,90 €",
-        category: "Grand",
-        description: "Orchidées et fleurs tropicales pour un voyage sensoriel.",
-        image: "https://images.unsplash.com/photo-1519378058457-4c29a0a2efac?w=800&q=80",
-    },
-    {
-        name: "Le Minimaliste",
-        price: "24,90 €",
-        category: "Petit",
-        description: "L'élégance dans la simplicité. Parfait pour les intérieurs modernes.",
-        image: "https://images.unsplash.com/photo-1508610048659-a06b669e3321?w=800&q=80",
-    },
-    {
-        name: "L'Éternel",
-        price: "89,90 €",
-        category: "Grand",
-        description: "Notre bouquet le plus généreux, pour marquer les grandes occasions.",
-        image: "https://images.unsplash.com/photo-1567696911980-2eed69a46042?w=800&q=80",
-    },
+const categories = [
+    { id: 'all', label: 'Tous' },
+    { id: 'bouquet', label: 'Bouquets' },
+    { id: 'fleurs-sechees', label: 'Fleurs Séchées' },
+    { id: 'plante', label: 'Plantes' },
+    { id: 'accessoire', label: 'Accessoires' },
 ];
 
-const categories = ["Tous", "Petit", "Moyen", "Grand"];
-
 export default function ProduitsPage() {
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedCategory, setSelectedCategory] = useState('all');
+    const [showFilters, setShowFilters] = useState(false);
+
+    const filteredProducts = useMemo(() => {
+        return products.filter((product) => {
+            const matchesSearch =
+                product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                product.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                product.tags.some((tag) =>
+                    tag.toLowerCase().includes(searchQuery.toLowerCase())
+                );
+
+            const matchesCategory =
+                selectedCategory === 'all' || product.category === selectedCategory;
+
+            return matchesSearch && matchesCategory;
+        });
+    }, [searchQuery, selectedCategory]);
+
     return (
-        <div className="pt-24 pb-20">
-            {/* Hero */}
-            <section className="container mx-auto px-6 pb-16">
-                <HandWrittenTitle
-                    title="Nos Créations"
-                    subtitle="Des bouquets composés avec passion, à des prix transparents"
-                />
-
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="text-center text-muted-foreground max-w-2xl mx-auto"
-                    style={{ fontFamily: "var(--font-outfit)" }}
-                >
-                    Chaque création est unique, composée à la main avec des fleurs fraîches
-                    sélectionnées le matin même. Commandez en boutique ou réservez par téléphone.
-                </motion.p>
-            </section>
-
-            {/* Products Grid */}
-            <section className="container mx-auto px-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                    {allBouquets.map((bouquet, index) => (
-                        <motion.div
-                            key={bouquet.name}
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1, duration: 0.5 }}
-                        >
-                            <BouquetCard
-                                name={bouquet.name}
-                                price={bouquet.price}
-                                image={bouquet.image}
-                                description={bouquet.description}
-                                ctaText="Réserver ce bouquet"
-                            />
-                        </motion.div>
-                    ))}
+        <div className="min-h-screen pt-24 pb-16">
+            {/* Hero Header */}
+            <section className="relative py-16 bg-secondary/30">
+                <div className="container mx-auto px-6">
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                        className="text-center max-w-3xl mx-auto"
+                    >
+                        <h1 className="text-4xl md:text-6xl font-bold font-serif mb-6">
+                            Nos <span className="text-primary">Créations</span> Florales
+                        </h1>
+                        <p className="text-lg text-muted-foreground leading-relaxed">
+                            Découvrez notre collection de bouquets artisanaux, chaque composition
+                            est une œuvre unique créée avec passion et savoir-faire.
+                        </p>
+                    </motion.div>
                 </div>
             </section>
 
-            {/* FAQ Section for SEO */}
-            <section className="container mx-auto px-6 py-20 max-w-4xl">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                >
-                    <h2
-                        className="text-3xl text-foreground text-center mb-12"
-                        style={{ fontFamily: "var(--font-cormorant)" }}
-                    >
-                        Questions Fréquentes
-                    </h2>
+            {/* Filters Section */}
+            <section className="sticky top-16 z-40 bg-background/80 backdrop-blur-lg border-b border-border py-4">
+                <div className="container mx-auto px-6">
+                    <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                        {/* Search */}
+                        <div className="relative w-full md:w-96">
+                            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                            <input
+                                type="text"
+                                placeholder="Rechercher un bouquet, une occasion..."
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                className="w-full pl-12 pr-4 py-3 rounded-full border border-border bg-card focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all outline-none"
+                            />
+                            {searchQuery && (
+                                <button
+                                    onClick={() => setSearchQuery('')}
+                                    className="absolute right-4 top-1/2 -translate-y-1/2"
+                                >
+                                    <X className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                                </button>
+                            )}
+                        </div>
 
-                    <div className="space-y-6">
-                        {[
-                            {
-                                q: "Combien de temps durent vos bouquets ?",
-                                a: "Nos bouquets durent en moyenne 7 à 14 jours selon les fleurs choisies. Nous vous donnons toujours des conseils d'entretien pour maximiser leur durée de vie."
-                            },
-                            {
-                                q: "Puis-je commander un bouquet personnalisé ?",
-                                a: "Absolument ! Passez en boutique ou appelez-nous pour discuter de vos envies. Nous créons des compositions sur-mesure pour toutes les occasions."
-                            },
-                            {
-                                q: "Livrez-vous à domicile ?",
-                                a: "Nous proposons la livraison dans Paris et la proche banlieue. Contactez-nous pour connaître les tarifs et disponibilités."
-                            },
-                            {
-                                q: "Les prix affichés sont-ils définitifs ?",
-                                a: "Oui, tous nos prix sont transparents et définitifs. Pas de mauvaise surprise à la caisse."
-                            },
-                        ].map((faq, index) => (
-                            <motion.details
-                                key={index}
-                                initial={{ opacity: 0, y: 10 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
-                                className="group bg-card rounded-2xl p-6 shadow-sm"
-                            >
-                                <summary
-                                    className="cursor-pointer list-none flex items-center justify-between text-foreground font-medium"
-                                    style={{ fontFamily: "var(--font-cormorant)" }}
+                        {/* Category Filters - Desktop */}
+                        <div className="hidden md:flex items-center gap-2">
+                            {categories.map((category) => (
+                                <button
+                                    key={category.id}
+                                    onClick={() => setSelectedCategory(category.id)}
+                                    className={`px-5 py-2 rounded-full font-medium transition-all ${selectedCategory === category.id
+                                            ? 'bg-primary text-primary-foreground'
+                                            : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+                                        }`}
                                 >
-                                    <span className="text-lg">{faq.q}</span>
-                                    <span className="ml-4 text-primary transition-transform group-open:rotate-45">+</span>
-                                </summary>
-                                <p
-                                    className="mt-4 text-muted-foreground leading-relaxed"
-                                    style={{ fontFamily: "var(--font-outfit)" }}
-                                >
-                                    {faq.a}
-                                </p>
-                            </motion.details>
-                        ))}
+                                    {category.label}
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* Mobile Filter Button */}
+                        <button
+                            className="md:hidden flex items-center gap-2 px-4 py-2 border border-border rounded-full"
+                            onClick={() => setShowFilters(!showFilters)}
+                        >
+                            <Filter className="w-4 h-4" />
+                            <span>Filtrer</span>
+                        </button>
                     </div>
-                </motion.div>
+
+                    {/* Mobile Filters */}
+                    <AnimatePresence>
+                        {showFilters && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                className="md:hidden overflow-hidden"
+                            >
+                                <div className="flex flex-wrap gap-2 pt-4">
+                                    {categories.map((category) => (
+                                        <button
+                                            key={category.id}
+                                            onClick={() => {
+                                                setSelectedCategory(category.id);
+                                                setShowFilters(false);
+                                            }}
+                                            className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category.id
+                                                    ? 'bg-primary text-primary-foreground'
+                                                    : 'bg-secondary text-secondary-foreground'
+                                                }`}
+                                        >
+                                            {category.label}
+                                        </button>
+                                    ))}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
             </section>
 
-            {/* Schema.org Product structured data */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "ItemList",
-                        "itemListElement": allBouquets.map((bouquet, index) => ({
-                            "@type": "ListItem",
-                            "position": index + 1,
-                            "item": {
-                                "@type": "Product",
-                                "name": bouquet.name,
-                                "description": bouquet.description,
-                                "image": bouquet.image,
-                                "brand": {
-                                    "@type": "Brand",
-                                    "name": "Jardin Digital"
-                                },
-                                "offers": {
-                                    "@type": "Offer",
-                                    "price": bouquet.price.replace(" €", "").replace(",", "."),
-                                    "priceCurrency": "EUR",
-                                    "availability": "https://schema.org/InStock"
-                                }
-                            }
-                        }))
-                    })
-                }}
-            />
+            {/* Products Grid */}
+            <section className="py-12">
+                <div className="container mx-auto px-6">
+                    {/* Results count */}
+                    <p className="text-muted-foreground mb-8">
+                        {filteredProducts.length} produit{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                        <AnimatePresence mode="popLayout">
+                            {filteredProducts.map((product, index) => (
+                                <motion.div
+                                    key={product.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9 }}
+                                    transition={{
+                                        duration: 0.4,
+                                        delay: index * 0.05,
+                                    }}
+                                >
+                                    <Link
+                                        href={`/produits/${product.slug}`}
+                                        className="group block"
+                                    >
+                                        <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-4">
+                                            <Image
+                                                src={product.images[0]}
+                                                alt={product.name}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                                            {/* Price badge */}
+                                            <div className="absolute top-3 right-3 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full">
+                                                <span className="font-semibold text-sm text-foreground">
+                                                    {product.price.max
+                                                        ? `${product.price.min}€ - ${product.price.max}€`
+                                                        : `${product.price.min}€`}
+                                                </span>
+                                            </div>
+
+                                            {/* Featured badge */}
+                                            {product.featured && (
+                                                <div className="absolute top-3 left-3 px-3 py-1.5 bg-primary text-primary-foreground text-xs font-medium rounded-full">
+                                                    Coup de cœur
+                                                </div>
+                                            )}
+
+                                            {/* Hover button */}
+                                            <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+                                                <div className="flex items-center justify-center gap-2 bg-primary text-primary-foreground py-2.5 rounded-full text-sm font-medium">
+                                                    <span>Voir le produit</span>
+                                                    <ArrowRight className="w-4 h-4" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <h3 className="text-lg font-bold font-serif group-hover:text-primary transition-colors">
+                                                {product.name}
+                                            </h3>
+                                            <p className="text-sm text-muted-foreground line-clamp-2">
+                                                {product.shortDescription}
+                                            </p>
+                                        </div>
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Empty state */}
+                    {filteredProducts.length === 0 && (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="text-center py-16"
+                        >
+                            <p className="text-xl text-muted-foreground mb-4">
+                                Aucun produit ne correspond à votre recherche
+                            </p>
+                            <button
+                                onClick={() => {
+                                    setSearchQuery('');
+                                    setSelectedCategory('all');
+                                }}
+                                className="text-primary font-medium hover:underline"
+                            >
+                                Réinitialiser les filtres
+                            </button>
+                        </motion.div>
+                    )}
+                </div>
+            </section>
         </div>
     );
 }

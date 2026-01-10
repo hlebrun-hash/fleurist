@@ -1,19 +1,18 @@
-"use client";
+'use client';
 
-import { NavBar } from "@/components/ui/tubelight-navbar";
-import { Home, Flower2, BookOpen, Users, Phone } from "lucide-react";
+import { Home, ShoppingBag, BookOpen, Mail } from 'lucide-react';
+import { NavBar } from '@/components/ui/tubelight-navbar';
 
 const navItems = [
-    { name: "Accueil", url: "/", icon: Home },
-    { name: "Nos Bouquets", url: "/produits", icon: Flower2 },
-    { name: "Journal", url: "/blog", icon: BookOpen },
-    { name: "À Propos", url: "/a-propos", icon: Users },
-    { name: "Contact", url: "/contact", icon: Phone },
+    { name: 'Accueil', url: '/', icon: Home },
+    { name: 'Nos Bouquets', url: '/produits', icon: ShoppingBag },
+    { name: 'Blog', url: '/blog', icon: BookOpen },
+    { name: 'Contact', url: '/contact', icon: Mail },
 ];
 
 export function Header() {
     return (
-        <header>
+        <header className="fixed top-0 left-0 right-0 z-50">
             <NavBar items={navItems} />
         </header>
     );

@@ -1,68 +1,58 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Outfit } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
-const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
-  display: "swap",
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "Jardin Digital | Fleuriste Artisan à Paris 11e",
-    template: "%s | Jardin Digital",
+    default: "Jardin Digital | Fleuriste Artisan Paris 11ème - Bouquets Sur Mesure",
+    template: "%s | Jardin Digital - Fleuriste Paris",
   },
   description:
-    "Découvrez l'art floral au cœur de Paris. Bouquets artisanaux, créations sur-mesure et fleurs de saison. Jardin Digital, votre fleuriste du 11e arrondissement.",
+    "Jardin Digital, votre fleuriste artisan au cœur de Paris 11ème. Bouquets sur mesure, compositions florales uniques, mariages et événements. Livraison Paris et Île-de-France.",
   keywords: [
-    "fleuriste Paris",
-    "fleuriste 75011",
-    "bouquet artisanal",
-    "fleurs de saison",
-    "livraison fleurs Paris",
+    "fleuriste paris",
+    "bouquet sur mesure",
+    "fleuriste paris 11",
+    "bouquet de fleurs",
+    "livraison fleurs paris",
     "composition florale",
+    "mariage fleuriste",
+    "abonnement floral",
   ],
   authors: [{ name: "Jardin Digital" }],
   creator: "Jardin Digital",
   openGraph: {
     type: "website",
     locale: "fr_FR",
-    url: "https://jardindigital.fr",
     siteName: "Jardin Digital",
-    title: "Jardin Digital | Fleuriste Artisan à Paris",
+    title: "Jardin Digital | Fleuriste Artisan Paris - Bouquets Sur Mesure",
     description:
-      "L'art floral, simplement. Des créations uniques composées avec passion.",
+      "Fleuriste artisan au cœur de Paris. Bouquets uniques, mariages, événements. L'art floral au service de vos émotions.",
     images: [
       {
-        url: "/images/og-image.jpg",
+        url: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1200&q=80",
         width: 1200,
         height: 630,
-        alt: "Jardin Digital - Fleuriste Artisan",
+        alt: "Jardin Digital - Bouquet de fleurs artisanal",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jardin Digital | Fleuriste Artisan",
-    description: "L'art floral au cœur de Paris",
+    title: "Jardin Digital | Fleuriste Artisan Paris",
+    description: "Bouquets sur mesure et compositions florales uniques au cœur de Paris.",
   },
   robots: {
     index: true,
     follow: true,
-  },
-  alternates: {
-    canonical: "https://jardindigital.fr",
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
@@ -72,12 +62,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="scroll-smooth">
-      <body
-        className={`${cormorant.variable} ${outfit.variable} antialiased bg-background text-foreground`}
-      >
+    <html lang="fr">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
+      <body className="antialiased">
         <Header />
-        <main className="min-h-screen">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

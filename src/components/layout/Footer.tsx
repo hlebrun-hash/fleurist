@@ -1,212 +1,185 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { Phone, MapPin, Clock, Instagram, Facebook } from "lucide-react";
+import Link from 'next/link';
+import { shopInfo } from '@/lib/data';
+import { Phone, MapPin, Clock, Instagram, Facebook } from 'lucide-react';
 
 export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-foreground text-background">
-            {/* Main Footer */}
+        <footer className="bg-secondary/50 border-t border-border">
+            {/* Main Footer Content */}
             <div className="container mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-                    {/* Brand */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="space-y-4"
-                    >
-                        <h3
-                            className="text-3xl text-background"
-                            style={{ fontFamily: "var(--font-cormorant)" }}
-                        >
-                            Jardin Digital
+                    {/* Brand & Description */}
+                    <div className="space-y-4">
+                        <h3 className="text-2xl font-bold text-primary font-serif">
+                            {shopInfo.name}
                         </h3>
-                        <p
-                            className="text-background/70 text-sm leading-relaxed"
-                            style={{ fontFamily: "var(--font-outfit)" }}
-                        >
-                            L&apos;art floral au cœur de Paris. Des créations uniques,
-                            composées avec passion et savoir-faire artisanal.
+                        <p className="text-muted-foreground leading-relaxed">
+                            Artisan fleuriste au cœur de Paris. Nous créons des compositions
+                            florales uniques qui racontent votre histoire.
                         </p>
-                        {/* Social Links */}
-                        <div className="flex gap-4 pt-4">
+                        <div className="flex gap-4 pt-2">
                             <a
-                                href="https://instagram.com"
+                                href={shopInfo.social.instagram}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-background/10 hover:bg-primary transition-colors"
+                                className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
                                 aria-label="Instagram"
                             >
-                                <Instagram size={20} />
+                                <Instagram className="w-5 h-5 text-primary" />
                             </a>
                             <a
-                                href="https://facebook.com"
+                                href={shopInfo.social.facebook}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-background/10 hover:bg-primary transition-colors"
+                                className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
                                 aria-label="Facebook"
                             >
-                                <Facebook size={20} />
+                                <Facebook className="w-5 h-5 text-primary" />
                             </a>
                         </div>
-                    </motion.div>
-
-                    {/* Contact Info */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.1 }}
-                        className="space-y-4"
-                    >
-                        <h4
-                            className="text-xl text-background"
-                            style={{ fontFamily: "var(--font-cormorant)" }}
-                        >
-                            Nous trouver
-                        </h4>
-                        <ul className="space-y-3 text-sm" style={{ fontFamily: "var(--font-outfit)" }}>
-                            <li className="flex items-start gap-3 text-background/70">
-                                <MapPin size={18} className="mt-0.5 flex-shrink-0 text-primary" />
-                                <span>42 Rue des Lilas<br />75011 Paris</span>
-                            </li>
-                            <li>
-                                <a
-                                    href="tel:0123456789"
-                                    className="flex items-center gap-3 text-background/70 hover:text-primary transition-colors"
-                                >
-                                    <Phone size={18} className="flex-shrink-0 text-primary" />
-                                    <span>01 23 45 67 89</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </motion.div>
-
-                    {/* Hours */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="space-y-4"
-                    >
-                        <h4
-                            className="text-xl text-background"
-                            style={{ fontFamily: "var(--font-cormorant)" }}
-                        >
-                            Horaires
-                        </h4>
-                        <ul className="space-y-2 text-sm text-background/70" style={{ fontFamily: "var(--font-outfit)" }}>
-                            <li className="flex items-center gap-3">
-                                <Clock size={18} className="text-primary" />
-                                <span>Mar - Sam : 09h30 - 19h30</span>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <Clock size={18} className="text-primary" />
-                                <span>Dimanche : 09h30 - 13h00</span>
-                            </li>
-                            <li className="flex items-center gap-3 text-background/50">
-                                <Clock size={18} className="text-background/30" />
-                                <span>Fermé le Lundi</span>
-                            </li>
-                        </ul>
-                    </motion.div>
+                    </div>
 
                     {/* Quick Links */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.3 }}
-                        className="space-y-4"
-                    >
-                        <h4
-                            className="text-xl text-background"
-                            style={{ fontFamily: "var(--font-cormorant)" }}
-                        >
-                            Navigation
+                    <div className="space-y-4">
+                        <h4 className="text-lg font-semibold font-serif">Navigation</h4>
+                        <nav className="flex flex-col gap-3">
+                            <Link
+                                href="/"
+                                className="text-muted-foreground hover:text-primary transition-colors"
+                            >
+                                Accueil
+                            </Link>
+                            <Link
+                                href="/produits"
+                                className="text-muted-foreground hover:text-primary transition-colors"
+                            >
+                                Nos Bouquets
+                            </Link>
+                            <Link
+                                href="/blog"
+                                className="text-muted-foreground hover:text-primary transition-colors"
+                            >
+                                Blog & Conseils
+                            </Link>
+                            <Link
+                                href="/contact"
+                                className="text-muted-foreground hover:text-primary transition-colors"
+                            >
+                                Nous Contacter
+                            </Link>
+                        </nav>
+                    </div>
+
+                    {/* Hours */}
+                    <div className="space-y-4">
+                        <h4 className="text-lg font-semibold font-serif flex items-center gap-2">
+                            <Clock className="w-5 h-5 text-primary" />
+                            Horaires
                         </h4>
-                        <ul className="space-y-2 text-sm" style={{ fontFamily: "var(--font-outfit)" }}>
-                            {[
-                                { label: "Accueil", href: "/" },
-                                { label: "Nos Bouquets", href: "/produits" },
-                                { label: "Journal", href: "/blog" },
-                                { label: "À Propos", href: "/a-propos" },
-                                { label: "Contact", href: "/contact" },
-                            ].map((link) => (
-                                <li key={link.href}>
-                                    <Link
-                                        href={link.href}
-                                        className="text-background/70 hover:text-primary transition-colors"
-                                    >
-                                        {link.label}
-                                    </Link>
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
+                        <div className="space-y-2 text-sm text-muted-foreground">
+                            <p className="flex justify-between">
+                                <span>Mardi - Samedi</span>
+                                <span>{shopInfo.hours.tuesday}</span>
+                            </p>
+                            <p className="flex justify-between">
+                                <span>Dimanche</span>
+                                <span>{shopInfo.hours.sunday}</span>
+                            </p>
+                            <p className="flex justify-between text-destructive font-medium">
+                                <span>Lundi</span>
+                                <span>{shopInfo.hours.monday}</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Contact Info */}
+                    <div className="space-y-4">
+                        <h4 className="text-lg font-semibold font-serif">Contact</h4>
+                        <div className="space-y-3">
+                            <a
+                                href={`tel:${shopInfo.phone.replace(/\s/g, '')}`}
+                                className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                            >
+                                <Phone className="w-5 h-5 text-primary" />
+                                <span>{shopInfo.phone}</span>
+                            </a>
+                            <div className="flex items-start gap-3 text-muted-foreground">
+                                <MapPin className="w-5 h-5 text-primary mt-0.5" />
+                                <address className="not-italic">
+                                    {shopInfo.address}
+                                    <br />
+                                    {shopInfo.postalCode} {shopInfo.city}
+                                </address>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
             {/* Bottom Bar */}
-            <div className="border-t border-background/10">
+            <div className="border-t border-border">
                 <div className="container mx-auto px-6 py-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-background/50" style={{ fontFamily: "var(--font-outfit)" }}>
-                        <p>© {currentYear} Jardin Digital. Tous droits réservés.</p>
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+                        <p>
+                            © {currentYear} {shopInfo.name}. Tous droits réservés.
+                        </p>
                         <div className="flex gap-6">
-                            <Link href="/mentions-legales" className="hover:text-primary transition-colors">
+                            <Link
+                                href="/mentions-legales"
+                                className="hover:text-primary transition-colors"
+                            >
                                 Mentions légales
                             </Link>
-                            <Link href="/politique-confidentialite" className="hover:text-primary transition-colors">
-                                Politique de confidentialité
+                            <Link
+                                href="/politique-confidentialite"
+                                className="hover:text-primary transition-colors"
+                            >
+                                Confidentialité
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Schema.org LocalBusiness */}
+            {/* Schema.org LocalBusiness JSON-LD */}
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{
                     __html: JSON.stringify({
-                        "@context": "https://schema.org",
-                        "@type": "Florist",
-                        "name": "Jardin Digital",
-                        "image": "https://jardindigital.fr/images/boutique.jpg",
-                        "address": {
-                            "@type": "PostalAddress",
-                            "streetAddress": "42 Rue des Lilas",
-                            "addressLocality": "Paris",
-                            "postalCode": "75011",
-                            "addressCountry": "FR"
+                        '@context': 'https://schema.org',
+                        '@type': 'Florist',
+                        name: shopInfo.name,
+                        image: 'https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1200',
+                        '@id': '',
+                        url: '',
+                        telephone: shopInfo.phone,
+                        address: {
+                            '@type': 'PostalAddress',
+                            streetAddress: shopInfo.address,
+                            addressLocality: shopInfo.city,
+                            postalCode: shopInfo.postalCode,
+                            addressCountry: 'FR',
                         },
-                        "telephone": "+33123456789",
-                        "openingHoursSpecification": [
+                        openingHoursSpecification: [
                             {
-                                "@type": "OpeningHoursSpecification",
-                                "dayOfWeek": ["Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                                "opens": "09:30",
-                                "closes": "19:30"
+                                '@type': 'OpeningHoursSpecification',
+                                dayOfWeek: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                                opens: '09:30',
+                                closes: '19:30',
                             },
                             {
-                                "@type": "OpeningHoursSpecification",
-                                "dayOfWeek": "Sunday",
-                                "opens": "09:30",
-                                "closes": "13:00"
-                            }
+                                '@type': 'OpeningHoursSpecification',
+                                dayOfWeek: 'Sunday',
+                                opens: '09:30',
+                                closes: '13:00',
+                            },
                         ],
-                        "priceRange": "€€",
-                        "sameAs": [
-                            "https://instagram.com/jardindigital",
-                            "https://facebook.com/jardindigital"
-                        ]
-                    })
+                        priceRange: '€€',
+                    }),
                 }}
             />
         </footer>
