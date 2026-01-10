@@ -7,7 +7,7 @@ import { products } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
 
 export function FeaturedProductsSection() {
-    const featuredProducts = products.filter((p) => p.featured).slice(0, 6);
+    const featuredProducts = products.filter((p) => p.featured).slice(0, 3);
 
     return (
         <section id="bouquets" className="py-24 bg-background">

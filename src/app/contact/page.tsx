@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { shopInfo } from '@/lib/data';
 import { Phone, Mail, MapPin, Clock, Send, Instagram, Facebook, CheckCircle } from 'lucide-react';
+import { AnimatedInput } from '@/components/ui/animated-input';
 
 export default function ContactPage() {
     const [formState, setFormState] = useState({
@@ -91,54 +92,39 @@ export default function ContactPage() {
                                     <form onSubmit={handleSubmit} className="space-y-6">
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <label htmlFor="name" className="block text-sm font-medium mb-2">
-                                                    Votre nom *
-                                                </label>
-                                                <input
-                                                    type="text"
-                                                    id="name"
+                                                <AnimatedInput
+                                                    label="Votre nom *"
                                                     name="name"
                                                     value={formState.name}
                                                     onChange={handleChange}
                                                     required
-                                                    className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                    placeholder="Marie Dupont"
+                                                    className="bg-background"
                                                 />
                                             </div>
                                             <div>
-                                                <label htmlFor="email" className="block text-sm font-medium mb-2">
-                                                    Email *
-                                                </label>
-                                                <input
-                                                    type="email"
-                                                    id="email"
+                                                <AnimatedInput
+                                                    label="Email *"
                                                     name="email"
                                                     value={formState.email}
                                                     onChange={handleChange}
                                                     required
-                                                    className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                    placeholder="marie@exemple.fr"
+                                                    className="bg-background"
                                                 />
                                             </div>
                                         </div>
 
                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                             <div>
-                                                <label htmlFor="phone" className="block text-sm font-medium mb-2">
-                                                    Téléphone
-                                                </label>
-                                                <input
-                                                    type="tel"
-                                                    id="phone"
+                                                <AnimatedInput
+                                                    label="Téléphone"
                                                     name="phone"
                                                     value={formState.phone}
                                                     onChange={handleChange}
-                                                    className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
-                                                    placeholder="06 12 34 56 78"
+                                                    className="bg-background"
                                                 />
                                             </div>
-                                            <div>
-                                                <label htmlFor="subject" className="block text-sm font-medium mb-2">
+                                            <div className="relative pt-4">
+                                                <label htmlFor="subject" className="absolute top-0 text-xs text-muted-foreground">
                                                     Sujet *
                                                 </label>
                                                 <select
@@ -147,9 +133,9 @@ export default function ContactPage() {
                                                     value={formState.subject}
                                                     onChange={handleChange}
                                                     required
-                                                    className="w-full px-4 py-3 rounded-xl border border-border bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                                                    className="w-full py-2 bg-transparent border-b-2 border-primary/20 focus:border-primary outline-none transition-colors duration-300 text-base font-medium mt-1"
                                                 >
-                                                    <option value="">Choisir un sujet</option>
+                                                    <option value="" disabled>Choisir un sujet</option>
                                                     <option value="bouquet">Commande de bouquet</option>
                                                     <option value="evenement">Événement / Mariage</option>
                                                     <option value="abonnement">Abonnement floral</option>
@@ -311,11 +297,11 @@ export default function ContactPage() {
                             </div>
                         </motion.div>
                     </div>
-                </div>
-            </section>
+                </div >
+            </section >
 
             {/* FAQ Section */}
-            <section className="py-16 bg-secondary/20">
+            < section className="py-16 bg-secondary/20" >
                 <div className="container mx-auto px-6">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-2xl md:text-3xl font-bold font-serif text-center mb-12">
@@ -361,7 +347,7 @@ export default function ContactPage() {
                         </div>
                     </div>
                 </div>
-            </section>
-        </div>
+            </section >
+        </div >
     );
 }

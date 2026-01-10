@@ -290,3 +290,24 @@ blockquote {
     display: none !important;
   }
 }
+
+/* FORCE INTERACTIVITY FIX - As requested by User */
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"] {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+  z-index: 50;
+  /* High z-index to force visibility to clicks */
+  position: relative;
+  /* Needed for z-index to work */
+}
+
+/* Ensure inputs remain interactable */
+input:not([type="submit"]):not([type="button"]),
+textarea,
+select {
+  pointer-events: auto !important;
+}

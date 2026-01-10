@@ -5,8 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { blogPosts } from '@/lib/data';
 import { Calendar, Clock, ArrowRight, User } from 'lucide-react';
+import { useState } from 'react';
+import { AnimatedInput } from '@/components/ui/animated-input';
 
 export default function BlogPage() {
+    const [newsletterEmail, setNewsletterEmail] = useState("");
     const featuredPost = blogPosts.find((post) => post.featured);
     const regularPosts = blogPosts.filter((post) => !post.featured || post.id !== featuredPost?.id);
 
@@ -214,11 +217,14 @@ export default function BlogPage() {
                         </p>
 
                         <form className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                            <input
-                                type="email"
-                                placeholder="votre@email.com"
-                                className="flex-1 px-6 py-4 rounded-full border border-border bg-card focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none"
-                            />
+                            <div className="flex-1 min-w-[280px]">
+                                <AnimatedInput
+                                    label="Votre adresse email"
+                                    value={newsletterEmail}
+                                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                                    className="bg-card"
+                                />
+                            </div>
                             <button
                                 type="submit"
                                 className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform"

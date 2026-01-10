@@ -8,6 +8,8 @@ import {
 } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface ScrollExpandMediaProps {
     mediaType?: 'video' | 'image';
@@ -36,6 +38,7 @@ const ScrollExpandMedia = ({
     ctaText,
     ctaHref,
 }: ScrollExpandMediaProps) => {
+    const router = useRouter();
     const [scrollProgress, setScrollProgress] = useState<number>(0);
     const [showContent, setShowContent] = useState<boolean>(false);
     const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
@@ -132,14 +135,14 @@ const ScrollExpandMedia = ({
         };
 
         window.addEventListener('wheel', handleWheel, { passive: false });
-        window.addEventListener('scroll', handleScroll);
+        // window.addEventListener('scroll', handleScroll); // Disabled aggressive scroll locking
         window.addEventListener('touchstart', handleTouchStart, { passive: true });
         window.addEventListener('touchmove', handleTouchMove, { passive: false });
         window.addEventListener('touchend', handleTouchEnd);
 
         return () => {
             window.removeEventListener('wheel', handleWheel);
-            window.removeEventListener('scroll', handleScroll);
+            // window.removeEventListener('scroll', handleScroll);
             window.removeEventListener('touchstart', handleTouchStart);
             window.removeEventListener('touchmove', handleTouchMove);
             window.removeEventListener('touchend', handleTouchEnd);
@@ -167,12 +170,12 @@ const ScrollExpandMedia = ({
     return (
         <div
             ref={sectionRef}
-            className='transition-colors duration-700 ease-in-out overflow-x-hidden'
+            className={`transition-colors duration-700 ease-in-out overflow-x-hidden ${mediaFullyExpanded ? 'pointer-events-none' : ''}`}
         >
-            <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
+            <section className='relative flex flex-col items-center justify-start min-h-[100dvh] pointer-events-auto'>
                 <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
                     <motion.div
-                        className='absolute inset-0 z-0 h-full'
+                        className='absolute inset-0 z-0 h-full pointer-events-none'
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 - scrollProgress }}
                         transition={{ duration: 0.1 }}
@@ -227,7 +230,7 @@ const ScrollExpandMedia = ({
                                         />
                                     </div>
                                 ) : (
-                                    <div className='relative w-full h-full'>
+                                    <div className='relative w-full h-full pointer-events-none'>
                                         <Image
                                             src={mediaSrc}
                                             alt={title || 'Bouquet de fleurs'}
@@ -288,28 +291,44 @@ const ScrollExpandMedia = ({
                                     {restOfTitle}
                                 </motion.h1>
                                 {ctaText && ctaHref && scrollProgress < 0.5 && (
-                                    <motion.button
-                                        onClick={() => {
-                                            // Trigger full expansion
-                                            setScrollProgress(1);
-                                            setMediaFullyExpanded(true);
-                                            setShowContent(true);
-                                            // Wait for expansion, then scroll to section
-                                            setTimeout(() => {
-                                                const targetId = ctaHref.replace('#', '');
-                                                const targetElement = document.getElementById(targetId);
-                                                if (targetElement) {
-                                                    targetElement.scrollIntoView({ behavior: 'smooth' });
-                                                }
-                                            }, 500);
-                                        }}
-                                        className="mt-8 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform shadow-lg cursor-pointer z-20"
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1 - scrollProgress * 2, y: 0 }}
-                                        transition={{ delay: 0.5 }}
-                                    >
-                                        {ctaText}
-                                    </motion.button>
+                                    ctaHref.startsWith('#') ? (
+                                        <motion.button
+                                            onClick={() => {
+                                                // Trigger full expansion and scroll to anchor
+                                                setScrollProgress(1);
+                                                setMediaFullyExpanded(true);
+                                                setShowContent(true);
+
+                                                setTimeout(() => {
+                                                    const targetId = ctaHref.replace('#', '');
+                                                    const targetElement = document.getElementById(targetId);
+                                                    if (targetElement) {
+                                                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                                                    }
+                                                }, 500);
+                                            }}
+                                            className="mt-8 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform shadow-lg cursor-pointer z-50 pointer-events-auto"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1 - scrollProgress * 2, y: 0 }}
+                                            transition={{ delay: 0.5 }}
+                                        >
+                                            {ctaText}
+                                        </motion.button>
+                                    ) : (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1 - scrollProgress * 2, y: 0 }}
+                                            transition={{ delay: 0.5 }}
+                                            className="relative z-50 pointer-events-auto"
+                                        >
+                                            <Link
+                                                href={ctaHref}
+                                                className="inline-block mt-8 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform shadow-lg cursor-pointer"
+                                            >
+                                                {ctaText}
+                                            </Link>
+                                        </motion.div>
+                                    )
                                 )}
                             </div>
                         </div>

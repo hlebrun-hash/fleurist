@@ -15,12 +15,12 @@ export default function HomePage() {
       <ScrollExpandMedia
         mediaType="video"
         mediaSrc="/Prompts_For_AI_Flower_Arrangement.mp4"
-        bgImageSrc="https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=1920&q=80"
+        bgImageSrc="/hero-bg.png"
         title="Jardin Digital Artisan Fleuriste Paris"
         subtitle="L'art floral au service de vos émotions"
         scrollToExpand="Découvrez nos créations"
         ctaText="Voir nos bouquets"
-        ctaHref="#bouquets"
+        ctaHref="/produits"
         textBlend
       >
         {/* Content after scroll expansion */}
