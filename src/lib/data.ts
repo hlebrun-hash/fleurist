@@ -63,7 +63,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet hivernal aux teintes chaleureuses",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1591951478236-05632af05e89?w=800&q=80"],
+        images: ["/images/products/gingerbread.png"],
         tags: ["hiver", "chaleureux", "élégant"],
         inStock: true,
         featured: false,
