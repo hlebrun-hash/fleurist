@@ -59,7 +59,7 @@ export default function ProduitsPage() {
             </section>
 
             {/* Filters Section */}
-            <section className="sticky top-16 z-40 bg-background/80 backdrop-blur-lg border-b border-border py-4">
+            <section className="sticky top-16 z-50 bg-background/95 backdrop-blur-xl border-b border-border py-4 shadow-sm">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         {/* Search */}
@@ -89,8 +89,8 @@ export default function ProduitsPage() {
                                     key={category.id}
                                     onClick={() => setSelectedCategory(category.id)}
                                     className={`px-5 py-2 rounded-full font-medium transition-all ${selectedCategory === category.id
-                                            ? 'bg-primary text-primary-foreground'
-                                            : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
+                                        ? 'bg-primary text-primary-foreground'
+                                        : 'bg-secondary hover:bg-secondary/80 text-secondary-foreground'
                                         }`}
                                 >
                                     {category.label}
@@ -126,8 +126,8 @@ export default function ProduitsPage() {
                                                 setShowFilters(false);
                                             }}
                                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${selectedCategory === category.id
-                                                    ? 'bg-primary text-primary-foreground'
-                                                    : 'bg-secondary text-secondary-foreground'
+                                                ? 'bg-primary text-primary-foreground'
+                                                : 'bg-secondary text-secondary-foreground'
                                                 }`}
                                         >
                                             {category.label}
@@ -141,7 +141,7 @@ export default function ProduitsPage() {
             </section>
 
             {/* Products Grid */}
-            <section className="py-12">
+            <section className="py-12 relative z-0">
                 <div className="container mx-auto px-6">
                     {/* Results count */}
                     <p className="text-muted-foreground mb-8">

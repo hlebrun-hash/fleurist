@@ -6,6 +6,25 @@ import { shopInfo } from '@/lib/data';
 import { Phone, Mail, MapPin, Clock, Send, Instagram, Facebook, CheckCircle } from 'lucide-react';
 import { AnimatedInput } from '@/components/ui/animated-input';
 
+const faqData = [
+    {
+        q: 'Livrez-vous à domicile ?',
+        a: 'Oui ! Nous livrons dans tout Paris (tous arrondissements) et l\'Île-de-France. La livraison est gratuite à partir de 60€ d\'achat.',
+    },
+    {
+        q: 'Peut-on personnaliser un bouquet ?',
+        a: 'Absolument ! En tant qu\'artisans fleuristes, nous adorons le sur-mesure. Contactez-nous avec vos envies et nous créerons une composition unique pour vous.',
+    },
+    {
+        q: 'Quels sont les délais pour un événement ?',
+        a: 'Pour les mariages et grands événements sur Paris et sa région, nous recommandons de nous contacter au moins 3 mois à l\'avance pour garantir notre disponibilité.',
+    },
+    {
+        q: 'Proposez-vous des abonnements floraux pour entreprises ?',
+        a: 'Oui, nous proposons des abonnements hebdomadaires ou mensuels pour fleurir vos bureaux, restaurants ou hôtels à Paris.',
+    },
+];
+
 export default function ContactPage() {
     const [formState, setFormState] = useState({
         name: '',
@@ -48,7 +67,7 @@ export default function ContactPage() {
                             Parlons de vos <span className="text-primary">Envies Florales</span>
                         </h1>
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            Une question, une demande spéciale ou un projet d'événement ?
+                            Votre artisan fleuriste au cœur de <strong>Paris 11ème</strong>. Une question, une demande spéciale ou un projet d'événement ?
                             Notre équipe est à votre écoute pour réaliser vos rêves fleuris.
                         </p>
                     </motion.div>
@@ -230,7 +249,7 @@ export default function ContactPage() {
                                         <div>
                                             <p className="font-medium">{shopInfo.address}</p>
                                             <p className="text-muted-foreground">
-                                                {shopInfo.postalCode} {shopInfo.city}
+                                                {shopInfo.postalCode} {shopInfo.city}, France
                                             </p>
                                         </div>
                                     </div>
@@ -297,11 +316,11 @@ export default function ContactPage() {
                             </div>
                         </motion.div>
                     </div>
-                </div >
-            </section >
+                </div>
+            </section>
 
             {/* FAQ Section */}
-            < section className="py-16 bg-secondary/20" >
+            <section className="py-16 bg-secondary/20">
                 <div className="container mx-auto px-6">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-2xl md:text-3xl font-bold font-serif text-center mb-12">
@@ -309,24 +328,7 @@ export default function ContactPage() {
                         </h2>
 
                         <div className="space-y-4">
-                            {[
-                                {
-                                    q: 'Livrez-vous à domicile ?',
-                                    a: 'Oui ! Nous livrons dans tout Paris et l\'Île-de-France. La livraison est gratuite à partir de 60€ d\'achat.',
-                                },
-                                {
-                                    q: 'Peut-on personnaliser un bouquet ?',
-                                    a: 'Absolument ! Contactez-nous avec vos envies et notre équipe créera une composition unique pour vous.',
-                                },
-                                {
-                                    q: 'Quels sont les délais pour un événement ?',
-                                    a: 'Pour les mariages et grands événements, nous recommandons de nous contacter au moins 3 mois à l\'avance.',
-                                },
-                                {
-                                    q: 'Proposez-vous des abonnements floraux ?',
-                                    a: 'Oui, nous proposons des abonnements hebdomadaires ou bimensuels pour particuliers et entreprises.',
-                                },
-                            ].map((faq, index) => (
+                            {faqData.map((faq, index) => (
                                 <motion.details
                                     key={index}
                                     initial={{ opacity: 0, y: 20 }}
@@ -347,7 +349,67 @@ export default function ContactPage() {
                         </div>
                     </div>
                 </div>
-            </section >
-        </div >
+            </section>
+
+            {/* Schema.org pour FAQ et LocalBusiness */}
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{
+                    __html: JSON.stringify([
+                        {
+                            '@context': 'https://schema.org',
+                            '@type': 'FAQPage',
+                            mainEntity: faqData.map((faq) => ({
+                                '@type': 'Question',
+                                name: faq.q,
+                                acceptedAnswer: {
+                                    '@type': 'Answer',
+                                    text: faq.a,
+                                },
+                            })),
+                        },
+                        {
+                            '@context': 'https://schema.org',
+                            '@type': 'Florist',
+                            name: shopInfo.name,
+                            image: 'https://jardin-digital.fr/logo.png', // Placeholder
+                            '@id': 'https://jardin-digital.fr',
+                            url: 'https://jardin-digital.fr',
+                            telephone: shopInfo.phone,
+                            address: {
+                                '@type': 'PostalAddress',
+                                streetAddress: shopInfo.address,
+                                addressLocality: shopInfo.city,
+                                postalCode: shopInfo.postalCode,
+                                addressCountry: 'FR',
+                            },
+                            geo: {
+                                '@type': 'GeoCoordinates',
+                                latitude: 48.8568969,
+                                longitude: 2.3796849,
+                            },
+                            openingHoursSpecification: [
+                                {
+                                    '@type': 'OpeningHoursSpecification',
+                                    dayOfWeek: ['Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+                                    opens: '09:30',
+                                    closes: '19:30',
+                                },
+                                {
+                                    '@type': 'OpeningHoursSpecification',
+                                    dayOfWeek: ['Sunday'],
+                                    opens: '09:30',
+                                    closes: '13:00',
+                                },
+                            ],
+                            sameAs: [
+                                shopInfo.social.instagram,
+                                shopInfo.social.facebook,
+                            ],
+                        }
+                    ]),
+                }}
+            />
+        </div>
     );
 }

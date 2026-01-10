@@ -8,7 +8,7 @@ export function Footer() {
     const currentYear = new Date().getFullYear();
 
     return (
-        <footer className="bg-secondary/50 border-t border-border">
+        <footer className="bg-secondary text-secondary-foreground border-t border-secondary-foreground/10">
             {/* Main Footer Content */}
             <div className="container mx-auto px-6 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
@@ -17,7 +17,7 @@ export function Footer() {
                         <h3 className="text-2xl font-bold text-primary font-serif">
                             {shopInfo.name}
                         </h3>
-                        <p className="text-muted-foreground leading-relaxed">
+                        <p className="text-secondary-foreground/80 leading-relaxed">
                             Artisan fleuriste au cœur de Paris. Nous créons des compositions
                             florales uniques qui racontent votre histoire.
                         </p>
@@ -26,7 +26,7 @@ export function Footer() {
                                 href={shopInfo.social.instagram}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                                className="p-2 rounded-full bg-secondary-foreground/10 hover:bg-secondary-foreground/20 transition-colors"
                                 aria-label="Instagram"
                             >
                                 <Instagram className="w-5 h-5 text-primary" />
@@ -35,7 +35,7 @@ export function Footer() {
                                 href={shopInfo.social.facebook}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="p-2 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                                className="p-2 rounded-full bg-secondary-foreground/10 hover:bg-secondary-foreground/20 transition-colors"
                                 aria-label="Facebook"
                             >
                                 <Facebook className="w-5 h-5 text-primary" />
@@ -49,25 +49,25 @@ export function Footer() {
                         <nav className="flex flex-col gap-3">
                             <Link
                                 href="/"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="text-secondary-foreground/70 hover:text-primary transition-colors"
                             >
                                 Accueil
                             </Link>
                             <Link
                                 href="/produits"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="text-secondary-foreground/70 hover:text-primary transition-colors"
                             >
                                 Nos Bouquets
                             </Link>
                             <Link
                                 href="/blog"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="text-secondary-foreground/70 hover:text-primary transition-colors"
                             >
                                 Blog & Conseils
                             </Link>
                             <Link
                                 href="/contact"
-                                className="text-muted-foreground hover:text-primary transition-colors"
+                                className="text-secondary-foreground/70 hover:text-primary transition-colors"
                             >
                                 Nous Contacter
                             </Link>
@@ -80,7 +80,7 @@ export function Footer() {
                             <Clock className="w-5 h-5 text-primary" />
                             Horaires
                         </h4>
-                        <div className="space-y-2 text-sm text-muted-foreground">
+                        <div className="space-y-2 text-sm text-secondary-foreground/80">
                             <p className="flex justify-between">
                                 <span>Mardi - Samedi</span>
                                 <span>{shopInfo.hours.tuesday}</span>
@@ -89,7 +89,7 @@ export function Footer() {
                                 <span>Dimanche</span>
                                 <span>{shopInfo.hours.sunday}</span>
                             </p>
-                            <p className="flex justify-between text-destructive font-medium">
+                            <p className="flex justify-between text-primary/80 font-medium">
                                 <span>Lundi</span>
                                 <span>{shopInfo.hours.monday}</span>
                             </p>
@@ -102,12 +102,12 @@ export function Footer() {
                         <div className="space-y-3">
                             <a
                                 href={`tel:${shopInfo.phone.replace(/\s/g, '')}`}
-                                className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                                className="flex items-center gap-3 text-secondary-foreground/80 hover:text-primary transition-colors"
                             >
                                 <Phone className="w-5 h-5 text-primary" />
                                 <span>{shopInfo.phone}</span>
                             </a>
-                            <div className="flex items-start gap-3 text-muted-foreground">
+                            <div className="flex items-start gap-3 text-secondary-foreground/80">
                                 <MapPin className="w-5 h-5 text-primary mt-0.5" />
                                 <address className="not-italic">
                                     {shopInfo.address}
@@ -121,9 +121,9 @@ export function Footer() {
             </div>
 
             {/* Bottom Bar */}
-            <div className="border-t border-border">
+            <div className="border-t border-secondary-foreground/10 bg-black/10">
                 <div className="container mx-auto px-6 py-6">
-                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-secondary-foreground/60">
                         <p>
                             © {currentYear} {shopInfo.name}. Tous droits réservés.
                         </p>

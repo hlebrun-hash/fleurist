@@ -278,18 +278,26 @@ const ScrollExpandMedia = ({
                                 className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
                                     }`}
                             >
-                                <motion.h1
-                                    className='text-4xl md:text-5xl lg:text-7xl font-bold text-white transition-none drop-shadow-2xl'
+                                {/* Structure H1 pour SEO - Un seul H1 */}
+                                <h1 className="sr-only">
+                                    {title}
+                                </h1>
+
+                                {/* Éléments visuels animés (aria-hidden pour éviter la duplication pour les lecteurs d'écran) */}
+                                <motion.span
+                                    className='text-4xl md:text-5xl lg:text-7xl font-bold text-white transition-none drop-shadow-2xl block'
                                     style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                                    aria-hidden="true"
                                 >
                                     {firstWord}
-                                </motion.h1>
-                                <motion.h1
-                                    className='text-4xl md:text-5xl lg:text-7xl font-bold text-center text-white transition-none drop-shadow-2xl'
+                                </motion.span>
+                                <motion.span
+                                    className='text-4xl md:text-5xl lg:text-7xl font-bold text-center text-white transition-none drop-shadow-2xl block'
                                     style={{ transform: `translateX(${textTranslateX}vw)` }}
+                                    aria-hidden="true"
                                 >
                                     {restOfTitle}
-                                </motion.h1>
+                                </motion.span>
                                 {ctaText && ctaHref && scrollProgress < 0.5 && (
                                     ctaHref.startsWith('#') ? (
                                         <motion.button
