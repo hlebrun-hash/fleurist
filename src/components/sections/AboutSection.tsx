@@ -19,9 +19,11 @@ export function AboutSection() {
                     >
                         <div className="relative aspect-[4/5] overflow-hidden">
                             <Image
-                                src="https://images.unsplash.com/photo-1599819177626-b50f9dd21c9b?w=800&q=80"
+                                src="/images/about-artisan-florist.png"
                                 alt="Notre équipe de fleuristes passionnés au travail"
                                 fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                quality={75}
                                 className="object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
