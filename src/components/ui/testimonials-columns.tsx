@@ -44,7 +44,7 @@ export const TestimonialsColumn = (props: {
                                         />
                                         <div className="flex flex-col">
                                             <div className="font-medium tracking-tight leading-5 text-foreground">{name}</div>
-                                            <div className="leading-5 opacity-60 tracking-tight text-muted-foreground">{role}</div>
+                                            <div className="leading-5 tracking-tight text-muted-foreground">{role}</div>
                                         </div>
                                     </div>
                                 </div>

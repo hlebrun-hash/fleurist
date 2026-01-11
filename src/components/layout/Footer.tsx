@@ -44,7 +44,7 @@ export function Footer() {
 
                     {/* Quick Links */}
                     <div className="space-y-4">
-                        <h4 className="text-lg font-semibold font-serif">Navigation</h4>
+                        <h2 className="text-lg font-semibold font-serif">Navigation</h2>
                         <nav className="flex flex-col gap-3">
                             <Link
                                 href="/"
@@ -75,10 +75,10 @@ export function Footer() {
 
                     {/* Hours */}
                     <div className="space-y-4">
-                        <h4 className="text-lg font-semibold font-serif flex items-center gap-2">
+                        <h2 className="text-lg font-semibold font-serif flex items-center gap-2">
                             <Clock className="w-5 h-5 text-secondary" />
                             Horaires
-                        </h4>
+                        </h2>
                         <div className="space-y-2 text-sm text-primary-foreground/80">
                             <p className="flex justify-between">
                                 <span>Mardi - Samedi</span>
@@ -97,7 +97,7 @@ export function Footer() {
 
                     {/* Contact Info */}
                     <div className="space-y-4">
-                        <h4 className="text-lg font-semibold font-serif">Contact</h4>
+                        <h2 className="text-lg font-semibold font-serif">Contact</h2>
                         <div className="space-y-3">
                             <a
                                 href={`tel:${shopInfo.phone.replace(/\s/g, '')}`}

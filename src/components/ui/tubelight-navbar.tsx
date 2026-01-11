@@ -84,6 +84,7 @@ export function NavBar({ items, className }: NavBarProps) {
                             key={item.name}
                             href={item.url}
                             onClick={() => setActiveTab(item.name)}
+                            aria-label={item.name}
                             className={cn(
                                 "relative cursor-pointer text-sm font-bold font-serif tracking-wide px-6 py-2 rounded-full transition-colors",
                                 "text-secondary-foreground/70 hover:text-primary",

@@ -46,7 +46,7 @@ export function Logo({ className, showText = true, variant = 'default' }: LogoPr
                     <span className={cn("font-serif italic text-2xl tracking-tight -mb-1", textColor)}>
                         Jardin
                     </span>
-                    <span className={cn("font-sans font-bold text-[0.65rem] tracking-[0.2em] uppercase text-muted-foreground")}>
+                    <span className={cn("font-sans font-bold text-[0.65rem] tracking-[0.2em] uppercase", variant === 'light' ? 'text-white/80' : 'text-foreground/60')}>
                         Digital
                     </span>
                 </div>
