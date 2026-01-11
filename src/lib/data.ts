@@ -636,19 +636,19 @@ Une fois sèches, vaporisez un peu de laque à cheveux (à 30 cm) pour fixer les
 
 Offrir des roses n'est jamais anodin. Pour ne pas déclarer votre flamme à votre belle-mère ni offrir des fleurs de deuil à un mariage, voici le guide.
 
-## ❤️ Rose Rouge : L'Amour Passion
+## Rose Rouge : L'Amour Passion
 Le classique absolu. "Je t'aime, je te désire". À réserver à l'être aimé. Offrir 12 roses rouges est une demande en mariage traditionnelle (ou une déclaration très forte).
 
-## 🤍 Rose Blanche : Pureté et Respect
+## Rose Blanche : Pureté et Respect
 Elle symbolise l'innocence, la pureté et le nouveau départ. C'est la fleur des mariages, mais aussi du respect profond.
 
-## 🩷 Rose Rose : Affection et Tendresse
+## Rose Rose : Affection et Tendresse
 Moins intense que la rouge, elle exprime la douceur, la tendresse, la gratitude et l'admiration. Parfaite pour une maman, une amie ou un début de relation.
 
-## 💛 Rose Jaune : Amitié... ou Trahison ?
+## Rose Jaune : Amitié... ou Trahison ?
 Attention ! Historiquement associée à l'infidélité, elle symbolise aujourd'hui surtout l'amitié, la joie et la bienveillance. Dans un contexte amoureux, elle peut être mal interprétée ("restons amis").
 
-## 🧡 Rose Orange : Désir charnel
+## Rose Orange : Désir charnel
 Elle exprime l'attirance physique, l'enthousiasme et le désir. Un message clair et épicé !
     `,
         author: {

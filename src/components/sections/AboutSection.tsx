@@ -15,9 +15,9 @@ export function AboutSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         viewport={{ once: true }}
-                        className="relative"
+                        className="relative max-w-sm mx-auto w-full"
                     >
-                        <div className="relative aspect-[4/5] rounded-3xl overflow-hidden">
+                        <div className="relative aspect-[4/5] overflow-hidden">
                             <Image
                                 src="https://images.unsplash.com/photo-1599819177626-b50f9dd21c9b?w=800&q=80"
                                 alt="Notre équipe de fleuristes passionnés au travail"
@@ -33,7 +33,7 @@ export function AboutSection() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.6, delay: 0.3 }}
                             viewport={{ once: true }}
-                            className="absolute -bottom-8 -right-8 bg-primary text-primary-foreground p-6 rounded-2xl shadow-xl"
+                            className="absolute -bottom-8 -right-8 bg-primary text-primary-foreground p-6 shadow-xl"
                         >
                             <div className="text-center">
                                 <span className="text-4xl font-bold font-serif">10+</span>
@@ -86,21 +86,7 @@ export function AboutSection() {
                             </footer>
                         </blockquote>
 
-                        {/* Trust badges */}
-                        <div className="flex flex-wrap gap-4 pt-4">
-                            <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
-                                <span className="text-2xl">🌿</span>
-                                <span className="text-sm font-medium">Éco-responsable</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
-                                <span className="text-2xl">🇫🇷</span>
-                                <span className="text-sm font-medium">Fleurs françaises</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full">
-                                <span className="text-2xl">💚</span>
-                                <span className="text-sm font-medium">Livraison Paris</span>
-                            </div>
-                        </div>
+
                     </motion.div>
                 </div>
             </div>

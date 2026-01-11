@@ -47,7 +47,7 @@ export function FeaturedProductsSection() {
                                 href={`/produits/${product.slug}`}
                                 className="group block"
                             >
-                                <div className="relative aspect-[4/5] rounded-3xl overflow-hidden mb-4">
+                                <div className="relative aspect-[4/5] overflow-hidden mb-4">
                                     <Image
                                         src={product.images[0]}
                                         alt={product.name}

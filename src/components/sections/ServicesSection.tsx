@@ -50,7 +50,7 @@ export function ServicesSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="group relative bg-background rounded-2xl border border-border/50 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
+                                className="group relative bg-background border border-border/50 overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col h-full cursor-pointer"
                             >
                                 {/* Image Area */}
                                 <div className="relative h-48 overflow-hidden">
@@ -63,7 +63,7 @@ export function ServicesSection() {
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
 
                                     {/* Icon Floating Badge */}
-                                    <div className="absolute -bottom-6 left-6 p-4 rounded-xl bg-background border border-border shadow-md text-secondary group-hover:text-primary transition-colors duration-300 z-10">
+                                    <div className="absolute -bottom-6 left-6 p-4 bg-background border border-border shadow-md text-secondary group-hover:text-primary transition-colors duration-300 z-10">
                                         {Icon && <Icon size={28} strokeWidth={1.5} />}
                                     </div>
                                 </div>
@@ -109,24 +109,26 @@ export function ServicesSection() {
                         </button>
 
                         {/* Image Section (Half Screen Desktop / Top Mobile) */}
-                        <motion.div
-                            layoutId={`image-${selectedService.id}`}
-                            className="w-full md:w-1/2 h-[40vh] md:h-full relative overflow-hidden"
-                        >
-                            <img
-                                src={selectedService.image}
-                                alt={selectedService.title}
-                                className="w-full h-full object-cover"
-                            />
-                            <div className="absolute inset-0 bg-black/20" />
-                        </motion.div>
+                        <div className="w-full md:w-1/2 h-[40vh] md:h-full p-4 md:p-8">
+                            <motion.div
+                                layoutId={`image-${selectedService.id}`}
+                                className="w-full h-full relative overflow-hidden shadow-lg"
+                            >
+                                <img
+                                    src={selectedService.image}
+                                    alt={selectedService.title}
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/20" />
+                            </motion.div>
+                        </div>
 
                         {/* Content Section (Half Screen Desktop / Bottom Mobile) */}
                         <motion.div
                             initial={{ x: 50, opacity: 0 }}
                             animate={{ x: 0, opacity: 1 }}
                             transition={{ delay: 0.2, duration: 0.5 }}
-                            className="w-full md:w-1/2 h-[60vh] md:h-full overflow-y-auto bg-background p-8 md:p-16 flex flex-col justify-center"
+                            className="w-full md:w-1/2 h-[60vh] md:h-full overflow-y-auto bg-background p-8 md:p-16 flex flex-col"
                         >
                             <div className="max-w-xl mx-auto space-y-8">
                                 <div className="space-y-4">

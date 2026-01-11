@@ -1,63 +1,71 @@
 @import "tailwindcss";
 
 @theme {
-    --color-background: hsl(47 24% 93%);
-    --color-foreground: hsl(270 15% 29%);
+    /* Palette Botanique Chic */
+    --color-background: hsl(43 30% 95%);
+    --color-foreground: hsl(0 0% 18%);
 
-    --color-card: hsl(47 24% 93%);
-    --color-card-foreground: hsl(270 15% 29%);
+    --color-card: hsl(0 0% 100%);
+    --color-card-foreground: hsl(0 0% 18%);
 
-    --color-popover: hsl(47 24% 93%);
-    --color-popover-foreground: hsl(270 15% 29%);
+    --color-popover: hsl(0 0% 100%);
+    --color-popover-foreground: hsl(0 0% 18%);
 
-    --color-primary: hsl(340 56% 81%);
-    --color-primary-foreground: hsl(270 15% 29%);
+    --color-primary: hsl(156 41% 18%);
+    /* Vert Empire */
+    --color-primary-foreground: hsl(43 30% 95%);
+    /* Albatre sur Vert */
 
-    --color-secondary: hsl(118 15% 42%);
-    --color-secondary-foreground: hsl(47 24% 93%);
+    --color-secondary: hsl(37 47% 58%);
+    /* Or Sablé */
+    --color-secondary-foreground: hsl(156 41% 18%);
+    /* Vert sur Or */
 
-    --color-muted: hsl(118 15% 90%);
-    --color-muted-foreground: hsl(270 15% 40%);
+    --color-muted: hsl(156 10% 90%);
+    --color-muted-foreground: hsl(0 0% 40%);
 
-    --color-accent: hsl(50 75% 81%);
-    --color-accent-foreground: hsl(270 15% 29%);
+    --color-accent: hsl(37 47% 58%);
+    --color-accent-foreground: hsl(156 41% 18%);
 
     --color-destructive: hsl(0 60% 60%);
-    --color-destructive-foreground: hsl(47 24% 93%);
+    --color-destructive-foreground: hsl(43 30% 95%);
 
-    --color-border: hsl(118 15% 42%);
-    --color-input: hsl(118 15% 42%);
-    --color-ring: hsl(340 56% 81%);
+    --color-border: hsl(37 47% 58%);
+    /* Or Sablé pour bordures */
+    --color-input: hsl(37 47% 58%);
+    --color-ring: hsl(156 41% 18%);
 
-    --radius-lg: 1rem;
-    --radius-md: calc(1rem - 2px);
-    --radius-sm: calc(1rem - 4px);
+    --radius-lg: 0px;
+    --radius-md: 0px;
+    --radius-sm: 0px;
 
-    --font-serif: "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
+    /* Typographie */
+    --font-serif: "Cormorant Garamond", serif;
+    --font-sans: "Mulish", sans-serif;
 }
 
 /* Variables pour shadcn/ui */
 :root {
-    --background: 47 24% 93%;
-    --foreground: 270 15% 29%;
-    --card: 47 24% 93%;
-    --card-foreground: 270 15% 29%;
-    --popover: 47 24% 93%;
-    --popover-foreground: 270 15% 29%;
-    --primary: 340 56% 81%;
-    --primary-foreground: 270 15% 29%;
-    --secondary: 118 15% 42%;
-    --secondary-foreground: 47 24% 93%;
-    --muted: 118 15% 90%;
-    --muted-foreground: 270 15% 40%;
-    --accent: 50 75% 81%;
-    --accent-foreground: 270 15% 29%;
+    --background: 43 30% 95%;
+    --foreground: 0 0% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 18%;
+    --primary: 156 41% 18%;
+    --primary-foreground: 43 30% 95%;
+    --secondary: 37 47% 58%;
+    --secondary-foreground: 156 41% 18%;
+    --muted: 156 10% 90%;
+    --muted-foreground: 0 0% 40%;
+    --accent: 37 47% 58%;
+    --accent-foreground: 156 41% 18%;
     --destructive: 0 60% 60%;
-    --destructive-foreground: 47 24% 93%;
-    --border: 118 15% 42%;
-    --input: 118 15% 42%;
-    --ring: 340 56% 81%;
-    --radius: 1rem;
+    --destructive-foreground: 43 30% 95%;
+    --border: 37 47% 58%;
+    --input: 37 47% 58%;
+    --ring: 156 41% 18%;
+    --radius: 0rem;
 }
 
 /* Supplément d'âme : Grain & Texture */
@@ -115,7 +123,7 @@ html {
     h4,
     h5,
     h6 {
-        @apply font-serif font-normal;
+        @apply font-serif font-normal text-primary;
     }
 
     /* Sous-titres (contexte) : Italic "Poétique" */

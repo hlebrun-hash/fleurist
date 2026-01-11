@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { blogPosts } from '@/lib/data';
-import { Calendar, Clock, ArrowLeft, ChevronUp, Twitter, Facebook, Linkedin, Link as LinkIcon, Sparkles, ExternalLink } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, ChevronUp, Twitter, Facebook, Linkedin, Link as LinkIcon, Sparkles, ExternalLink, List } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AnimatedInput } from '@/components/ui/animated-input';
 
@@ -242,7 +242,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                             {/* Maillage Interne - Collections */}
                             <div className="my-12 p-6 bg-secondary/20 rounded-2xl border border-secondary md:mx-0 not-prose">
                                 <h3 className="font-serif font-bold text-lg mb-4 text-foreground flex items-center gap-2">
-                                    🌿 Envie de nature ?
+                                    <Sparkles className="w-5 h-5 text-primary" /> Envie de nature ?
                                 </h3>
                                 <div className="flex flex-wrap gap-3">
                                     <Link href="/produits" className="text-sm font-medium bg-background text-foreground hover:bg-primary hover:text-primary-foreground px-4 py-2 rounded-full transition-all shadow-sm hover:shadow-md">
@@ -314,7 +314,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 {toc.length > 0 && (
                                     <div className="p-6 bg-background rounded-2xl border border-border shadow-sm">
                                         <h3 className="font-bold font-serif mb-4 text-lg flex items-center gap-2">
-                                            <span>📑</span> Sommaire
+                                            <List className="w-5 h-5 text-primary" /> Sommaire
                                         </h3>
                                         <nav className="flex flex-col gap-2">
                                             {toc.map((item) => (
@@ -361,7 +361,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 {post.externalLink && (
                                     <div className="p-6 bg-background rounded-2xl border border-border shadow-sm">
                                         <h3 className="font-bold font-serif mb-3 text-lg flex items-center gap-2">
-                                            <span>🔗</span> Pour aller plus loin
+                                            <LinkIcon className="w-5 h-5 text-primary" /> Pour aller plus loin
                                         </h3>
                                         <p className="text-sm text-muted-foreground mb-4">
                                             Découvrez plus d'informations sur ce sujet :

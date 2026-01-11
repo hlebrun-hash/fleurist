@@ -6,6 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/lib/data';
 import { Search, Filter, ArrowRight, X } from 'lucide-react';
+import { useScrollVisibility } from '@/hooks/use-scroll-visibility';
+import { cn } from '@/lib/utils';
 
 const categories = [
     { id: 'all', label: 'Tous' },
@@ -19,6 +21,7 @@ export default function ProduitsPage() {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [showFilters, setShowFilters] = useState(false);
+    const { isVisible } = useScrollVisibility();
 
     const filteredProducts = useMemo(() => {
         return products.filter((product) => {
@@ -59,7 +62,12 @@ export default function ProduitsPage() {
             </section>
 
             {/* Filters Section */}
-            <section className="sticky top-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border py-4 shadow-sm transition-all duration-300">
+            <section
+                className={cn(
+                    "sticky z-40 bg-background/95 backdrop-blur-xl border-b border-border py-4 shadow-sm transition-all duration-300",
+                    isVisible ? "top-[80px]" : "top-0" // Desktop: suit la navbar. Mobile: top-0 (navbar en bas) mais on peut affiner.
+                )}
+            >
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         {/* Search */}
@@ -166,7 +174,7 @@ export default function ProduitsPage() {
                                         href={`/produits/${product.slug}`}
                                         className="group block"
                                     >
-                                        <div className="relative aspect-[3/4] rounded-2xl overflow-hidden mb-4">
+                                        <div className="relative aspect-[3/4] overflow-hidden mb-4">
                                             <Image
                                                 src={product.images[0]}
                                                 alt={product.name}
