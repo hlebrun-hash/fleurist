@@ -278,26 +278,16 @@ const ScrollExpandMedia = ({
                                 className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
                                     }`}
                             >
-                                {/* Structure H1 pour SEO - Un seul H1 */}
-                                <h1 className="sr-only">
+                                {/* Structure H1 pour SEO et LCP - Visible immédiatement */}
+                                <h1
+                                    className="text-5xl md:text-6xl lg:text-8xl font-serif font-normal text-white drop-shadow-2xl block tracking-tight text-center"
+                                    style={{
+                                        transform: `translateX(${textTranslateX > 0 ? `${textTranslateX}vw` : '0'})`,
+                                        opacity: 1 - scrollProgress * 0.5
+                                    }}
+                                >
                                     {title}
                                 </h1>
-
-                                {/* Éléments visuels animés (aria-hidden pour éviter la duplication pour les lecteurs d'écran) */}
-                                <motion.span
-                                    className='text-5xl md:text-6xl lg:text-8xl font-serif font-normal text-white transition-none drop-shadow-2xl block tracking-tight'
-                                    style={{ transform: `translateX(-${textTranslateX}vw)` }}
-                                    aria-hidden="true"
-                                >
-                                    {firstWord}
-                                </motion.span>
-                                <motion.span
-                                    className='text-5xl md:text-6xl lg:text-8xl font-serif font-normal text-center text-white transition-none drop-shadow-2xl block tracking-tight'
-                                    style={{ transform: `translateX(${textTranslateX}vw)` }}
-                                    aria-hidden="true"
-                                >
-                                    {restOfTitle}
-                                </motion.span>
                                 {ctaText && ctaHref && scrollProgress < 0.5 && (
                                     ctaHref.startsWith('#') ? (
                                         <motion.button
