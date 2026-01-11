@@ -127,6 +127,7 @@ export function ServicesSection() {
                                     alt={selectedService.title}
                                     fill
                                     sizes="(max-width: 768px) 100vw, 50vw"
+                                    quality={60}
                                     className="object-cover"
                                 />
                                 <div className="absolute inset-0 bg-black/20" />
