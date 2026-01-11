@@ -2,12 +2,13 @@
 
 import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 
-import { ServicesSection } from '@/components/sections/ServicesSection';
-import { FeaturedProductsSection } from '@/components/sections/FeaturedProductsSection';
+import dynamic from 'next/dynamic';
 
-import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
-import { AboutSection } from '@/components/sections/AboutSection';
-import { CTASection } from '@/components/sections/CTASection';
+const ServicesSection = dynamic(() => import('@/components/sections/ServicesSection').then(mod => mod.ServicesSection));
+const FeaturedProductsSection = dynamic(() => import('@/components/sections/FeaturedProductsSection').then(mod => mod.FeaturedProductsSection));
+const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection').then(mod => mod.TestimonialsSection));
+const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => mod.AboutSection));
+const CTASection = dynamic(() => import('@/components/sections/CTASection').then(mod => mod.CTASection));
 
 export default function HomePage() {
   return (
