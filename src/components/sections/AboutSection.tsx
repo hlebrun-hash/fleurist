@@ -23,7 +23,7 @@ export function AboutSection() {
                                 alt="Notre équipe de fleuristes passionnés au travail"
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 50vw"
-                                quality={75}
+                                quality={60}
                                 className="object-cover"
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
