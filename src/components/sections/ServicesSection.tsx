@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Flower2, PartyPopper, Calendar, Building2, X, ArrowRight, CheckCircle2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { services } from '@/lib/data';
 
 const iconMap = {
@@ -54,13 +55,18 @@ export function ServicesSection() {
                             >
                                 {/* Image Area */}
                                 <div className="relative h-48 overflow-hidden">
-                                    <motion.img
+                                    <motion.div
                                         layoutId={`image-${service.id}`}
-                                        src={service.image}
-                                        alt={service.title}
-                                        loading="lazy"
-                                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
+                                        className="w-full h-full relative"
+                                    >
+                                        <Image
+                                            src={service.image}
+                                            alt={service.title}
+                                            fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                            className="object-cover transition-transform duration-700 group-hover:scale-110"
+                                        />
+                                    </motion.div>
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
 
                                     {/* Icon Floating Badge */}
@@ -115,11 +121,12 @@ export function ServicesSection() {
                                 layoutId={`image-${selectedService.id}`}
                                 className="w-full h-full relative overflow-hidden shadow-lg"
                             >
-                                <img
+                                <Image
                                     src={selectedService.image}
                                     alt={selectedService.title}
-                                    loading="lazy"
-                                    className="w-full h-full object-cover"
+                                    fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
+                                    className="object-cover"
                                 />
                                 <div className="absolute inset-0 bg-black/20" />
                             </motion.div>
