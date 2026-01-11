@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/lib/data';
-import { ArrowLeft, ArrowRight, Phone, Check, Truck, ShieldCheck, Clock } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Phone, Check, Truck, ShieldCheck, Clock, Mail } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 interface ProductPageProps {
@@ -136,16 +136,17 @@ export default function ProductPage({ params }: ProductPageProps) {
                                 href="/contact"
                                 className="flex items-center justify-center gap-3 w-full py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-[1.02] transition-transform shadow-lg"
                             >
-                                <Phone className="w-5 h-5" />
+                                <Mail className="w-5 h-5" />
                                 <span>Commander ce bouquet</span>
                             </Link>
 
                             <a
                                 href="tel:0123456789"
-                                className="flex items-center justify-center gap-2 w-full py-3 border-2 border-border rounded-full hover:border-primary transition-colors"
+                                className="flex items-center justify-center gap-2 w-full py-3 border-2 border-border rounded-full hover:border-primary transition-colors text-muted-foreground hover:text-primary"
                             >
-                                <span className="text-muted-foreground">Ou appelez-nous :</span>
-                                <span className="font-semibold">01 23 45 67 89</span>
+                                <Phone className="w-4 h-4" />
+                                <span>Ou appelez-nous :</span>
+                                <span className="font-semibold text-foreground">01 23 45 67 89</span>
                             </a>
                         </div>
 
