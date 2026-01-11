@@ -221,17 +221,18 @@ const ScrollExpandMedia = ({
                                             />
                                         )}
                                         <video
-                                            src={mediaSrc}
                                             autoPlay
                                             muted
                                             loop
                                             playsInline
-                                            preload='metadata'
+                                            preload='none'
                                             className='w-full h-full object-cover rounded-xl'
                                             controls={false}
                                             disablePictureInPicture
                                             disableRemotePlayback
-                                        />
+                                        >
+                                            <source src={mediaSrc} type="video/mp4" media="(min-width: 768px)" />
+                                        </video>
                                         <motion.div
                                             className='absolute inset-0 bg-black/30 rounded-xl'
                                             initial={{ opacity: 0.7 }}
