@@ -59,7 +59,7 @@ export default function ProduitsPage() {
             </section>
 
             {/* Filters Section */}
-            <section className="sticky top-16 z-50 bg-background/95 backdrop-blur-xl border-b border-border py-4 shadow-sm">
+            <section className="sticky top-0 z-40 bg-background/95 backdrop-blur-xl border-b border-border py-4 shadow-sm transition-all duration-300">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         {/* Search */}

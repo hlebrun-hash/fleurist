@@ -40,8 +40,35 @@ export function NavBar({ items, className }: NavBarProps) {
         return () => window.removeEventListener("resize", handleResize)
     }, [])
 
+    const [isVisible, setIsVisible] = useState(true)
+    const [lastScrollY, setLastScrollY] = useState(0)
+
+    useEffect(() => {
+        const handleScroll = () => {
+            const currentScrollY = window.scrollY
+            // Masquer si on descend de plus de 10px et qu'on n'est pas tout en haut
+            if (currentScrollY > lastScrollY + 10 && currentScrollY > 50) {
+                setIsVisible(false)
+            }
+            // Afficher si on remonte de plus de 10px ou qu'on est tout en haut
+            else if (currentScrollY < lastScrollY - 10 || currentScrollY < 50) {
+                setIsVisible(true)
+            }
+            setLastScrollY(currentScrollY)
+        }
+
+        window.addEventListener("scroll", handleScroll, { passive: true })
+        return () => window.removeEventListener("scroll", handleScroll)
+    }, [lastScrollY])
+
     return (
-        <div
+        <motion.div
+            initial={{ y: 0, opacity: 1 }}
+            animate={{
+                y: isVisible ? 0 : (isMobile ? 100 : -100),
+                opacity: isVisible ? 1 : 0
+            }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
             className={cn(
                 "fixed bottom-0 sm:top-0 left-1/2 -translate-x-1/2 z-[100] mb-6 sm:pt-6 pointer-events-none",
                 className,
@@ -89,6 +116,6 @@ export function NavBar({ items, className }: NavBarProps) {
                     )
                 })}
             </div>
-        </div>
+        </motion.div>
     )
 }

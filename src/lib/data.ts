@@ -46,7 +46,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet célébration aux teintes vives et joyeuses",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["/images/products/le-festif.png"],
+        images: ["/images/le-festif-linen.png"],
         tags: ["festif", "coloré", "célébration"],
         inStock: true,
         featured: true,
@@ -60,7 +60,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet hivernal aux teintes chaleureuses",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["/images/products/gingerbread.png"],
+        images: ["/images/gingerbread-linen.png"],
         tags: ["hiver", "chaleureux", "élégant"],
         inStock: true,
         featured: false,
@@ -74,7 +74,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet sophistiqué aux teintes violettes profondes",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1582794543139-8ac92a9abf30?w=800&q=80"],
+        images: ["/images/caviar-linen.png"],
         tags: ["luxe", "violet", "sophistiqué"],
         inStock: true,
         featured: true,
@@ -88,7 +88,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet doux aux teintes orangées et pêche",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1563241527-9943679f0ecf?w=800&q=80"],
+        images: ["/images/nougatine-linen.png"],
         tags: ["doux", "orange", "pêche"],
         inStock: true,
         featured: false,
@@ -102,7 +102,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet blanc pur et élégant",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1494959764136-6be9eb3c261e?w=800&q=80"],
+        images: ["/images/guimauve-linen.png"],
         tags: ["blanc", "pur", "mariage"],
         inStock: true,
         featured: true,
@@ -116,7 +116,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet romantique aux teintes rosées",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1587575494201-11fe74d90d38?w=800&q=80"],
+        images: ["/images/sucre-dorge-linen.png"],
         tags: ["rose", "romantique", "délicat"],
         inStock: true,
         featured: false,
@@ -130,7 +130,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet hivernal blanc et argenté",
         price: { min: 70, max: 130 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1565293291410-53bc75cf2e55?w=800&q=80"],
+        images: ["/images/le-polaire-linen.png"],
         tags: ["hiver", "blanc", "argenté"],
         inStock: true,
         featured: false,
@@ -144,7 +144,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet contemporain aux teintes fraîches",
         price: { min: 80, max: 140 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1526402327072-ca97669528d7?w=800&q=80"],
+        images: ["/images/le-glace-linen.png"],
         tags: ["moderne", "frais", "contemporain"],
         inStock: true,
         featured: false,
@@ -157,7 +157,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet de renoncules printanières",
         price: { min: 65, max: 120 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1616864195743-982d1c68615c?w=800&q=80"],
+        images: ["/images/les-renoncules-linen.png"],
         tags: ["renoncules", "printemps", "délicat"],
         inStock: true,
         featured: true,
@@ -171,7 +171,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet d'anémones au contraste saisissant",
         price: { min: 70, max: 120 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1582239458269-80693a123611?w=800&q=80"],
+        images: ["/images/les-anemones-linen.png"],
         tags: ["anémones", "contraste", "audacieux"],
         inStock: true,
         featured: false,
@@ -184,7 +184,7 @@ export const products: Product[] = [
         shortDescription: "Grand bouquet hivernal majestueux",
         price: { min: 90, max: 180 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1596627685603-5374e26ee8fa?w=800&q=80"],
+        images: ["/images/l-hivernal-linen.png"],
         tags: ["grand", "hivernal", "majestueux"],
         inStock: true,
         featured: true,
@@ -197,7 +197,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet de tulipes fraîches et joyeuses",
         price: { min: 40, max: 80 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1520790858167-9bb1904d49a2?w=800&q=80"],
+        images: ["/images/les-tulipes-linen.png"],
         tags: ["tulipes", "printemps", "simple"],
         inStock: true,
         featured: false,
@@ -211,7 +211,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet romantique aux roses rouges passion",
         price: { min: 40, max: 160 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1590089856598-a3f5a01f5686?w=800&q=80"],
+        images: ["/images/le-valentin-linen.png"],
         tags: ["romantique", "roses", "amour"],
         inStock: true,
         featured: true,
@@ -225,7 +225,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet raffiné aux harmonies parfaites",
         price: { min: 90, max: 180 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=80"],
+        images: ["/images/l-elegant-linen.png"],
         tags: ["élégant", "raffiné", "luxe"],
         inStock: true,
         featured: false,
@@ -238,7 +238,7 @@ export const products: Product[] = [
         shortDescription: "Généreux bouquet de roses blanches Avalanche",
         price: { min: 40, max: 160 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1494972308805-463bc619d34e?w=800&q=80"],
+        images: ["/images/avalanche-de-roses-linen.png"],
         tags: ["roses", "blanc", "généreux"],
         inStock: true,
         featured: true,
@@ -252,7 +252,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet multicolore plein de vie",
         price: { min: 80, max: 170 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1596627685603-5374e26ee8fa?w=800&q=80"],
+        images: ["/images/le-petillant-linen.png"],
         tags: ["coloré", "joyeux", "multicolore"],
         inStock: true,
         featured: false,
@@ -266,7 +266,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet solaire aux teintes jaunes et orangées",
         price: { min: 80, max: 140 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1605330368146-24e03f9f3810?w=800&q=80"],
+        images: ["/images/le-radieux-linen.png"],
         tags: ["solaire", "jaune", "lumineux"],
         inStock: true,
         featured: false,
@@ -280,7 +280,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet champêtre naturel et frais",
         price: { min: 60, max: 100 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1596627685603-5374e26ee8fa?w=800&q=80"],
+        images: ["/images/le-champ-linen.png"],
         tags: ["champêtre", "naturel", "été"],
         inStock: true,
         featured: false,
@@ -294,7 +294,7 @@ export const products: Product[] = [
         shortDescription: "Bouquet provençal parfumé",
         price: { min: 80 },
         category: "bouquet",
-        images: ["https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=800&q=80"],
+        images: ["/images/la-provence-linen.png"],
         tags: ["provence", "parfumé", "lavande"],
         inStock: true,
         featured: false,
@@ -307,7 +307,7 @@ export const products: Product[] = [
         shortDescription: "Composition de fleurs séchées bohème",
         price: { min: 20, max: 60 },
         category: "fleurs-sechees",
-        images: ["https://images.unsplash.com/photo-1598288899808-0a0680a6b579?w=800&q=80"],
+        images: ["/images/voyage-pampa-linen.png"],
         tags: ["séché", "pampa", "bohème"],
         inStock: true,
         featured: true,
@@ -320,7 +320,7 @@ export const products: Product[] = [
         shortDescription: "Orchidée élégante en pot",
         price: { min: 40 },
         category: "plante",
-        images: ["https://images.unsplash.com/photo-1566873535350-a3f5d4a804b7?w=800&q=80"],
+        images: ["/images/orchidee-linen.png"],
         tags: ["orchidée", "plante", "élégant"],
         inStock: true,
         featured: false,
@@ -333,7 +333,7 @@ export const products: Product[] = [
         shortDescription: "Terrarium miniature poétique",
         price: { min: 65 },
         category: "plante",
-        images: ["https://images.unsplash.com/photo-1610425667104-d5763ca74c65?w=800&q=80"],
+        images: ["/images/le-terrarium-linen.png"],
         tags: ["terrarium", "miniature", "autonome"],
         inStock: true,
         featured: false,
@@ -346,7 +346,7 @@ export const products: Product[] = [
         shortDescription: "Vase en verre cristallin épuré",
         price: { min: 12, max: 23 },
         category: "accessoire",
-        images: ["https://images.unsplash.com/photo-1602664773836-17b5f25bf68c?w=800&q=80"],
+        images: ["/images/vase-cristal-linen.png"],
         tags: ["vase", "cristal", "épuré"],
         inStock: true,
         featured: false,
@@ -453,7 +453,7 @@ Si vous le pouvez, placez votre bouquet dans une pièce fraîche (comme un celli
         readingTime: 5,
         category: "Conseils",
         tags: ["entretien", "astuces", "durabilité"],
-        image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200",
+        image: "/images/blog/blog-astuces-grand-mere.png",
         externalLink: {
             title: "Conseils Interflora",
             url: "https://www.interflora.fr/blog/comment-conserver-fleurs-coupees/"
@@ -492,7 +492,7 @@ Une fois la floraison terminée, ne coupez pas la tige à ras ! Coupez au-dessus
         readingTime: 6,
         category: "Conseils",
         tags: ["orchidée", "plantes", "jardinage"],
-        image: "https://images.unsplash.com/photo-1544158428-3e4cb430768c?w=1200",
+        image: "/images/blog/blog-orchidee-entretien.png",
         externalLink: {
             title: "Fiche culture Orchidée",
             url: "https://www.jardiner-malin.fr/fiche/orchidee.html"
@@ -530,7 +530,7 @@ Avoir la "main verte" n'est pas inné, et tout le monde n'a pas le temps de chou
         readingTime: 6,
         category: "Conseils",
         tags: ["débutant", "plantes vertes", "facile"],
-        image: "https://images.unsplash.com/photo-1459156212016-c812468e2115?w=1200",
+        image: "/images/blog/blog-plantes-faciles.png",
         externalLink: {
             title: "Plantes faciles",
             url: "https://www.detentejardin.com/plantes/plantes-dinterieur/10-plantes-dinterieur-faciles-pour-ceux-qui-nont-pas-la-main-verte-6534"
@@ -571,7 +571,7 @@ Optez pour le **Chlorophytum**, le **Calathea**, le **Pilea** ou les **Fougères
         readingTime: 4,
         category: "Conseils",
         tags: ["animaux", "sécurité", "plantes"],
-        image: "https://images.unsplash.com/photo-1535930749574-1399327ce78f?w=1200",
+        image: "/images/blog/blog-animaux-plantes.png",
         externalLink: {
             title: "Centre Antipoison Animal",
             url: "https://www.centre-antipoison-animal.com/plantes-toxiques.html"
@@ -619,7 +619,7 @@ Une fois sèches, vaporisez un peu de laque à cheveux (à 30 cm) pour fixer les
         readingTime: 5,
         category: "Conseils",
         tags: ["diy", "fleurs séchées", "déco"],
-        image: "https://images.unsplash.com/photo-1621245389620-33dd4a974b62?w=1200",
+        image: "/images/blog/blog-tuto-sechage.png",
         externalLink: {
             title: "Tuto Fleurs Séchées",
             url: "https://www.marieclaire.fr/idees/comment-faire-secher-des-fleurs,2610264,1154580.asp"
@@ -661,7 +661,7 @@ Elle exprime l'attirance physique, l'enthousiasme et le désir. Un message clair
         readingTime: 4,
         category: "Langage",
         tags: ["roses", "signification", "amour"],
-        image: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=1200",
+        image: "/images/blog/blog-signification-roses.png",
         externalLink: {
             title: "Langage des Roses",
             url: "https://mag.florajet.com/signification-rose/"
@@ -703,7 +703,7 @@ Choisir des fleurs pour un enterrement est un acte de soutien fort. Voici les co
         readingTime: 4,
         category: "Langage",
         tags: ["deuil", "condoléances", "étiquette"],
-        image: "https://images.unsplash.com/photo-1518895949257-7621c3c786d7?w=1200",
+        image: "/images/blog/blog-fleurs-condoleances.png",
         externalLink: {
             title: "Fleurs de deuil",
             url: "https://www.interflora.fr/blog/quelles-fleurs-deuil-choisir/"
@@ -739,7 +739,7 @@ Sa beauté est fragile. Dans la mythologie grecque, elle est née des larmes d'A
         readingTime: 3,
         category: "Langage",
         tags: ["pivoines", "printemps", "tendance"],
-        image: "https://images.unsplash.com/photo-1563241527-9943679f0ecf?w=1200",
+        image: "/images/blog/blog-pivoines-renoncules.png",
         externalLink: {
             title: "Symbolique des fleurs",
             url: "https://www.lajoiedesfleurs.fr/"
@@ -772,7 +772,7 @@ La rose rouge est magnifique, mais elle est devenue un standard parfois un peu i
         readingTime: 4,
         category: "Saison",
         tags: ["saint-valentin", "amour", "originalité"],
-        image: "https://images.unsplash.com/photo-1518199266791-5375a83190b7?w=1200",
+        image: "/images/blog/blog-saint-valentin-alt.png",
         externalLink: {
             title: "Alternatives Saint-Valentin",
             url: "https://www.femmeactuelle.fr/jardin/jardinage/saint-valentin-quelles-fleurs-offrir-a-la-place-des-roses-rouges-2128795"
@@ -805,7 +805,7 @@ Pour la Fête des Mères, évitez le bouquet de supermarché attrapé à la dern
         readingTime: 5,
         category: "Saison",
         tags: ["fête des mères", "cadeau", "famille"],
-        image: "https://images.unsplash.com/photo-1494959764136-6be9eb3c261e?w=1200",
+        image: "/images/blog/blog-fete-des-meres.png",
         externalLink: {
             title: "Idées Cdeaux Maman",
             url: "https://www.bergamotte.fr/blog/fete-des-meres-toutes-nos-idees-cadeaux"
@@ -844,7 +844,7 @@ Des nuages de fleurs au-dessus des tables ("Flower Clouds") pour un effet "waouh
         readingTime: 6,
         category: "Saison",
         tags: ["mariage", "tendances", "2026"],
-        image: "https://images.unsplash.com/photo-1519225448512-4063285e683a?w=1200",
+        image: "/images/blog/blog-tendances-mariage-2026.png",
         externalLink: {
             title: "Tendances Mariage",
             url: "https://www.mariages.net/articles/tendances-fleurs-mariage--c5678"
@@ -887,7 +887,7 @@ Rien ne vaut une table de fête décorée avec des éléments naturels. Voici un
         readingTime: 5,
         category: "Saison",
         tags: ["noël", "diy", "décoration"],
-        image: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=1200",
+        image: "/images/blog/blog-diy-noel.png",
         externalLink: {
             title: "Déco Noël Maison",
             url: "https://www.cotemaison.fr/noel_11532.html"
@@ -926,7 +926,7 @@ Le muguet aime la fraîcheur. Ne le mettez pas au soleil. S'il est en pot, vous 
         readingTime: 3,
         category: "Saison",
         tags: ["muguet", "1er mai", "histoire"],
-        image: "https://images.unsplash.com/photo-1587411768638-ec71bdd29f9c?w=1200",
+        image: "/images/blog/blog-muguet-histoire.png",
         externalLink: {
             title: "Histoire du Muguet",
             url: "https://www.geo.fr/histoire/pourquoi-offre-t-on-du-muguet-le-1er-mai-195328"
@@ -964,7 +964,7 @@ C'est tout. Profitez de votre petit monde !
         readingTime: 4,
         category: "Décoration",
         tags: ["terrarium", "plantes", "design"],
-        image: "https://images.unsplash.com/photo-1470058869958-2a77ade41c02?w=1200",
+        image: "/images/blog/blog-terrarium-guide.png",
         externalLink: {
             title: "Créer son Terrarium",
             url: "https://www.rustica.fr/plantes-vertes/creer-terrarium-plantes,13271.html"
@@ -1005,7 +1005,7 @@ Oui, elles dépolluent un peu, mais la meilleure purification reste **l'aératio
         readingTime: 5,
         category: "Bien-être",
         tags: ["dépolluant", "santé", "maison"],
-        image: "https://images.unsplash.com/photo-1545241047-6083a3684587?w=1200",
+        image: "/images/blog/blog-plantes-depolluantes.png",
         externalLink: {
             title: "Avis ADEME",
             url: "https://www.ademe.fr/"
@@ -1045,7 +1045,7 @@ Ne mangez JAMAIS les fleurs d'un bouquet de fleuriste traditionnel (elles sont t
         readingTime: 4,
         category: "Lifestyle",
         tags: ["cuisine", "fleurs comestibles", "recette"],
-        image: "https://images.unsplash.com/photo-1556910103-1c02745a30bf?w=1200",
+        image: "/images/blog/blog-fleurs-comestibles.png",
         externalLink: {
             title: "Recettes Fleurs",
             url: "https://www.marmiton.org/recettes/selection_fleurs_comestibles.aspx"
@@ -1087,7 +1087,7 @@ Choisir un artisan, c'est soutenir le commerce de proximité et s'assurer d'offr
         readingTime: 5,
         category: "Local",
         tags: ["artisanat", "qualité", "valeurs"],
-        image: "https://images.unsplash.com/photo-1596707330279-b14e590089e8?w=1200",
+        image: "/images/blog/blog-artisan-fleuriste.png",
         externalLink: {
             title: "Collectif Fleuristes",
             url: "https://www.collectiffleuristes.fr/"

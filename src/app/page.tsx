@@ -1,9 +1,10 @@
 'use client';
 
 import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
-import { EmpathySection } from '@/components/sections/EmpathySection';
+
 import { ServicesSection } from '@/components/sections/ServicesSection';
 import { FeaturedProductsSection } from '@/components/sections/FeaturedProductsSection';
+
 import { TestimonialsSection } from '@/components/sections/TestimonialsSection';
 import { AboutSection } from '@/components/sections/AboutSection';
 import { CTASection } from '@/components/sections/CTASection';
@@ -36,14 +37,13 @@ export default function HomePage() {
         </div>
       </ScrollExpandMedia>
 
-      {/* Empathy Section - Connect emotionally */}
-      <EmpathySection />
 
-      {/* Services Section */}
-      <ServicesSection />
 
       {/* Featured Products */}
       <FeaturedProductsSection />
+
+      {/* Services */}
+      <ServicesSection />
 
       {/* Testimonials */}
       <TestimonialsSection />

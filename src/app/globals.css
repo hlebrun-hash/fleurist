@@ -2,32 +2,32 @@
 
 @theme {
     --color-background: hsl(47 24% 93%);
-    --color-foreground: hsl(0 0% 20%);
+    --color-foreground: hsl(270 15% 29%);
 
     --color-card: hsl(47 24% 93%);
-    --color-card-foreground: hsl(0 0% 20%);
+    --color-card-foreground: hsl(270 15% 29%);
 
     --color-popover: hsl(47 24% 93%);
-    --color-popover-foreground: hsl(0 0% 20%);
+    --color-popover-foreground: hsl(270 15% 29%);
 
-    --color-primary: hsl(0 36% 75%);
-    --color-primary-foreground: hsl(0 0% 20%);
+    --color-primary: hsl(340 56% 81%);
+    --color-primary-foreground: hsl(270 15% 29%);
 
-    --color-secondary: hsl(127 8% 47%);
+    --color-secondary: hsl(118 15% 42%);
     --color-secondary-foreground: hsl(47 24% 93%);
 
-    --color-muted: hsl(127 8% 47%);
-    --color-muted-foreground: hsl(0 0% 40%);
+    --color-muted: hsl(118 15% 90%);
+    --color-muted-foreground: hsl(270 15% 40%);
 
-    --color-accent: hsl(0 36% 75%);
-    --color-accent-foreground: hsl(0 0% 20%);
+    --color-accent: hsl(50 75% 81%);
+    --color-accent-foreground: hsl(270 15% 29%);
 
     --color-destructive: hsl(0 60% 60%);
     --color-destructive-foreground: hsl(47 24% 93%);
 
-    --color-border: hsl(127 8% 47%);
-    --color-input: hsl(127 8% 47%);
-    --color-ring: hsl(0 36% 75%);
+    --color-border: hsl(118 15% 42%);
+    --color-input: hsl(118 15% 42%);
+    --color-ring: hsl(340 56% 81%);
 
     --radius-lg: 1rem;
     --radius-md: calc(1rem - 2px);
@@ -36,27 +36,27 @@
     --font-serif: "ui-serif", "Georgia", "Cambria", "Times New Roman", "Times", "serif";
 }
 
-/* Variables pour shadcn/ui qui utilise hsl(var(--variable)) dans certaines configs legacy */
+/* Variables pour shadcn/ui */
 :root {
     --background: 47 24% 93%;
-    --foreground: 0 0% 20%;
+    --foreground: 270 15% 29%;
     --card: 47 24% 93%;
-    --card-foreground: 0 0% 20%;
+    --card-foreground: 270 15% 29%;
     --popover: 47 24% 93%;
-    --popover-foreground: 0 0% 20%;
-    --primary: 0 36% 75%;
-    --primary-foreground: 0 0% 20%;
-    --secondary: 127 8% 47%;
+    --popover-foreground: 270 15% 29%;
+    --primary: 340 56% 81%;
+    --primary-foreground: 270 15% 29%;
+    --secondary: 118 15% 42%;
     --secondary-foreground: 47 24% 93%;
-    --muted: 127 8% 47%;
-    --muted-foreground: 0 0% 40%;
-    --accent: 0 36% 75%;
-    --accent-foreground: 0 0% 20%;
+    --muted: 118 15% 90%;
+    --muted-foreground: 270 15% 40%;
+    --accent: 50 75% 81%;
+    --accent-foreground: 270 15% 29%;
     --destructive: 0 60% 60%;
     --destructive-foreground: 47 24% 93%;
-    --border: 127 8% 47%;
-    --input: 127 8% 47%;
-    --ring: 0 36% 75%;
+    --border: 118 15% 42%;
+    --input: 118 15% 42%;
+    --ring: 340 56% 81%;
     --radius: 1rem;
 }
 
