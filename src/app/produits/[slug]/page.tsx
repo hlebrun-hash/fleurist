@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/lib/data';
-import { ArrowLeft, ArrowRight, Phone, Check, Truck, ShieldCheck, Clock, Mail } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Phone, Check, Truck, ShieldCheck, Clock, Mail, Sprout, Ruler } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 interface ProductPageProps {
@@ -129,6 +129,39 @@ export default function ProductPage({ params }: ProductPageProps) {
                                 </span>
                             ))}
                         </div>
+
+                        {/* Composition & Dimensions */}
+                        {(product.composition || product.dimensions) && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 py-6 border-y border-border/50">
+                                {product.composition && (
+                                    <div className="space-y-2">
+                                        <h3 className="font-serif font-semibold text-foreground flex items-center gap-2">
+                                            <Sprout className="w-4 h-4 text-primary" />
+                                            Composition
+                                        </h3>
+                                        <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside marker:text-primary/50">
+                                            {product.composition.map((item, idx) => (
+                                                <li key={idx}>{item}</li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+                                {product.dimensions && (
+                                    <div className="space-y-2">
+                                        <h3 className="font-serif font-semibold text-foreground flex items-center gap-2">
+                                            <Ruler className="w-4 h-4 text-primary" />
+                                            Dimensions (env.)
+                                        </h3>
+                                        <dl className="text-sm text-muted-foreground grid grid-cols-[auto_1fr] gap-x-4 gap-y-1">
+                                            <dt className="font-medium">Hauteur :</dt>
+                                            <dd>{product.dimensions.height}</dd>
+                                            <dt className="font-medium">Diamètre :</dt>
+                                            <dd>{product.dimensions.diameter}</dd>
+                                        </dl>
+                                    </div>
+                                )}
+                            </div>
+                        )}
 
                         {/* CTA */}
                         <div className="space-y-4">

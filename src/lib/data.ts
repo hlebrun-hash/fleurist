@@ -35,6 +35,11 @@ export interface Product {
     inStock: boolean;
     featured: boolean;
     occasion?: string[];
+    composition?: string[];
+    dimensions?: {
+        height: string;
+        diameter: string;
+    };
 }
 
 export const products: Product[] = [
@@ -51,6 +56,8 @@ export const products: Product[] = [
         inStock: true,
         featured: true,
         occasion: ["anniversaire", "fête"],
+        composition: ["Roses Éclatantes", "Gerberas Colorés", "Lys Asiatiques", "Feuillage de saison"],
+        dimensions: { height: "45 cm", diameter: "35 cm" },
     },
     {
         id: "2",
@@ -65,6 +72,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["noël", "hiver"],
+        composition: ["Roses Cappuccino", "Œillets bordeaux", "Fleurs de coton", "Eucalyptus"],
+        dimensions: { height: "40 cm", diameter: "30 cm" },
     },
     {
         id: "3",
@@ -79,6 +88,8 @@ export const products: Product[] = [
         inStock: true,
         featured: true,
         occasion: ["cadeau", "décoration"],
+        composition: ["Tulipes Noires", "Roses Pourpres", "Callas", "Feuillage foncé"],
+        dimensions: { height: "40 cm", diameter: "30 cm" },
     },
     {
         id: "4",
@@ -93,6 +104,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["remerciement", "mariage"],
+        composition: ["Roses Pêche", "Renoncules Pastels", "Lisianthus", "Eucalyptus Parvifolia"],
+        dimensions: { height: "35 cm", diameter: "30 cm" },
     },
     {
         id: "5",
@@ -107,6 +120,8 @@ export const products: Product[] = [
         inStock: true,
         featured: true,
         occasion: ["mariage", "baptême"],
+        composition: ["Roses Blanches Avalanche", "Lys Blancs", "Gypsophile", "Eucalyptus Cinerea"],
+        dimensions: { height: "50 cm", diameter: "40 cm" },
     },
     {
         id: "6",
@@ -121,6 +136,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["saint-valentin", "anniversaire de mariage"],
+        composition: ["Roses Roses 'Jardin'", "Pivoines (selon saison)", "Wax Flower", "Eucalyptus"],
+        dimensions: { height: "40 cm", diameter: "35 cm" },
     },
     {
         id: "7",
@@ -135,6 +152,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["noël", "nouvel an"],
+        composition: ["Chardons Bleus", "Roses Blanches", "Eucalyptus Glaucous", "Succulentes"],
+        dimensions: { height: "45 cm", diameter: "35 cm" },
     },
     {
         id: "8",
@@ -148,6 +167,8 @@ export const products: Product[] = [
         tags: ["moderne", "frais", "contemporain"],
         inStock: true,
         featured: false,
+        composition: ["Chardons Bleus Eryngium", "Iris Bleus", "Roses Blanches", "Feuillage Argenté"],
+        dimensions: { height: "40 cm", diameter: "30 cm" },
     },
     {
         id: "9",
@@ -162,6 +183,8 @@ export const products: Product[] = [
         inStock: true,
         featured: true,
         occasion: ["printemps", "fête des mères"],
+        composition: ["Renoncules Clooney", "Renoncules Pompon", "Anémones", "Feuillage fin"],
+        dimensions: { height: "35 cm", diameter: "25 cm" },
     },
     {
         id: "10",
@@ -175,6 +198,8 @@ export const products: Product[] = [
         tags: ["anémones", "contraste", "audacieux"],
         inStock: true,
         featured: false,
+        composition: ["Anémones Blanches cœur noir", "Véronique", "Eucalyptus", "Pistachier"],
+        dimensions: { height: "30 cm", diameter: "25 cm" },
     },
     {
         id: "11",
@@ -186,6 +211,8 @@ export const products: Product[] = [
         category: "bouquet",
         images: ["/images/l-hivernal-linen.png"],
         tags: ["grand", "hivernal", "majestueux"],
+        composition: ["Amaryllis Rouges", "Ilex (boules rouges)", "Sapin Nobilis", "Roses Rouges"],
+        dimensions: { height: "60 cm", diameter: "50 cm" },
         inStock: true,
         featured: true,
     },
@@ -202,6 +229,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["quotidien", "printemps"],
+        composition: ["Tulipes Hollandaises (mixte)", "Feuillage de saison"],
+        dimensions: { height: "35 cm", diameter: "25 cm" },
     },
     {
         id: "13",
@@ -216,6 +245,8 @@ export const products: Product[] = [
         inStock: true,
         featured: true,
         occasion: ["saint-valentin", "déclaration"],
+        composition: ["Roses Rouges Red Naomi", "Gypsophile", "Eucalyptus"],
+        dimensions: { height: "50 cm", diameter: "40 cm" },
     },
     {
         id: "14",
@@ -227,6 +258,8 @@ export const products: Product[] = [
         category: "bouquet",
         images: ["/images/l-elegant-linen.png"],
         tags: ["élégant", "raffiné", "luxe"],
+        composition: ["Orchidées Cymbidium", "Callas Blancs", "Roses Blanches", "Feuillage Exotique"],
+        dimensions: { height: "55 cm", diameter: "40 cm" },
         inStock: true,
         featured: false,
     },
@@ -243,6 +276,8 @@ export const products: Product[] = [
         inStock: true,
         featured: true,
         occasion: ["mariage", "luxe"],
+        composition: ["Roses Blanches Avalanche", "Feuillage Salal"],
+        dimensions: { height: "50 cm", diameter: "45 cm" },
     },
     {
         id: "16",
@@ -257,6 +292,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["anniversaire", "félicitations"],
+        composition: ["Germinis Multicolores", "Craspedia (boules jaunes)", "Roses Jaunes", "Santini"],
+        dimensions: { height: "40 cm", diameter: "35 cm" },
     },
     {
         id: "17",
@@ -271,6 +308,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["rétablissement", "encouragement"],
+        composition: ["Tournesols", "Roses Oranges", "Solidago", "Hypericum"],
+        dimensions: { height: "50 cm", diameter: "40 cm" },
     },
     {
         id: "18",
@@ -285,6 +324,8 @@ export const products: Product[] = [
         inStock: true,
         featured: false,
         occasion: ["mariage champêtre", "été"],
+        composition: ["Matricaires Camomille", "Bleuets", "Graminées", "Fleurs des champs"],
+        dimensions: { height: "45 cm", diameter: "35 cm" },
     },
     {
         id: "19",
@@ -298,6 +339,8 @@ export const products: Product[] = [
         tags: ["provence", "parfumé", "lavande"],
         inStock: true,
         featured: false,
+        composition: ["Lavande séchée", "Brins d'Olivier", "Romarin", "Limonium"],
+        dimensions: { height: "35 cm", diameter: "25 cm" },
     },
     {
         id: "20",
@@ -309,6 +352,8 @@ export const products: Product[] = [
         category: "fleurs-sechees",
         images: ["/images/voyage-pampa-linen.png"],
         tags: ["séché", "pampa", "bohème"],
+        composition: ["Herbes de la Pampa", "Lagurus Ovatus", "Ruscus séché blanc", "Phalaris"],
+        dimensions: { height: "70 cm", diameter: "30 cm" },
         inStock: true,
         featured: true,
     },
@@ -322,6 +367,8 @@ export const products: Product[] = [
         category: "plante",
         images: ["/images/orchidee-linen.png"],
         tags: ["orchidée", "plante", "élégant"],
+        composition: ["Orchidée Phalaenopsis (2 tiges)", "Cache-pot céramique", "Mousse végétale"],
+        dimensions: { height: "60 cm", diameter: "12 cm (pot)" },
         inStock: true,
         featured: false,
     },
@@ -335,6 +382,8 @@ export const products: Product[] = [
         category: "plante",
         images: ["/images/le-terrarium-linen.png"],
         tags: ["terrarium", "miniature", "autonome"],
+        composition: ["Ficus Ginseng", "Mousse boule", "Fittonia", "Graviers décoratifs"],
+        dimensions: { height: "25 cm", diameter: "20 cm" },
         inStock: true,
         featured: false,
     },
@@ -348,6 +397,8 @@ export const products: Product[] = [
         category: "accessoire",
         images: ["/images/vase-cristal-linen.png"],
         tags: ["vase", "cristal", "épuré"],
+        composition: ["Verre Cristallin haute qualité", "Finition main"],
+        dimensions: { height: "25 cm", diameter: "15 cm" },
         inStock: true,
         featured: false,
     },
