@@ -76,6 +76,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                                 alt={product.name}
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 50vw"
+                                quality={70}
                                 className="object-cover"
                                 priority
                             />
@@ -273,6 +274,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                                             alt={relProduct.name}
                                             fill
                                             sizes="(max-width: 768px) 50vw, 25vw"
+                                            quality={60}
                                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                                         />
                                     </div>
