@@ -52,7 +52,7 @@ export function FeaturedProductsSection() {
                                         src={product.images[0]}
                                         alt={product.name}
                                         fill
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 450px"
                                         quality={60}
                                         className="object-cover transition-transform duration-700 group-hover:scale-110"
                                     />

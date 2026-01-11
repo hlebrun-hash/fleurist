@@ -209,9 +209,19 @@ const ScrollExpandMedia = ({
                             >
                                 {mediaType === 'video' ? (
                                     <div className='relative w-full h-full pointer-events-none'>
+                                        {posterSrc && (
+                                            <Image
+                                                src={posterSrc}
+                                                alt={title || "Video background"}
+                                                fill
+                                                className="object-cover rounded-xl -z-10"
+                                                priority
+                                                sizes="95vw"
+                                                quality={60}
+                                            />
+                                        )}
                                         <video
                                             src={mediaSrc}
-                                            poster={posterSrc}
                                             autoPlay
                                             muted
                                             loop
