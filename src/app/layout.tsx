@@ -56,6 +56,8 @@ export const metadata: Metadata = {
   },
 };
 
+import { CustomCursor } from "@/components/ui/custom-cursor";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -67,8 +69,12 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased">
+      <body className="antialiased font-sans text-foreground bg-background">
+        <CustomCursor />
+        <div className="noise-overlay" />
+
         <Header />
         <main>{children}</main>
         <Footer />

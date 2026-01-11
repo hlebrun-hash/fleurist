@@ -1,7 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { motion } from 'framer-motion';
+import { useSearchParams } from 'next/navigation';
 import { shopInfo } from '@/lib/data';
 import { Phone, Mail, MapPin, Clock, Send, Instagram, Facebook, CheckCircle } from 'lucide-react';
 import { AnimatedInput } from '@/components/ui/animated-input';
@@ -25,7 +26,9 @@ const faqData = [
     },
 ];
 
-export default function ContactPage() {
+function ContactContent() {
+    const searchParams = useSearchParams();
+
     const [formState, setFormState] = useState({
         name: '',
         email: '',
@@ -33,6 +36,14 @@ export default function ContactPage() {
         subject: '',
         message: '',
     });
+
+    useEffect(() => {
+        const subjectParam = searchParams.get('subject');
+        if (subjectParam) {
+            setFormState(prev => ({ ...prev, subject: subjectParam }));
+        }
+    }, [searchParams]);
+
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -155,10 +166,10 @@ export default function ContactPage() {
                                                     className="w-full py-2 bg-transparent border-b-2 border-primary/20 focus:border-primary outline-none transition-colors duration-300 text-base font-medium mt-1"
                                                 >
                                                     <option value="" disabled>Choisir un sujet</option>
-                                                    <option value="bouquet">Commande de bouquet</option>
-                                                    <option value="evenement">Événement / Mariage</option>
+                                                    <option value="bouquets">Commande de bouquet</option>
+                                                    <option value="evenements">Événement / Mariage</option>
                                                     <option value="abonnement">Abonnement floral</option>
-                                                    <option value="entreprise">Fleurs pour entreprise</option>
+                                                    <option value="entreprises">Fleurs pour entreprise</option>
                                                     <option value="autre">Autre demande</option>
                                                 </select>
                                             </div>
@@ -350,7 +361,6 @@ export default function ContactPage() {
                     </div>
                 </div>
             </section>
-
             {/* Schema.org pour FAQ et LocalBusiness */}
             <script
                 type="application/ld+json"
@@ -411,5 +421,13 @@ export default function ContactPage() {
                 }}
             />
         </div>
+    );
+}
+
+export default function ContactPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen pt-24 text-center">Chargement...</div>}>
+            <ContactContent />
+        </Suspense>
     );
 }

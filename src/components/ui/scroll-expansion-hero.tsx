@@ -250,7 +250,7 @@ const ScrollExpandMedia = ({
                                 <div className='flex flex-col items-center text-center relative z-10 mt-4 transition-none'>
                                     {subtitle && (
                                         <p
-                                            className='text-lg md:text-xl text-white/90 font-light'
+                                            className='text-xl md:text-2xl text-white/90 font-serif italic tracking-wide'
                                             style={{ transform: `translateX(-${textTranslateX}vw)` }}
                                         >
                                             {subtitle}
@@ -285,14 +285,14 @@ const ScrollExpandMedia = ({
 
                                 {/* Éléments visuels animés (aria-hidden pour éviter la duplication pour les lecteurs d'écran) */}
                                 <motion.span
-                                    className='text-4xl md:text-5xl lg:text-7xl font-bold text-white transition-none drop-shadow-2xl block'
+                                    className='text-5xl md:text-6xl lg:text-8xl font-serif font-normal text-white transition-none drop-shadow-2xl block tracking-tight'
                                     style={{ transform: `translateX(-${textTranslateX}vw)` }}
                                     aria-hidden="true"
                                 >
                                     {firstWord}
                                 </motion.span>
                                 <motion.span
-                                    className='text-4xl md:text-5xl lg:text-7xl font-bold text-center text-white transition-none drop-shadow-2xl block'
+                                    className='text-5xl md:text-6xl lg:text-8xl font-serif font-normal text-center text-white transition-none drop-shadow-2xl block tracking-tight'
                                     style={{ transform: `translateX(${textTranslateX}vw)` }}
                                     aria-hidden="true"
                                 >

@@ -1101,24 +1101,56 @@ export const services = [
         id: "bouquets",
         title: "Bouquets Sur Mesure",
         description: "Des créations uniques adaptées à vos envies et occasions",
+        detailedDescription: "Parce que chaque fleur a un langage, nous composons vos bouquets avec une attention maniaque aux détails. Que ce soit pour déclarer une flamme, remercier un ami ou simplement embellir votre intérieur, nous sélectionnons les variétés les plus poétiques.",
+        process: [
+            "Sélection des fleurs fraîches à l'arrivage du matin",
+            "Harmonisation des couleurs selon votre brief",
+            "Assemblage main levée pour un style naturel",
+            "Emballage soigné dans papier kraft et ruban de soie"
+        ],
         icon: "Flower2",
+        image: "/images/blog/blog-artisan-fleuriste.png",
     },
     {
         id: "evenements",
         title: "Événements & Mariages",
         description: "Décoration florale complète pour vos moments précieux",
+        detailedDescription: "Votre mariage mérite un décor à la hauteur de votre amour. Du bouquet de la mariée à l'arche de cérémonie, en passant par les centres de table, nous créons une scénographie florale cohérente, romantique et inoubliable.",
+        process: [
+            "Rendez-vous découverte pour cerner votre style",
+            "Création d'un Moodboard floral personnalisé",
+            "Visite technique du lieu de réception",
+            "Installation jour J par notre équipe"
+        ],
         icon: "PartyPopper",
+        image: "/images/blog/blog-tendances-mariage-2026.png",
     },
     {
         id: "abonnement",
         title: "Abonnement Floral",
         description: "Des fleurs fraîches livrées chez vous chaque semaine",
+        detailedDescription: "Le luxe simple d'avoir toujours des fleurs fraîches chez soi. Notre abonnement est flexible et sans engagement. Recevez chaque semaine (ou mois) une création surprise de saison pour illuminer votre intérieur.",
+        process: [
+            "Choix de la taille et de la fréquence",
+            "Sélection des plus belles fleurs de saison",
+            "Livraison à vélo sur le créneau de votre choix",
+            "Conseils d'entretien inclus à chaque livraison"
+        ],
         icon: "Calendar",
+        image: "/images/blog/blog-pivoines-renoncules.png",
     },
     {
         id: "entreprises",
         title: "Fleurs pour Entreprises",
         description: "Sublimez vos espaces professionnels",
+        detailedDescription: "L'image de votre entreprise passe aussi par l'ambiance de vos locaux. Accueil, salle de réunion, vitrine : nous apportons une touche végétale élégante et soignée qui valorise votre marque auprès de vos clients et collaborateurs.",
+        process: [
+            "Audit de vos espaces et de la luminosité",
+            "Proposition de design végétal adapté",
+            "Installation et mise en scène",
+            "Entretien régulier (arrosage, taille) inclus"
+        ],
         icon: "Building2",
+        image: "/images/blog/blog-plantes-depolluantes.png",
     },
 ];
