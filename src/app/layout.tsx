@@ -56,6 +56,23 @@ export const metadata: Metadata = {
   },
 };
 
+import { Cormorant_Garamond, Mulish } from "next/font/google";
+import { Providers } from "./providers"; // Import du provider client
+
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  variable: "--font-serif",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
+const mulish = Mulish({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  weight: ["300", "400", "500", "600", "700"],
+  display: "swap",
+});
+
 import { CustomCursor } from "@/components/ui/custom-cursor";
 
 export default function RootLayout({
@@ -64,20 +81,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr">
-      <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet" />
-      </head>
+    <html lang="fr" className={`${cormorant.variable} ${mulish.variable}`}>
       <body className="antialiased font-sans text-foreground bg-background">
-        <CustomCursor />
-        <div className="noise-overlay" />
+        <Providers>
+          <CustomCursor />
+          <div className="noise-overlay" />
 
-        <Header />
-        <main>{children}</main>
-        <Footer />
+          <Header />
+          <main>{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

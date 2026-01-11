@@ -16,6 +16,7 @@ export default function HomePage() {
       <ScrollExpandMedia
         mediaType="video"
         mediaSrc="/Prompts_For_AI_Flower_Arrangement.mp4"
+        posterSrc="/images/hero-video-poster.png"
         bgImageSrc="/hero-bg.png"
         title="Jardin Digital Artisan Fleuriste Paris"
         subtitle="L'art floral au service de vos émotions"
