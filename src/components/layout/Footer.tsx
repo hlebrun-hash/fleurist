@@ -88,7 +88,7 @@ export function Footer() {
                                 <span>Dimanche</span>
                                 <span>{shopInfo.hours.sunday}</span>
                             </p>
-                            <p className="flex justify-between text-secondary/80 font-medium">
+                            <p className="flex justify-between text-primary-foreground/90 font-medium">
                                 <span>Lundi</span>
                                 <span>{shopInfo.hours.monday}</span>
                             </p>
