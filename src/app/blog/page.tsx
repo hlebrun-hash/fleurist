@@ -8,6 +8,34 @@ import { Calendar, Clock, ArrowRight, User } from 'lucide-react';
 import { useState } from 'react';
 import { AnimatedInput } from '@/components/ui/animated-input';
 
+const AvatarImage = ({ src, alt, size = 40 }: { src: string; alt: string; size?: number }) => {
+    const [error, setError] = useState(false);
+
+    if (error) {
+        return (
+            <div
+                className={`rounded-full bg-secondary flex items-center justify-center text-primary shrink-0`}
+                style={{ width: size, height: size }}
+            >
+                <User size={size * 0.5} />
+            </div>
+        );
+    }
+
+    return (
+        <Image
+            width={size}
+            height={size}
+            src={src}
+            alt={alt}
+            className="rounded-full object-cover shrink-0"
+            style={{ width: size, height: size }}
+            onError={() => setError(true)}
+            unoptimized
+        />
+    );
+};
+
 export default function BlogPage() {
     const [newsletterEmail, setNewsletterEmail] = useState("");
     const featuredPost = blogPosts.find((post) => post.featured);
@@ -94,12 +122,10 @@ export default function BlogPage() {
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <Image
+                                        <AvatarImage
                                             src={featuredPost.author.image}
                                             alt={featuredPost.author.name}
-                                            width={48}
-                                            height={48}
-                                            className="rounded-full"
+                                            size={48}
                                         />
                                         <div>
                                             <p className="font-medium">{featuredPost.author.name}</p>
@@ -174,12 +200,10 @@ export default function BlogPage() {
 
                                             <div className="flex items-center justify-between pt-4 border-t border-border">
                                                 <div className="flex items-center gap-2">
-                                                    <Image
+                                                    <AvatarImage
                                                         src={post.author.image}
                                                         alt={post.author.name}
-                                                        width={32}
-                                                        height={32}
-                                                        className="rounded-full"
+                                                        size={32}
                                                     />
                                                     <span className="text-sm font-medium">
                                                         {post.author.name}

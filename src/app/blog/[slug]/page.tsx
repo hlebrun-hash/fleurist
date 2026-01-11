@@ -5,9 +5,37 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { blogPosts } from '@/lib/data';
-import { Calendar, Clock, ArrowLeft, ChevronUp, Twitter, Facebook, Linkedin, Link as LinkIcon, Sparkles, ExternalLink, List } from 'lucide-react';
+import { Calendar, Clock, ArrowLeft, ChevronUp, Twitter, Facebook, Linkedin, Link as LinkIcon, Sparkles, ExternalLink, List, User } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AnimatedInput } from '@/components/ui/animated-input';
+
+const AvatarImage = ({ src, alt, size = 40, className }: { src: string; alt: string; size?: number; className?: string }) => {
+    const [error, setError] = useState(false);
+
+    if (error) {
+        return (
+            <div
+                className={`rounded-full bg-secondary flex items-center justify-center text-primary shrink-0 ${className}`}
+                style={{ width: size, height: size }}
+            >
+                <User size={size * 0.5} />
+            </div>
+        );
+    }
+
+    return (
+        <Image
+            width={size}
+            height={size}
+            src={src}
+            alt={alt}
+            className={`rounded-full object-cover shrink-0 ${className}`}
+            style={{ width: size, height: size }}
+            onError={() => setError(true)}
+            unoptimized
+        />
+    );
+};
 
 interface BlogPostPageProps {
     params: Promise<{ slug: string }>;
@@ -160,12 +188,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
                         <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-4 text-muted-foreground mb-8 text-sm md:text-base">
                             <div className="flex items-center gap-2">
-                                <Image
+                                <AvatarImage
                                     src={post.author.image}
                                     alt={post.author.name}
-                                    width={32}
-                                    height={32}
-                                    className="rounded-full object-cover shrink-0 border border-border"
+                                    size={32}
+                                    className="border border-border"
                                 />
                                 <span className="font-medium text-foreground">{post.author.name}</span>
                             </div>
@@ -272,12 +299,18 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                             {/* Author Box (E-E-A-T) */}
                             <div className="mt-16 p-8 md:p-10 bg-secondary/30 rounded-3xl border border-secondary">
                                 <div className="flex flex-col sm:flex-row gap-8 items-start">
-                                    <Image
+                                    <AvatarImage
                                         src={post.author.image}
                                         alt={post.author.name}
-                                        width={120}
-                                        height={120}
-                                        className="rounded-full object-cover shrink-0 border-4 border-background shadow-md"
+                                        size={120}
+                                        className="border-4 border-background shadow-md hidden sm:block"
+                                    />
+                                    {/* Mobile avatar */}
+                                    <AvatarImage
+                                        src={post.author.image}
+                                        alt={post.author.name}
+                                        size={80}
+                                        className="border-4 border-background shadow-md sm:hidden mx-auto"
                                     />
                                     <div className="space-y-4 flex-1">
                                         <div>
