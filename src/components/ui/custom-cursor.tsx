@@ -1,15 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, useMotionValue, useSpring } from 'framer-motion';
 
 export function CustomCursor() {
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    // Use MotionValues to track mouse position without triggering React re-renders
+    const mouseX = useMotionValue(0);
+    const mouseY = useMotionValue(0);
+
+    // Create smooth spring physics for the follower cursor
+    const springConfig = { damping: 25, stiffness: 150 }; // Slightly smoother
+    const cursorX = useSpring(mouseX, springConfig);
+    const cursorY = useSpring(mouseY, springConfig);
+
+    // State for hover effect is okay as it changes infrequently
     const [isHovering, setIsHovering] = useState(false);
 
     useEffect(() => {
         const updateMousePosition = (e: MouseEvent) => {
-            setMousePosition({ x: e.clientX, y: e.clientY });
+            mouseX.set(e.clientX);
+            mouseY.set(e.clientY);
         };
 
         const handleMouseOver = (e: MouseEvent) => {
@@ -39,28 +49,36 @@ export function CustomCursor() {
 
     return (
         <>
-            {/* Point central (le curseur précis) */}
+            {/* Point central (le curseur précis) - Direct following */}
             <motion.div
                 className="fixed top-0 left-0 w-2 h-2 bg-secondary rounded-full pointer-events-none z-[100] mix-blend-multiply hidden md:block"
+                style={{
+                    x: mouseX,
+                    y: mouseY,
+                    translateX: '-50%',
+                    translateY: '-50%'
+                }}
                 animate={{
-                    x: mousePosition.x - 4,
-                    y: mousePosition.y - 4,
                     scale: isHovering ? 0 : 1,
                 }}
-                transition={{ type: 'tween', ease: 'backOut', duration: 0.1 }}
+                transition={{ duration: 0.1 }}
             />
 
-            {/* Cercle extérieur (l'âme organique) */}
+            {/* Cercle extérieur (l'âme organique) - Physics based following */}
             <motion.div
                 className="fixed top-0 left-0 w-8 h-8 border border-secondary/50 rounded-full pointer-events-none z-[100] hidden md:block"
-                animate={{
-                    x: mousePosition.x - 16,
-                    y: mousePosition.y - 16,
-                    scale: isHovering ? 2 : 1,
-                    backgroundColor: isHovering ? 'rgba(235, 176, 196, 0.2)' : 'transparent', // Rose transparent au survol
-                    borderColor: isHovering ? 'transparent' : 'rgba(92, 124, 91, 0.5)', // Vert transparent
+                style={{
+                    x: cursorX,
+                    y: cursorY,
+                    translateX: '-50%',
+                    translateY: '-50%'
                 }}
-                transition={{ type: 'spring', stiffness: 150, damping: 15, mass: 0.1 }}
+                animate={{
+                    scale: isHovering ? 2 : 1,
+                    backgroundColor: isHovering ? 'rgba(235, 176, 196, 0.2)' : 'transparent',
+                    borderColor: isHovering ? 'transparent' : 'rgba(92, 124, 91, 0.5)',
+                }}
+                transition={{ duration: 0.15 }} // Only affects valid animate prop changes like scale/color
             />
         </>
     );
