@@ -1,8 +1,14 @@
 'use client';
 
-import { useRef, ReactNode } from 'react';
+import {
+    useEffect,
+    useRef,
+    useState,
+    ReactNode,
+} from 'react';
 import Image from 'next/image';
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 
 interface ScrollExpandMediaProps {
@@ -32,188 +38,320 @@ const ScrollExpandMedia = ({
     ctaText,
     ctaHref,
 }: ScrollExpandMediaProps) => {
-    const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start start", "end end"]
-    });
+    const router = useRouter();
+    const [scrollProgress, setScrollProgress] = useState<number>(0);
+    const [showContent, setShowContent] = useState<boolean>(false);
+    const [mediaFullyExpanded, setMediaFullyExpanded] = useState<boolean>(false);
+    const [touchStartY, setTouchStartY] = useState<number>(0);
+    const [isMobileState, setIsMobileState] = useState<boolean>(false);
 
-    // Use a spring to smooth out the scroll values slightly for a premium feel
-    const smoothProgress = useSpring(scrollYProgress, {
-        stiffness: 100,
-        damping: 20,
-        restDelta: 0.001
-    });
+    const sectionRef = useRef<HTMLDivElement | null>(null);
 
-    // Animation Transforms
-    // 0 -> 0.6: Expansion phase
-    // 0.6 -> 0.8: Content Pause/Fade In
-    // 0.8 -> 1.0: Parallax exit?
+    useEffect(() => {
+        setScrollProgress(0);
+        setShowContent(false);
+        setMediaFullyExpanded(false);
+    }, [mediaType]);
 
-    // Responsive initial width using CSS variables defined in className
-    const width = useTransform(smoothProgress, [0, 0.6], ["var(--hero-width-start)", "100vw"]);
-    const height = useTransform(smoothProgress, [0, 0.6], ["400px", "100vh"]);
-    const borderRadius = useTransform(smoothProgress, [0, 0.6], ["1rem", "0rem"]);
+    useEffect(() => {
+        // Check if the event target is an interactive element
+        const isInteractiveElement = (target: EventTarget | null): boolean => {
+            if (!target || !(target instanceof HTMLElement)) return false;
+            const interactiveSelectors = 'a, button, input, select, textarea, [role="button"], [onclick]';
+            return target.closest(interactiveSelectors) !== null;
+        };
 
-    // Background Image Fades out
-    const bgOpacity = useTransform(smoothProgress, [0, 0.4], [1, 0]);
+        const handleWheel = (e: WheelEvent) => {
+            // Don't intercept if clicking on interactive elements
+            if (isInteractiveElement(e.target)) return;
 
-    // Title/Subtitle transforms
-    const textOpacity = useTransform(smoothProgress, [0, 0.3], [1, 0]);
-    const textY = useTransform(smoothProgress, [0, 0.3], [0, -50]);
-    const textTranslateX = useTransform(smoothProgress, [0, 1], [0, 100]); // Parallax effect
+            if (mediaFullyExpanded && e.deltaY < 0 && window.scrollY <= 5) {
+                setMediaFullyExpanded(false);
+                e.preventDefault();
+            } else if (!mediaFullyExpanded) {
+                e.preventDefault();
+                const scrollDelta = e.deltaY * 0.0009;
+                const newProgress = Math.min(
+                    Math.max(scrollProgress + scrollDelta, 0),
+                    1
+                );
+                setScrollProgress(newProgress);
 
-    // Content (children) Fade In
-    const contentOpacity = useTransform(smoothProgress, [0.6, 0.85], [0, 1]);
-    const contentY = useTransform(smoothProgress, [0.6, 0.85], [50, 0]);
-    const contentPointerEvents = useTransform(smoothProgress, (v) => v > 0.6 ? "auto" : "none");
+                if (newProgress >= 1) {
+                    setMediaFullyExpanded(true);
+                    setShowContent(true);
+                } else if (newProgress < 0.75) {
+                    setShowContent(false);
+                }
+            }
+        };
 
-    const handleScrollClick = () => {
-        // Scroll to the point where expansion is complete (roughly 65% of container)
-        if (containerRef.current) {
-            const containerHeight = containerRef.current.offsetHeight;
-            const targetScroll = containerRef.current.offsetTop + (containerHeight * 0.65);
-            window.scrollTo({ top: targetScroll, behavior: 'smooth' });
-        }
-    };
+        const handleTouchStart = (e: TouchEvent) => {
+            // Don't intercept if touching interactive elements
+            if (isInteractiveElement(e.target)) return;
+            setTouchStartY(e.touches[0].clientY);
+        };
+
+        const handleTouchMove = (e: TouchEvent) => {
+            // Don't intercept if touching interactive elements
+            if (isInteractiveElement(e.target)) return;
+            if (!touchStartY) return;
+
+            const touchY = e.touches[0].clientY;
+            const deltaY = touchStartY - touchY;
+
+            if (mediaFullyExpanded && deltaY < -20 && window.scrollY <= 5) {
+                setMediaFullyExpanded(false);
+                e.preventDefault();
+            } else if (!mediaFullyExpanded) {
+                e.preventDefault();
+                const scrollFactor = deltaY < 0 ? 0.008 : 0.005;
+                const scrollDelta = deltaY * scrollFactor;
+                const newProgress = Math.min(
+                    Math.max(scrollProgress + scrollDelta, 0),
+                    1
+                );
+                setScrollProgress(newProgress);
+
+                if (newProgress >= 1) {
+                    setMediaFullyExpanded(true);
+                    setShowContent(true);
+                } else if (newProgress < 0.75) {
+                    setShowContent(false);
+                }
+
+                setTouchStartY(touchY);
+            }
+        };
+
+        const handleTouchEnd = (): void => {
+            setTouchStartY(0);
+        };
+
+        const handleScroll = (): void => {
+            if (!mediaFullyExpanded) {
+                window.scrollTo(0, 0);
+            }
+        };
+
+        window.addEventListener('wheel', handleWheel, { passive: false });
+        // window.addEventListener('scroll', handleScroll); // Disabled aggressive scroll locking
+        window.addEventListener('touchstart', handleTouchStart, { passive: true });
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd);
+
+        return () => {
+            window.removeEventListener('wheel', handleWheel);
+            // window.removeEventListener('scroll', handleScroll);
+            window.removeEventListener('touchstart', handleTouchStart);
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
+        };
+    }, [scrollProgress, mediaFullyExpanded, touchStartY]);
+
+    useEffect(() => {
+        const checkIfMobile = (): void => {
+            setIsMobileState(window.innerWidth < 768);
+        };
+
+        checkIfMobile();
+        window.addEventListener('resize', checkIfMobile);
+
+        return () => window.removeEventListener('resize', checkIfMobile);
+    }, []);
+
+    const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
+    const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
+    const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+
+    const firstWord = title ? title.split(' ')[0] : '';
+    const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
 
     return (
         <div
-            ref={containerRef}
-            className="relative h-[250vh] w-full [--hero-width-start:85vw] md:[--hero-width-start:300px]"
+            ref={sectionRef}
+            className={`transition-colors duration-700 ease-in-out overflow-x-hidden ${mediaFullyExpanded ? 'pointer-events-none' : ''}`}
         >
-            <div className="sticky top-0 h-[100dvh] w-full overflow-hidden flex items-center justify-center">
+            <section className='relative flex flex-col items-center justify-start min-h-[100dvh] pointer-events-auto'>
+                <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
+                    <motion.div
+                        className='absolute inset-0 z-0 h-full pointer-events-none'
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 - scrollProgress }}
+                        transition={{ duration: 0.1 }}
+                    >
+                        <Image
+                            src={bgImageSrc}
+                            alt='Background floral'
+                            width={1920}
+                            height={1080}
+                            className='w-screen h-screen'
+                            style={{
+                                objectFit: 'cover',
+                                objectPosition: 'center',
+                            }}
+                            priority
+                        />
+                        <div className='absolute inset-0 bg-black/30' />
+                    </motion.div>
 
-                {/* Background Image Layer */}
-                <motion.div
-                    className="absolute inset-0 z-0"
-                    style={{ opacity: bgOpacity }}
-                >
-                    <Image
-                        src={bgImageSrc}
-                        alt="Background floral"
-                        fill
-                        className="object-cover"
-                        priority
-                    />
-                    <div className="absolute inset-0 bg-black/30" />
-                </motion.div>
-
-                {/* Main Expanding Card */}
-                <motion.div
-                    className="relative z-20 shadow-2xl overflow-hidden bg-black"
-                    style={{
-                        width,
-                        height,
-                        borderRadius,
-                    }}
-                >
-                    {mediaType === 'video' ? (
-                        <div className="relative w-full h-full">
-                            {posterSrc && (
-                                <Image
-                                    src={posterSrc}
-                                    alt={title || "Video background"}
-                                    fill
-                                    className="object-cover -z-10"
-                                    priority
-                                    sizes="100vw"
-                                />
-                            )}
-                            <video
-                                autoPlay
-                                muted
-                                loop
-                                playsInline
-                                className="w-full h-full object-cover"
+                    <div className='container mx-auto flex flex-col items-center justify-start relative z-10'>
+                        <div className='flex flex-col items-center justify-center w-full h-[100dvh] relative'>
+                            <div
+                                className='absolute z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-none rounded-2xl overflow-hidden'
+                                style={{
+                                    width: `${mediaWidth}px`,
+                                    height: `${mediaHeight}px`,
+                                    maxWidth: '95vw',
+                                    maxHeight: '85vh',
+                                    boxShadow: '0px 0px 50px rgba(0, 0, 0, 0.3)',
+                                }}
                             >
-                                <source src={mediaSrc} type="video/mp4" />
-                            </video>
-                            {/* Overlay on video */}
-                            <motion.div
-                                className="absolute inset-0 bg-black/30"
-                                style={{ opacity: useTransform(smoothProgress, [0, 1], [0.3, 0.5]) }}
-                            />
-                        </div>
-                    ) : (
-                        <div className="relative w-full h-full">
-                            <Image
-                                src={mediaSrc}
-                                alt={title || 'Hero Media'}
-                                fill
-                                className="object-cover"
-                            />
-                            <motion.div
-                                className="absolute inset-0 bg-black/40"
-                                style={{ opacity: useTransform(smoothProgress, [0, 1], [0.3, 0.6]) }}
-                            />
-                        </div>
-                    )}
-                </motion.div>
+                                {mediaType === 'video' ? (
+                                    <div className='relative w-full h-full pointer-events-none'>
+                                        {posterSrc && (
+                                            <Image
+                                                src={posterSrc}
+                                                alt={title || "Video background"}
+                                                fill
+                                                className="object-cover rounded-xl -z-10"
+                                                priority
+                                                sizes="95vw"
+                                                quality={60}
+                                            />
+                                        )}
+                                        <video
+                                            src={mediaSrc}
+                                            autoPlay
+                                            muted
+                                            loop
+                                            playsInline
+                                            preload='metadata'
+                                            className='w-full h-full object-cover rounded-xl'
+                                            controls={false}
+                                            disablePictureInPicture
+                                            disableRemotePlayback
+                                        />
+                                        <motion.div
+                                            className='absolute inset-0 bg-black/30 rounded-xl'
+                                            initial={{ opacity: 0.7 }}
+                                            animate={{ opacity: 0.5 - scrollProgress * 0.3 }}
+                                            transition={{ duration: 0.2 }}
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className='relative w-full h-full pointer-events-none'>
+                                        <Image
+                                            src={mediaSrc}
+                                            alt={title || 'Bouquet de fleurs'}
+                                            width={1280}
+                                            height={720}
+                                            className='w-full h-full object-cover rounded-xl'
+                                        />
+                                        <motion.div
+                                            className='absolute inset-0 bg-black/40 rounded-xl'
+                                            initial={{ opacity: 0.7 }}
+                                            animate={{ opacity: 0.7 - scrollProgress * 0.3 }}
+                                            transition={{ duration: 0.2 }}
+                                        />
+                                    </div>
+                                )}
 
-                {/* Text & CTA Layer (Initial State) */}
-                <motion.div
-                    className={`absolute z-30 flex flex-col items-center justify-center text-center p-4 max-w-4xl ${textBlend ? 'mix-blend-difference text-white' : 'text-white'}`}
-                    style={{ opacity: textOpacity, y: textY }}
-                >
-                    {/* Title */}
-                    <h1 className="text-5xl md:text-6xl lg:text-8xl font-serif font-normal drop-shadow-2xl mb-4 tracking-tight">
-                        {title}
-                    </h1>
+                                <div className='flex flex-col items-center text-center relative z-10 mt-4 transition-none'>
+                                    {subtitle && (
+                                        <p
+                                            className='text-xl md:text-2xl text-white/90 font-serif italic tracking-wide'
+                                            style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                                        >
+                                            {subtitle}
+                                        </p>
+                                    )}
+                                    {scrollToExpand && (
+                                        <motion.div
+                                            className='flex flex-col items-center gap-2 mt-4'
+                                            style={{ transform: `translateX(${textTranslateX}vw)` }}
+                                            animate={{ y: [0, 8, 0] }}
+                                            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                                        >
+                                            <p className='text-white/80 font-medium text-center text-sm'>
+                                                {scrollToExpand}
+                                            </p>
+                                            <svg className="w-6 h-6 text-white/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                            </svg>
+                                        </motion.div>
+                                    )}
+                                </div>
+                            </div>
 
-                    {/* Subtitle */}
-                    {subtitle && (
-                        <p className="text-xl md:text-2xl font-serif italic tracking-wide text-white/90 mb-8">
-                            {subtitle}
-                        </p>
-                    )}
-
-                    {/* Scroll Prompt */}
-                    {scrollToExpand && (
-                        <div
-                            className="absolute bottom-[-15vh] md:bottom-[-20vh] left-0 right-0 flex flex-col items-center gap-2 cursor-pointer"
-                            onClick={handleScrollClick}
-                        >
-                            <p className="text-sm font-medium uppercase tracking-widest text-white/80">{scrollToExpand}</p>
-                            <motion.svg
-                                animate={{ y: [0, 8, 0] }}
-                                transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                className="w-6 h-6 text-white/80"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
+                            <div
+                                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
+                                    }`}
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                            </motion.svg>
-
-                            {/* CTA Button visible initially */}
-                            {ctaText && ctaHref && (
-                                <Link
-                                    href={ctaHref}
-                                    className="mt-6 px-8 py-3 bg-white/10 backdrop-blur-md border border-white/20 hover:bg-white/20 transition-colors rounded-full text-white font-semibold uppercase tracking-wider text-sm"
+                                {/* Structure H1 pour SEO et LCP - Visible immédiatement */}
+                                <h1
+                                    className="text-5xl md:text-6xl lg:text-8xl font-serif font-normal text-white drop-shadow-2xl block tracking-tight text-center"
+                                    style={{
+                                        transform: `translateX(${textTranslateX > 0 ? `${textTranslateX}vw` : '0'})`,
+                                        opacity: 1 - scrollProgress * 0.5
+                                    }}
                                 >
-                                    {ctaText}
-                                </Link>
-                            )}
+                                    {title}
+                                </h1>
+                                {ctaText && ctaHref && scrollProgress < 0.5 && (
+                                    ctaHref.startsWith('#') ? (
+                                        <motion.button
+                                            onClick={() => {
+                                                // Trigger full expansion and scroll to anchor
+                                                setScrollProgress(1);
+                                                setMediaFullyExpanded(true);
+                                                setShowContent(true);
+
+                                                setTimeout(() => {
+                                                    const targetId = ctaHref.replace('#', '');
+                                                    const targetElement = document.getElementById(targetId);
+                                                    if (targetElement) {
+                                                        targetElement.scrollIntoView({ behavior: 'smooth' });
+                                                    }
+                                                }, 500);
+                                            }}
+                                            className="mt-8 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform shadow-lg cursor-pointer z-50 pointer-events-auto"
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1 - scrollProgress * 2, y: 0 }}
+                                            transition={{ delay: 0.5 }}
+                                        >
+                                            {ctaText}
+                                        </motion.button>
+                                    ) : (
+                                        <motion.div
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1 - scrollProgress * 2, y: 0 }}
+                                            transition={{ delay: 0.5 }}
+                                            className="relative z-50 pointer-events-auto"
+                                        >
+                                            <Link
+                                                href={ctaHref}
+                                                className="inline-block mt-8 px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform shadow-lg cursor-pointer"
+                                            >
+                                                {ctaText}
+                                            </Link>
+                                        </motion.div>
+                                    )
+                                )}
+                            </div>
                         </div>
-                    )}
-                </motion.div>
 
-                {/* Expanded Content Layer */}
-                <motion.div
-                    className="absolute inset-0 z-40 flex items-center justify-center"
-                    style={{
-                        opacity: contentOpacity,
-                        y: contentY,
-                        pointerEvents: contentPointerEvents
-                    }}
-                >
-                    <div className="container mx-auto px-4 md:px-8 py-12">
-                        {children}
+                        <motion.section
+                            className='flex flex-col w-full px-8 py-10 md:px-16 lg:py-20'
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: showContent ? 1 : 0 }}
+                            transition={{ duration: 0.7 }}
+                        >
+                            {children}
+                        </motion.section>
                     </div>
-                </motion.div>
-
-            </div>
+                </div>
+            </section>
         </div>
     );
 };
