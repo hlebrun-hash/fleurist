@@ -88,7 +88,7 @@ export default function RootLayout({
           <div className="noise-overlay" />
 
           <Header />
-          <main>{children}</main>
+          <main className="overflow-x-hidden w-full">{children}</main>
           <Footer />
         </Providers>
       </body>
