@@ -103,8 +103,17 @@ export default function BlogPage() {
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [supabaseError, setSupabaseError] = useState(false);
 
     useEffect(() => {
+        // Vérifier que les variables sont bien définies (pas les placeholders)
+        const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+        if (!url || url.includes('placeholder')) {
+            setSupabaseError(true);
+            setLoading(false);
+            return;
+        }
+
         async function fetchPosts() {
             const { data, error } = await supabase
                 .from('blog_posts')
@@ -113,6 +122,7 @@ export default function BlogPage() {
 
             if (error) {
                 console.error('Erreur chargement articles:', error);
+                setSupabaseError(true);
             } else {
                 setPosts(data || []);
             }
@@ -148,6 +158,21 @@ export default function BlogPage() {
                 <div className="text-center space-y-4">
                     <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
                     <p className="text-muted-foreground">Chargement des articles...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (supabaseError) {
+        return (
+            <div className="min-h-screen pt-24 pb-16 flex items-center justify-center">
+                <div className="text-center space-y-4 max-w-md mx-auto px-6">
+                    <div className="text-5xl">⚙️</div>
+                    <h2 className="text-2xl font-bold font-serif">Configuration requise</h2>
+                    <p className="text-muted-foreground">
+                        Les variables d&apos;environnement Supabase ne sont pas configurées sur ce déploiement.
+                        Ajoutez <code className="bg-secondary px-1 rounded text-xs">NEXT_PUBLIC_SUPABASE_URL</code> et <code className="bg-secondary px-1 rounded text-xs">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> dans les paramètres Vercel.
+                    </p>
                 </div>
             </div>
         );

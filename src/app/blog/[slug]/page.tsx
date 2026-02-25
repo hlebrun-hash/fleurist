@@ -13,25 +13,25 @@ interface BlogPost {
     id: string;
     title: string;
     slug: string;
-    excerpt: string;
-    content: string;
-    image: string;
-    category: string;
-    tags: string[];
-    reading_time: number;
+    excerpt: string | null;
+    content: string | null;
+    image: string | null;
+    category: string | null;
+    tags: string[] | null;
+    reading_time: number | null;
     published_at: string;
-    featured: boolean;
+    featured: boolean | null;
     author: {
         name: string;
         role: string;
         image: string;
         bio: string;
         linkedin?: string;
-    };
+    } | null;
     external_link?: {
-        title: string;
-        url: string;
-    };
+        title?: string;
+        url?: string;
+    } | null;
 }
 
 /* ─── Composants image avec fallback ─── */
@@ -95,7 +95,20 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             if (error || !data) {
                 setNotFoundState(true);
             } else {
-                setPost(data);
+                // Normaliser les champs null pour éviter les crashes
+                const normalized = {
+                    ...data,
+                    content: data.content ?? '',
+                    excerpt: data.excerpt ?? '',
+                    image: data.image ?? '',
+                    category: data.category ?? 'Article',
+                    tags: Array.isArray(data.tags) ? data.tags : [],
+                    reading_time: data.reading_time ?? 5,
+                    featured: data.featured ?? false,
+                    author: data.author ?? null,
+                    external_link: data.external_link ?? null,
+                };
+                setPost(normalized);
                 const { data: related } = await supabase.from('blog_posts').select('*').neq('id', data.id).order('published_at', { ascending: false }).limit(3);
                 setRelatedPosts(related || []);
             }
@@ -132,7 +145,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         if (!post) return { processedContent: '', toc: [] };
         const tocItems: { id: string; title: string }[] = [];
         const slugify = (text: string) => text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
-        let content = post.content.replace(/## (.*?)\n/g, (_, title) => {
+        let content = (post.content ?? '').replace(/## (.*?)\n/g, (_, title) => {
             const id = slugify(title);
             tocItems.push({ id, title });
             return `## <span id="${id}"></span>${title}\n`;
@@ -224,8 +237,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                         </button>
                     </div>
 
-                    {/* Lien externe */}
-                    {post!.external_link && (
+                    {/* Lien externe — uniquement si url ET title sont définis */}
+                    {post!.external_link?.url && post!.external_link?.title && (
                         <div className="p-5 bg-background rounded-2xl border border-border shadow-md">
                             <h3 className="font-bold font-serif mb-2 text-base flex items-center gap-2">
                                 <LinkIcon className="w-4 h-4 text-primary" /> Pour aller plus loin
@@ -273,7 +286,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Image principale */}
                 <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="container mx-auto px-6 mb-16">
                     <div className="relative aspect-[21/9] max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl">
-                        <PostImage src={post!.image} alt={post!.title} className="object-cover" />
+                        <PostImage src={post!.image ?? ''} alt={post!.title} className="object-cover" />
                     </div>
                 </motion.div>
 
@@ -321,7 +334,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
                             {/* Tags */}
                             <div className="flex flex-wrap gap-2 mt-8 pt-8 border-t border-border/50">
-                                {post!.tags.map((tag) => (
+                                {(post!.tags ?? []).map((tag) => (
                                     <span key={tag} className="px-4 py-2 bg-secondary text-secondary-foreground text-sm font-medium rounded-full cursor-default">#{tag}</span>
                                 ))}
                             </div>
@@ -363,8 +376,8 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 {relatedPosts.map((relPost) => (
                                     <Link key={relPost.id} href={`/blog/${relPost.slug}`} className="group flex flex-col">
                                         <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 shadow-sm group-hover:shadow-md transition-shadow">
-                                            <PostImage src={relPost.image} alt={relPost.title} className="object-cover transition-transform duration-700 group-hover:scale-105" />
-                                            <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-foreground">{relPost.category}</div>
+                                            <PostImage src={relPost.image ?? ''} alt={relPost.title} className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                            <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-foreground">{relPost.category ?? 'Article'}</div>
                                         </div>
                                         <h3 className="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors leading-tight">{relPost.title}</h3>
                                         <p className="text-muted-foreground text-sm line-clamp-2 mb-4">{relPost.excerpt}</p>

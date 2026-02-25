@@ -4,12 +4,13 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://fleuriste11.vercel.app'),
   title: {
-    default: "Jardin Digital | Fleuriste Artisan Paris 11ème - Bouquets Sur Mesure",
-    template: "%s | Jardin Digital - Fleuriste Paris",
+    default: "Jardin Digital | Fleuriste Artisan Paris 11",
+    template: "%s | Jardin Digital",
   },
   description:
-    "Jardin Digital, votre fleuriste artisan au cœur de Paris 11ème. Bouquets sur mesure, compositions florales uniques, mariages et événements. Livraison Paris et Île-de-France.",
+    "Fleuriste artisan Paris 11ème — bouquets sur mesure, compositions florales, mariages. Livraison Paris et Île-de-France.",
   keywords: [
     "fleuriste paris",
     "bouquet sur mesure",
@@ -22,13 +23,16 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Jardin Digital" }],
   creator: "Jardin Digital",
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: "website",
     locale: "fr_FR",
     siteName: "Jardin Digital",
-    title: "Jardin Digital | Fleuriste Artisan Paris - Bouquets Sur Mesure",
+    title: "Jardin Digital | Fleuriste Artisan Paris 11",
     description:
-      "Fleuriste artisan au cœur de Paris. Bouquets uniques, mariages, événements. L'art floral au service de vos émotions.",
+      "Fleuriste artisan Paris 11ème. Bouquets uniques, mariages, événements. L'art floral au service de vos émotions.",
     images: [
       {
         url: "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1200&q=80",
@@ -55,6 +59,7 @@ export const metadata: Metadata = {
     },
   },
 };
+
 
 import { Cormorant_Garamond, Mulish } from "next/font/google";
 import { Providers } from "./providers"; // Import du provider client

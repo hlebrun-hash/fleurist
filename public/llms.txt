@@ -1,0 +1,26 @@
+# Jardin Digital - Fleuriste Artisan Paris 11ème
+
+## À propos
+Jardin Digital est un fleuriste artisan situé au cœur du 11ème arrondissement de Paris.
+Nous créons des bouquets sur mesure, des compositions florales uniques et accompagnons
+vos mariages et événements avec l'art floral.
+
+## Services
+- Bouquets sur mesure
+- Compositions florales
+- Décoration mariage et événements
+- Abonnement floral
+- Livraison Paris et Île-de-France
+
+## Contact
+Adresse : 42 Rue des Lilas, 75011 Paris, France
+Téléphone : +33 1 23 45 67 89
+
+## Pages principales
+- Accueil : https://fleuriste11.vercel.app/
+- Boutique : https://fleuriste11.vercel.app/produits
+- Blog : https://fleuriste11.vercel.app/blog
+- Contact : https://fleuriste11.vercel.app/contact
+
+## Sitemap
+https://fleuriste11.vercel.app/sitemap.xml
