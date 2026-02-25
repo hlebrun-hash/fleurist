@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
@@ -95,6 +96,7 @@ export default function RootLayout({
           <Header />
           <main className="overflow-x-hidden w-full">{children}</main>
           <Footer />
+          <Analytics />
         </Providers>
       </body>
     </html>
