@@ -96,6 +96,14 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 setNotFoundState(true);
             } else {
                 // Normaliser les champs null pour éviter les crashes
+                const parseExternalLink = (raw: unknown) => {
+                    if (!raw) return null;
+                    if (typeof raw === 'string') {
+                        try { return JSON.parse(raw); } catch { return null; }
+                    }
+                    if (typeof raw === 'object') return raw;
+                    return null;
+                };
                 const normalized = {
                     ...data,
                     content: data.content ?? '',
@@ -106,7 +114,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     reading_time: data.reading_time ?? 5,
                     featured: data.featured ?? false,
                     author: data.author ?? null,
-                    external_link: data.external_link ?? null,
+                    external_link: parseExternalLink(data.external_link),
                 };
                 setPost(normalized);
                 const { data: related } = await supabase.from('blog_posts').select('*').neq('id', data.id).order('published_at', { ascending: false }).limit(3);
@@ -237,15 +245,20 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                         </button>
                     </div>
 
-                    {/* Lien externe — uniquement si url ET title sont définis */}
-                    {post!.external_link?.url && post!.external_link?.title && (
+                    {/* Lien externe */}
+                    {post!.external_link && (
                         <div className="p-5 bg-background rounded-2xl border border-border shadow-md">
                             <h3 className="font-bold font-serif mb-2 text-base flex items-center gap-2">
                                 <LinkIcon className="w-4 h-4 text-primary" /> Pour aller plus loin
                             </h3>
-                            <a href={post!.external_link.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-primary hover:underline font-medium text-sm break-words group">
+                            <a
+                                href={post!.external_link.url || '#'}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="flex items-center gap-2 text-primary hover:underline font-medium text-sm break-words group"
+                            >
                                 <ExternalLink className="w-4 h-4 shrink-0 group-hover:scale-110 transition-transform" />
-                                <span>{post!.external_link.title}</span>
+                                <span>{post!.external_link.title || post!.external_link.url || 'Voir la ressource'}</span>
                             </a>
                         </div>
                     )}
