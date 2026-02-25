@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Calendar, Clock, ArrowRight, User } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Search, X } from 'lucide-react';
 import { AnimatedInput } from '@/components/ui/animated-input';
 import { supabase } from '@/lib/supabase';
 
@@ -35,7 +36,7 @@ interface BlogPost {
 const AvatarImage = ({ src, alt, size = 40 }: { src: string; alt: string; size?: number }) => {
     const [error, setError] = useState(false);
 
-    if (error) {
+    if (error || !src) {
         return (
             <div
                 className={`rounded-full bg-secondary flex items-center justify-center text-primary shrink-0`}
@@ -60,10 +61,48 @@ const AvatarImage = ({ src, alt, size = 40 }: { src: string; alt: string; size?:
     );
 };
 
+const PostImage = ({ src, alt }: { src: string; alt: string }) => {
+    const [error, setError] = useState(false);
+
+    if (error || !src) {
+        return (
+            <div className="absolute inset-0 bg-secondary flex items-center justify-center">
+                <span className="text-4xl">🌸</span>
+            </div>
+        );
+    }
+
+    return (
+        <Image
+            src={src}
+            alt={alt}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            onError={() => setError(true)}
+        />
+    );
+};
+
+// Auteurs de secours si le champ author est vide dans Supabase
+const DEFAULT_AUTHORS = [
+    { name: 'Camille Verdier', role: 'Maître Fleuriste', image: 'https://randomuser.me/api/portraits/women/32.jpg', bio: 'Passionnée par l\'art floral depuis 15 ans.' },
+    { name: 'Sophie Rose', role: 'Décoratrice Florale', image: 'https://randomuser.me/api/portraits/women/65.jpg', bio: 'Spécialiste des compositions florales.' },
+    { name: 'Antoine Fleur', role: 'Expert Plantes', image: 'https://randomuser.me/api/portraits/men/45.jpg', bio: 'Botaniste passionné par la nature.' },
+];
+
+function getAuthor(raw: BlogPost['author'] | null | undefined, slug: string) {
+    if (raw && raw.name && raw.name.trim() !== '') {
+        return { name: raw.name, role: raw.role || 'Rédactrice', image: raw.image || '', bio: raw.bio || '' };
+    }
+    const index = slug.split('').reduce((acc, c) => acc + c.charCodeAt(0), 0) % DEFAULT_AUTHORS.length;
+    return DEFAULT_AUTHORS[index];
+}
+
 export default function BlogPage() {
     const [newsletterEmail, setNewsletterEmail] = useState("");
     const [posts, setPosts] = useState<BlogPost[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         async function fetchPosts() {
@@ -83,11 +122,20 @@ export default function BlogPage() {
         fetchPosts();
     }, []);
 
-    const featuredPost = posts.find((post) => post.featured);
-    const regularPosts = posts.filter((post) => !post.featured || post.id !== featuredPost?.id);
+    const featuredPost = searchQuery ? null : posts.find((post) => post.featured);
+    const regularPosts = searchQuery
+        ? posts.filter((post) =>
+            post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (post.tags || []).some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
+        )
+        : posts.filter((post) => !post.featured || post.id !== featuredPost?.id);
 
     const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('fr-FR', {
+        // Ajouter T00:00:00 pour forcer l'interprétation en heure locale (évite le décalage UTC)
+        const date = new Date(dateString.includes('T') ? dateString : `${dateString}T00:00:00`);
+        return date.toLocaleDateString('fr-FR', {
             day: 'numeric',
             month: 'long',
             year: 'numeric',
@@ -123,6 +171,35 @@ export default function BlogPage() {
                             Conseils d&apos;experts, tendances florales et inspirations pour sublimer
                             votre quotidien avec des fleurs.
                         </p>
+
+                        {/* Barre de recherche */}
+                        <div className="mt-8 relative max-w-xl mx-auto">
+                            <div className="relative flex items-center">
+                                <Search className="absolute left-4 w-5 h-5 text-muted-foreground pointer-events-none" />
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    placeholder="Rechercher un article, une catégorie…"
+                                    className="w-full pl-12 pr-12 py-3.5 bg-background border border-border rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary shadow-sm transition-all placeholder:text-muted-foreground"
+                                />
+                                {searchQuery && (
+                                    <button
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute right-4 w-6 h-6 flex items-center justify-center rounded-full bg-secondary hover:bg-secondary/80 transition-colors"
+                                        aria-label="Effacer la recherche"
+                                    >
+                                        <X className="w-3.5 h-3.5 text-muted-foreground" />
+                                    </button>
+                                )}
+                            </div>
+                            {searchQuery && (
+                                <p className="mt-3 text-sm text-muted-foreground text-center">
+                                    <span className="font-medium text-foreground">{regularPosts.length}</span>
+                                    {regularPosts.length === 1 ? ' article trouvé' : ' articles trouvés'} pour &laquo;&nbsp;{searchQuery}&nbsp;&raquo;
+                                </p>
+                            )}
+                        </div>
                     </motion.div>
                 </div>
             </section>
@@ -142,11 +219,9 @@ export default function BlogPage() {
                                 className="group grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
                             >
                                 <div className="relative aspect-[16/10] rounded-3xl overflow-hidden">
-                                    <Image
+                                    <PostImage
                                         src={featuredPost.image}
                                         alt={featuredPost.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-105"
                                     />
                                     <div className="absolute top-4 left-4 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-full">
                                         Article vedette
@@ -178,17 +253,7 @@ export default function BlogPage() {
                                     </div>
 
                                     <div className="flex items-center gap-3">
-                                        <AvatarImage
-                                            src={featuredPost.author.image}
-                                            alt={featuredPost.author.name}
-                                            size={48}
-                                        />
-                                        <div>
-                                            <p className="font-medium">{featuredPost.author.name}</p>
-                                            <p className="text-sm text-muted-foreground">
-                                                {featuredPost.author.role}
-                                            </p>
-                                        </div>
+                                        {(() => { const a = getAuthor(featuredPost.author, featuredPost.slug); return (<><AvatarImage src={a.image} alt={a.name} size={48} /><div><p className="font-medium">{a.name}</p><p className="text-sm text-muted-foreground">{a.role}</p></div></>); })()}
                                     </div>
 
                                     <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-4 transition-all">
@@ -206,75 +271,80 @@ export default function BlogPage() {
             <section className="py-16 bg-secondary/20">
                 <div className="container mx-auto px-6">
                     <h2 className="text-2xl md:text-3xl font-bold font-serif mb-12 text-center">
-                        Tous nos articles
+                        {searchQuery ? `Résultats pour « ${searchQuery} »` : 'Tous nos articles'}
                     </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {regularPosts.map((post, index) => (
-                            <motion.div
-                                key={post.id}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{
-                                    duration: 0.6,
-                                    delay: index * 0.1,
-                                }}
-                                viewport={{ once: true }}
+                    {regularPosts.length === 0 && searchQuery ? (
+                        <div className="text-center py-20 space-y-6">
+                            <div className="text-6xl">🔍</div>
+                            <p className="text-xl font-serif text-foreground">Aucun article trouvé</p>
+                            <p className="text-muted-foreground">Essayez avec d&apos;autres mots-clés ou parcourez tous nos articles.</p>
+                            <button
+                                onClick={() => setSearchQuery('')}
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-medium hover:bg-primary/90 transition-colors"
                             >
-                                <Link
-                                    href={`/blog/${post.slug}`}
-                                    className="group block h-full"
+                                <X className="w-4 h-4" /> Effacer la recherche
+                            </button>
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {regularPosts.map((post, index) => (
+                                <motion.div
+                                    key={post.id}
+                                    initial={{ opacity: 0, y: 30 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                        duration: 0.6,
+                                        delay: index * 0.1,
+                                    }}
+                                    viewport={{ once: true }}
                                 >
-                                    <article className="h-full bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-500">
-                                        <div className="relative aspect-[16/10]">
-                                            <Image
-                                                src={post.image}
-                                                alt={post.title}
-                                                fill
-                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                            />
-                                        </div>
-
-                                        <div className="p-6 space-y-4">
-                                            <div className="flex items-center justify-between">
-                                                <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full">
-                                                    {post.category}
-                                                </span>
-                                                <span className="text-xs text-muted-foreground flex items-center gap-1">
-                                                    <Clock className="w-3 h-3" />
-                                                    {post.reading_time} min
-                                                </span>
+                                    <Link
+                                        href={`/blog/${post.slug}`}
+                                        className="group block h-full"
+                                    >
+                                        <article className="h-full bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-500">
+                                            <div className="relative aspect-[16/10]">
+                                                <PostImage
+                                                    src={post.image}
+                                                    alt={post.title}
+                                                />
                                             </div>
 
-                                            <h3 className="text-xl font-bold font-serif group-hover:text-primary transition-colors line-clamp-2">
-                                                {post.title}
-                                            </h3>
-
-                                            <p className="text-muted-foreground text-sm line-clamp-3">
-                                                {post.excerpt}
-                                            </p>
-
-                                            <div className="flex items-center justify-between pt-4 border-t border-border">
-                                                <div className="flex items-center gap-2">
-                                                    <AvatarImage
-                                                        src={post.author.image}
-                                                        alt={post.author.name}
-                                                        size={32}
-                                                    />
-                                                    <span className="text-sm font-medium">
-                                                        {post.author.name}
+                                            <div className="p-6 space-y-4">
+                                                <div className="flex items-center justify-between">
+                                                    <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full">
+                                                        {post.category}
+                                                    </span>
+                                                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                                        <Clock className="w-3 h-3" />
+                                                        {post.reading_time} min
                                                     </span>
                                                 </div>
-                                                <span className="text-xs text-muted-foreground">
-                                                    {formatDate(post.published_at)}
-                                                </span>
+
+                                                <h3 className="text-xl font-bold font-serif group-hover:text-primary transition-colors line-clamp-2">
+                                                    {post.title}
+                                                </h3>
+
+                                                <p className="text-muted-foreground text-sm line-clamp-3">
+                                                    {post.excerpt}
+                                                </p>
+
+                                                <div className="flex items-center justify-between pt-4 border-t border-border">
+                                                    <div className="flex items-center gap-2">
+                                                        {(() => { const a = getAuthor(post.author, post.slug); return (<><AvatarImage src={a.image} alt={a.name} size={32} /><span className="text-sm font-medium">{a.name}</span></>); })()}
+                                                    </div>
+                                                    <span className="text-xs text-muted-foreground">
+                                                        {formatDate(post.published_at)}
+                                                    </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </article>
-                                </Link>
-                            </motion.div>
-                        ))}
-                    </div>
+                                        </article>
+                                    </Link>
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             </section>
 
