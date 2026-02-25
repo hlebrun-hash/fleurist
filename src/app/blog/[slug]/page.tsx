@@ -4,10 +4,35 @@ import { use, useEffect, useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts } from '@/lib/data';
+import { supabase } from '@/lib/supabase';
 import { Calendar, Clock, ArrowLeft, ChevronUp, Twitter, Facebook, Linkedin, Link as LinkIcon, Sparkles, ExternalLink, List, User } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AnimatedInput } from '@/components/ui/animated-input';
+
+interface BlogPost {
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    content: string;
+    image: string;
+    category: string;
+    tags: string[];
+    reading_time: number;
+    published_at: string;
+    featured: boolean;
+    author: {
+        name: string;
+        role: string;
+        image: string;
+        bio: string;
+        linkedin?: string;
+    };
+    external_link?: {
+        title: string;
+        url: string;
+    };
+}
 
 const AvatarImage = ({ src, alt, size = 40, className }: { src: string; alt: string; size?: number; className?: string }) => {
     const [error, setError] = useState(false);
@@ -43,12 +68,46 @@ interface BlogPostPageProps {
 
 export default function BlogPostPage({ params }: BlogPostPageProps) {
     const { slug } = use(params);
-    const post = blogPosts.find((p) => p.slug === slug);
+    const [post, setPost] = useState<BlogPost | null>(null);
+    const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [notFoundState, setNotFoundState] = useState(false);
     const [readingProgress, setReadingProgress] = useState(0);
     const [showScrollTop, setShowScrollTop] = useState(false);
     const [activeSection, setActiveSection] = useState('');
     const [email, setEmail] = useState('');
 
+    // Charger l'article depuis Supabase
+    useEffect(() => {
+        async function fetchPost() {
+            const { data, error } = await supabase
+                .from('blog_posts')
+                .select('*')
+                .eq('slug', slug)
+                .single();
+
+            if (error || !data) {
+                setNotFoundState(true);
+            } else {
+                setPost(data);
+
+                // Charger les articles liés (même catégorie, différent article)
+                const { data: related } = await supabase
+                    .from('blog_posts')
+                    .select('*')
+                    .neq('id', data.id)
+                    .order('published_at', { ascending: false })
+                    .limit(3);
+
+                setRelatedPosts(related || []);
+            }
+            setLoading(false);
+        }
+
+        fetchPost();
+    }, [slug]);
+
+    // Progression de lecture
     useEffect(() => {
         const handleScroll = () => {
             const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -56,7 +115,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
             setReadingProgress(progress);
             setShowScrollTop(window.scrollY > 500);
 
-            // Highlight TOC active section
             const sections = document.querySelectorAll('h2[id]');
             let current = '';
             sections.forEach((section) => {
@@ -72,52 +130,28 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    if (!post) {
-        notFound();
-    }
-
-    const relatedPosts = blogPosts.filter((p) => p.id !== post.id).slice(0, 3);
-
-    const formatDate = (dateString: string) => {
-        return new Date(dateString).toLocaleDateString('fr-FR', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-        });
-    };
-
-    const scrollToTop = () => {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
-    // Generate TOC and process content
     const { processedContent, toc } = useMemo(() => {
-        const tocItems: { id: string; title: string }[] = [];
-        let content = post.content;
+        if (!post) return { processedContent: '', toc: [] };
 
-        // Match H2s and replace with ID-injected H2s
-        const h2Regex = /## (.*?)\n/g;
-        let match;
-        // Simple slugify function
+        const tocItems: { id: string; title: string }[] = [];
+        const content = post.content;
+
         const slugify = (text: string) => text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
 
-        // We'll replace the content manually to inject IDs
-        const newContent = content.replace(h2Regex, (match, title) => {
+        const newContent = content.replace(/## (.*?)\n/g, (match, title) => {
             const id = slugify(title);
             tocItems.push({ id, title });
-            return `## <span id="${id}"></span>${title}\n`; // Markdown/HTML mix
+            return `## <span id="${id}"></span>${title}\n`;
         });
 
-        // Advanced Markdown to HTML conversion
         let htmlContent = newContent
             .replace(/\n/g, '<br/>')
             .replace(/## <span id="(.*?)"><\/span>(.*?)(<br\/>|$)/g, '<h2 id="$1" class="text-2xl md:text-3xl font-bold font-serif mt-12 mb-6 text-foreground scroll-mt-32">$2</h2>')
             .replace(/# (.*?)(<br\/>|$)/g, '<h1 class="text-3xl md:text-4xl font-bold font-serif mb-6">$1</h1>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>') // Bold
-            .replace(/\* (.*?)(<br\/>|$)/g, '<li class="ml-4 mb-2 list-disc pl-2">$1</li>') // List items
-            .replace(/> "(.*?)"/g, '<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-xl text-foreground/80 my-8 bg-secondary/10 rounded-r-lg">"$1"</blockquote>'); // Blockquote
+            .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
+            .replace(/\* (.*?)(<br\/>|$)/g, '<li class="ml-4 mb-2 list-disc pl-2">$1</li>')
+            .replace(/> "(.*?)"/g, '<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-xl text-foreground/80 my-8 bg-secondary/10 rounded-r-lg">"$1"</blockquote>');
 
-        // Inject CTA after the second paragraph (approx) or first H2
         const splitPoint = htmlContent.indexOf('</h2>');
         if (splitPoint !== -1) {
             const firstPart = htmlContent.substring(0, splitPoint + 5);
@@ -135,7 +169,34 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
         }
 
         return { processedContent: htmlContent, toc: tocItems };
-    }, [post.content]);
+    }, [post]);
+
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-24 flex items-center justify-center">
+                <div className="text-center space-y-4">
+                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                    <p className="text-muted-foreground">Chargement de l&apos;article...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (notFoundState || !post) {
+        notFound();
+    }
+
+    const formatDate = (dateString: string) => {
+        return new Date(dateString).toLocaleDateString('fr-FR', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric',
+        });
+    };
+
+    const scrollToTop = () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <>
@@ -198,11 +259,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                             </div>
                             <div className="flex items-center gap-2">
                                 <Calendar className="w-4 h-4" />
-                                <span>{formatDate(post.publishedAt)}</span>
+                                <span>{formatDate(post.published_at)}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Clock className="w-4 h-4" />
-                                <span>{post.readingTime} min de lecture</span>
+                                <span>{post.reading_time} min de lecture</span>
                             </div>
                         </div>
 
@@ -266,7 +327,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 dangerouslySetInnerHTML={{ __html: processedContent }}
                             />
 
-                            {/* Maillage Interne - Collections */}
+                            {/* Maillage Interne */}
                             <div className="my-12 p-6 bg-secondary/20 rounded-2xl border border-secondary md:mx-0 not-prose">
                                 <h3 className="font-serif font-bold text-lg mb-4 text-foreground flex items-center gap-2">
                                     <Sparkles className="w-5 h-5 text-primary" /> Envie de nature ?
@@ -296,7 +357,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 ))}
                             </div>
 
-                            {/* Author Box (E-E-A-T) */}
+                            {/* Author Box */}
                             <div className="mt-16 p-8 md:p-10 bg-secondary/30 rounded-3xl border border-secondary">
                                 <div className="flex flex-col sm:flex-row gap-8 items-start">
                                     <AvatarImage
@@ -305,7 +366,6 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                         size={120}
                                         className="border-4 border-background shadow-md hidden sm:block"
                                     />
-                                    {/* Mobile avatar */}
                                     <AvatarImage
                                         src={post.author.image}
                                         alt={post.author.name}
@@ -320,7 +380,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                             <p className="text-primary font-medium">{post.author.role}</p>
                                         </div>
                                         <p className="text-muted-foreground italic text-lg leading-relaxed">
-                                            "{post.author.bio}"
+                                            &quot;{post.author.bio}&quot;
                                         </p>
                                         {post.author.linkedin && (
                                             <div className="pt-2">
@@ -331,7 +391,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                                     className="inline-flex items-center gap-2 text-sm font-semibold text-foreground hover:text-primary transition-colors uppercase tracking-wide"
                                                 >
                                                     <Linkedin className="w-4 h-4" />
-                                                    Suivre l'expert
+                                                    Suivre l&apos;expert
                                                 </a>
                                             </div>
                                         )}
@@ -340,7 +400,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                             </div>
                         </div>
 
-                        {/* RIGHT: Sidebar (TOC & More) */}
+                        {/* RIGHT: Sidebar */}
                         <aside className="hidden lg:block lg:col-span-3">
                             <div className="sticky top-32 space-y-8">
                                 {/* Table of Contents */}
@@ -386,27 +446,27 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                         />
                                     </div>
                                     <button className="w-full py-2 bg-primary text-primary-foreground text-sm font-bold rounded-full hover:bg-primary/90 transition-colors relative z-10 shadow-md transform hover:-translate-y-0.5 duration-200">
-                                        S'inscrire
+                                        S&apos;inscrire
                                     </button>
                                 </div>
 
-                                {/* External Link Box for SEO */}
-                                {post.externalLink && (
+                                {/* External Link Box */}
+                                {post.external_link && (
                                     <div className="p-6 bg-background rounded-2xl border border-border shadow-sm">
                                         <h3 className="font-bold font-serif mb-3 text-lg flex items-center gap-2">
                                             <LinkIcon className="w-5 h-5 text-primary" /> Pour aller plus loin
                                         </h3>
                                         <p className="text-sm text-muted-foreground mb-4">
-                                            Découvrez plus d'informations sur ce sujet :
+                                            Découvrez plus d&apos;informations sur ce sujet :
                                         </p>
                                         <a
-                                            href={post.externalLink.url}
+                                            href={post.external_link.url}
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             className="flex items-center gap-2 text-primary hover:underline font-medium text-sm break-words group"
                                         >
                                             <ExternalLink className="w-4 h-4 shrink-0 transition-transform group-hover:scale-110" />
-                                            <span>{post.externalLink.title}</span>
+                                            <span>{post.external_link.title}</span>
                                         </a>
                                     </div>
                                 )}
@@ -416,49 +476,51 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 </div>
 
                 {/* Related Posts */}
-                <section className="py-20 mt-20 bg-secondary/30 border-t border-border">
-                    <div className="container mx-auto px-6">
-                        <div className="flex items-center justify-between mb-12">
-                            <h2 className="text-3xl font-bold font-serif">
-                                À lire aussi
-                            </h2>
-                            <Link href="/blog" className="hidden md:inline-flex items-center gap-2 text-primary font-medium hover:underline">
-                                Voir tout le blog <ArrowLeft className="w-4 h-4 rotate-180" />
-                            </Link>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                            {relatedPosts.map((relPost) => (
-                                <Link
-                                    key={relPost.id}
-                                    href={`/blog/${relPost.slug}`}
-                                    className="group flex flex-col"
-                                >
-                                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 shadow-sm group-hover:shadow-md transition-shadow">
-                                        <Image
-                                            src={relPost.image}
-                                            alt={relPost.title}
-                                            fill
-                                            className="object-cover transition-transform duration-700 group-hover:scale-105"
-                                        />
-                                        <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-foreground">
-                                            {relPost.category}
-                                        </div>
-                                    </div>
-                                    <h3 className="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors leading-tight">
-                                        {relPost.title}
-                                    </h3>
-                                    <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
-                                        {relPost.excerpt}
-                                    </p>
-                                    <div className="mt-auto flex items-center text-xs text-muted-foreground font-medium uppercase tracking-wider">
-                                        Lire l'article
-                                    </div>
+                {relatedPosts.length > 0 && (
+                    <section className="py-20 mt-20 bg-secondary/30 border-t border-border">
+                        <div className="container mx-auto px-6">
+                            <div className="flex items-center justify-between mb-12">
+                                <h2 className="text-3xl font-bold font-serif">
+                                    À lire aussi
+                                </h2>
+                                <Link href="/blog" className="hidden md:inline-flex items-center gap-2 text-primary font-medium hover:underline">
+                                    Voir tout le blog <ArrowLeft className="w-4 h-4 rotate-180" />
                                 </Link>
-                            ))}
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                                {relatedPosts.map((relPost) => (
+                                    <Link
+                                        key={relPost.id}
+                                        href={`/blog/${relPost.slug}`}
+                                        className="group flex flex-col"
+                                    >
+                                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 shadow-sm group-hover:shadow-md transition-shadow">
+                                            <Image
+                                                src={relPost.image}
+                                                alt={relPost.title}
+                                                fill
+                                                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                                            />
+                                            <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-foreground">
+                                                {relPost.category}
+                                            </div>
+                                        </div>
+                                        <h3 className="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors leading-tight">
+                                            {relPost.title}
+                                        </h3>
+                                        <p className="text-muted-foreground text-sm line-clamp-2 mb-4">
+                                            {relPost.excerpt}
+                                        </p>
+                                        <div className="mt-auto flex items-center text-xs text-muted-foreground font-medium uppercase tracking-wider">
+                                            Lire l&apos;article
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                )}
 
                 {/* Back link */}
                 <div className="container mx-auto px-6 py-8 text-center">
@@ -479,7 +541,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                     animate={{ opacity: 1, scale: 1 }}
                     exit={{ opacity: 0, scale: 0.8 }}
                     onClick={scrollToTop}
-                    className="fixed bottom-8 right-8 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+                    className="fixed bottom-8 right-8 w-12 h-12 bg-primary text-primary-foreground rounded-full shadow-lg flex items-center justify-center hover:scale-110 transition-transform z-50"
                     aria-label="Remonter en haut"
                 >
                     <ChevronUp className="w-6 h-6" />
@@ -496,56 +558,16 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                         headline: post.title,
                         description: post.excerpt,
                         image: post.image,
-                        datePublished: post.publishedAt,
-                        dateModified: post.publishedAt, // Using same date for now or add updated field
+                        datePublished: post.published_at,
                         author: {
                             '@type': 'Person',
                             name: post.author.name,
                             jobTitle: post.author.role,
-                            url: post.author.linkedin
                         },
                         publisher: {
                             '@type': 'Organization',
                             name: 'Jardin Digital',
-                            logo: {
-                                '@type': 'ImageObject',
-                                url: 'https://jardin-digital.fr/logo.png' // Placeholder
-                            }
                         },
-                        mainEntityOfPage: {
-                            '@type': 'WebPage',
-                            '@id': `https://jardin-digital.fr/blog/${post.slug}`
-                        }
-                    }),
-                }}
-            />
-            {/* Breadcrumb Schema */}
-            <script
-                type="application/ld+json"
-                dangerouslySetInnerHTML={{
-                    __html: JSON.stringify({
-                        '@context': 'https://schema.org',
-                        '@type': 'BreadcrumbList',
-                        itemListElement: [
-                            {
-                                '@type': 'ListItem',
-                                position: 1,
-                                name: 'Accueil',
-                                item: 'https://jardin-digital.fr/'
-                            },
-                            {
-                                '@type': 'ListItem',
-                                position: 2,
-                                name: 'Blog',
-                                item: 'https://jardin-digital.fr/blog'
-                            },
-                            {
-                                '@type': 'ListItem',
-                                position: 3,
-                                name: post.title,
-                                item: `https://jardin-digital.fr/blog/${post.slug}`
-                            }
-                        ]
                     }),
                 }}
             />

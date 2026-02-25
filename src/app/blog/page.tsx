@@ -3,10 +3,34 @@
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
-import { blogPosts } from '@/lib/data';
 import { Calendar, Clock, ArrowRight, User } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatedInput } from '@/components/ui/animated-input';
+import { supabase } from '@/lib/supabase';
+
+interface BlogPost {
+    id: string;
+    title: string;
+    slug: string;
+    excerpt: string;
+    content: string;
+    image: string;
+    category: string;
+    tags: string[];
+    reading_time: number;
+    published_at: string;
+    featured: boolean;
+    author: {
+        name: string;
+        role: string;
+        image: string;
+        bio: string;
+    };
+    external_link?: {
+        title: string;
+        url: string;
+    };
+}
 
 const AvatarImage = ({ src, alt, size = 40 }: { src: string; alt: string; size?: number }) => {
     const [error, setError] = useState(false);
@@ -38,8 +62,29 @@ const AvatarImage = ({ src, alt, size = 40 }: { src: string; alt: string; size?:
 
 export default function BlogPage() {
     const [newsletterEmail, setNewsletterEmail] = useState("");
-    const featuredPost = blogPosts.find((post) => post.featured);
-    const regularPosts = blogPosts.filter((post) => !post.featured || post.id !== featuredPost?.id);
+    const [posts, setPosts] = useState<BlogPost[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchPosts() {
+            const { data, error } = await supabase
+                .from('blog_posts')
+                .select('*')
+                .order('published_at', { ascending: false });
+
+            if (error) {
+                console.error('Erreur chargement articles:', error);
+            } else {
+                setPosts(data || []);
+            }
+            setLoading(false);
+        }
+
+        fetchPosts();
+    }, []);
+
+    const featuredPost = posts.find((post) => post.featured);
+    const regularPosts = posts.filter((post) => !post.featured || post.id !== featuredPost?.id);
 
     const formatDate = (dateString: string) => {
         return new Date(dateString).toLocaleDateString('fr-FR', {
@@ -48,6 +93,17 @@ export default function BlogPage() {
             year: 'numeric',
         });
     };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen pt-24 pb-16 flex items-center justify-center">
+                <div className="text-center space-y-4">
+                    <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto" />
+                    <p className="text-muted-foreground">Chargement des articles...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="min-h-screen pt-24 pb-16">
@@ -64,7 +120,7 @@ export default function BlogPage() {
                             Blog & <span className="text-primary">Inspirations</span>
                         </h1>
                         <p className="text-lg text-muted-foreground leading-relaxed">
-                            Conseils d'experts, tendances florales et inspirations pour sublimer
+                            Conseils d&apos;experts, tendances florales et inspirations pour sublimer
                             votre quotidien avec des fleurs.
                         </p>
                     </motion.div>
@@ -113,11 +169,11 @@ export default function BlogPage() {
                                     <div className="flex items-center gap-6 text-sm text-muted-foreground">
                                         <div className="flex items-center gap-2">
                                             <Calendar className="w-4 h-4" />
-                                            <span>{formatDate(featuredPost.publishedAt)}</span>
+                                            <span>{formatDate(featuredPost.published_at)}</span>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Clock className="w-4 h-4" />
-                                            <span>{featuredPost.readingTime} min de lecture</span>
+                                            <span>{featuredPost.reading_time} min de lecture</span>
                                         </div>
                                     </div>
 
@@ -136,7 +192,7 @@ export default function BlogPage() {
                                     </div>
 
                                     <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-4 transition-all">
-                                        <span>Lire l'article</span>
+                                        <span>Lire l&apos;article</span>
                                         <ArrowRight className="w-4 h-4" />
                                     </div>
                                 </div>
@@ -186,7 +242,7 @@ export default function BlogPage() {
                                                 </span>
                                                 <span className="text-xs text-muted-foreground flex items-center gap-1">
                                                     <Clock className="w-3 h-3" />
-                                                    {post.readingTime} min
+                                                    {post.reading_time} min
                                                 </span>
                                             </div>
 
@@ -210,7 +266,7 @@ export default function BlogPage() {
                                                     </span>
                                                 </div>
                                                 <span className="text-xs text-muted-foreground">
-                                                    {formatDate(post.publishedAt)}
+                                                    {formatDate(post.published_at)}
                                                 </span>
                                             </div>
                                         </div>
@@ -253,7 +309,7 @@ export default function BlogPage() {
                                 type="submit"
                                 className="px-8 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:scale-105 transition-transform"
                             >
-                                S'inscrire
+                                S&apos;inscrire
                             </button>
                         </form>
                     </motion.div>
