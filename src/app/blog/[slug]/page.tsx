@@ -151,27 +151,99 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
     const { processedContent, toc } = useMemo(() => {
         if (!post) return { processedContent: '', toc: [] };
+
         const tocItems: { id: string; title: string }[] = [];
-        const slugify = (text: string) => text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-').replace(/^-+|-+$/g, '');
-        let content = (post.content ?? '').replace(/## (.*?)\n/g, (_, title) => {
-            const id = slugify(title);
-            tocItems.push({ id, title });
-            return `## <span id="${id}"></span>${title}\n`;
-        });
-        let html = content
-            .replace(/\n/g, '<br/>')
-            .replace(/## <span id="(.*?)"><\/span>(.*?)(<br\/>|$)/g, '<h2 id="$1" class="text-2xl md:text-3xl font-bold font-serif mt-12 mb-6 text-foreground scroll-mt-32">$2</h2>')
-            .replace(/# (.*?)(<br\/>|$)/g, '<h1 class="text-3xl md:text-4xl font-bold font-serif mb-6">$1</h1>')
-            .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
-            .replace(/\* (.*?)(<br\/>|$)/g, '<li class="ml-4 mb-2 list-disc pl-2">$1</li>')
-            .replace(/> "(.*?)"/g, '<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-xl text-foreground/80 my-8 bg-secondary/10 rounded-r-lg">"$1"</blockquote>');
-        const splitPoint = html.indexOf('</h2>');
-        if (splitPoint !== -1) {
-            const ctaHtml = `<div class="my-12 p-8 bg-primary/5 border border-primary/20 rounded-2xl text-center not-prose"><h3 class="text-2xl font-serif font-bold mb-3 text-foreground">Une envie florale particulière ?</h3><p class="text-muted-foreground mb-6">Nos artisans fleuristes réalisent vos rêves sur mesure.</p><a href="/contact" class="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium hover:bg-primary/90 transition-colors">Demander un devis gratuit</a></div>`;
-            html = html.substring(0, splitPoint + 5) + ctaHtml + html.substring(splitPoint + 5);
+        const slugify = (text: string) =>
+            text.toLowerCase()
+                .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // retirer accents pour l'id
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/^-+|-+$/g, '');
+
+        // Normaliser les fins de ligne (Windows \r\n → \n)
+        const raw = (post.content ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+
+        const lines = raw.split('\n');
+        const htmlLines: string[] = [];
+        let insideList = false;
+
+        for (const line of lines) {
+            // ### → H4
+            const h4 = line.match(/^### (.+)$/);
+            if (h4) {
+                if (insideList) { htmlLines.push('</ul>'); insideList = false; }
+                const title = h4[1].trim();
+                const id = slugify(title);
+                htmlLines.push(`<h4 id="${id}" class="text-lg md:text-xl font-bold font-serif mt-8 mb-3 text-foreground scroll-mt-32">${title}</h4>`);
+                continue;
+            }
+            // ## → H3
+            const h3 = line.match(/^## (.+)$/);
+            if (h3) {
+                if (insideList) { htmlLines.push('</ul>'); insideList = false; }
+                const title = h3[1].trim();
+                const id = slugify(title);
+                tocItems.push({ id, title });
+                htmlLines.push(`<h3 id="${id}" class="text-xl md:text-2xl font-bold font-serif mt-10 mb-4 text-foreground scroll-mt-32">${title}</h3>`);
+                continue;
+            }
+            // # → H2
+            const h2 = line.match(/^# (.+)$/);
+            if (h2) {
+                if (insideList) { htmlLines.push('</ul>'); insideList = false; }
+                const title = h2[1].trim();
+                const id = slugify(title);
+                tocItems.push({ id, title });
+                htmlLines.push(`<h2 id="${id}" class="text-2xl md:text-3xl font-bold font-serif mt-12 mb-6 text-foreground scroll-mt-32">${title}</h2>`);
+                continue;
+            }
+            // * item → liste
+            const li = line.match(/^\* (.+)$/);
+            if (li) {
+                if (!insideList) { htmlLines.push('<ul class="list-disc pl-6 my-4 space-y-2">'); insideList = true; }
+                htmlLines.push(`<li class="text-muted-foreground">${li[1].trim()}</li>`);
+                continue;
+            }
+            // Ligne vide
+            if (line.trim() === '') {
+                if (insideList) { htmlLines.push('</ul>'); insideList = false; }
+                htmlLines.push('');
+                continue;
+            }
+            // Fermer liste si on n'est plus dedans
+            if (insideList) { htmlLines.push('</ul>'); insideList = false; }
+
+            // Blockquote > "texte"
+            let text = line;
+            const bq = text.match(/^> \"(.+)\"$/);
+            if (bq) {
+                htmlLines.push(`<blockquote class="border-l-4 border-primary pl-6 py-2 italic text-xl text-foreground/80 my-8 bg-secondary/10 rounded-r-lg">"${bq[1]}"</blockquote>`);
+                continue;
+            }
+
+            // Inline : gras, liens
+            text = text
+                .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-foreground">$1</strong>')
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-primary underline hover:text-primary/80" target="_blank" rel="noopener noreferrer">$1</a>');
+
+            htmlLines.push(`<p class="text-muted-foreground leading-relaxed mb-4">${text}</p>`);
         }
+        if (insideList) htmlLines.push('</ul>');
+
+        let html = htmlLines.join('\n');
+
+        // Insérer le CTA après le premier </h2> ou </h3>
+        const splitPoint = html.search(/<\/(h2|h3)>/);
+        if (splitPoint !== -1) {
+            const closeTag = html.substring(splitPoint, html.indexOf('>', splitPoint) + 1);
+            const afterClose = splitPoint + closeTag.length;
+            const ctaHtml = `<div class="my-12 p-8 bg-primary/5 border border-primary/20 rounded-2xl text-center not-prose"><h3 class="text-2xl font-serif font-bold mb-3 text-foreground">Une envie florale particulière ?</h3><p class="text-muted-foreground mb-6">Nos artisans fleuristes réalisent vos rêves sur mesure.</p><a href="/contact" class="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-medium hover:bg-primary/90 transition-colors">Demander un devis gratuit</a></div>`;
+            html = html.substring(0, afterClose) + ctaHtml + html.substring(afterClose);
+        }
+
         return { processedContent: html, toc: tocItems };
     }, [post]);
+
 
     if (loading) {
         return (
