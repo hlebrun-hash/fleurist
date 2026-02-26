@@ -71,21 +71,21 @@ export function ServicesSection() {
                                     <div className="absolute inset-0 bg-black/10 group-hover:bg-black/0 transition-colors duration-500" />
 
                                     {/* Icon Floating Badge */}
-                                    <div className="absolute -bottom-6 left-6 p-4 bg-background border border-border shadow-md text-secondary group-hover:text-primary transition-colors duration-300 z-10">
+                                    <div className="absolute -bottom-5 left-4 md:-bottom-6 md:left-6 p-3 md:p-4 bg-background border border-border shadow-md text-secondary group-hover:text-primary transition-colors duration-300 z-10">
                                         {Icon && <Icon size={28} strokeWidth={1.5} />}
                                     </div>
                                 </div>
 
                                 {/* Content Area */}
-                                <div className="p-8 pt-10 flex-grow flex flex-col">
+                                <div className="p-4 pt-8 md:p-8 md:pt-10 flex-grow flex flex-col">
                                     <motion.h3
                                         layoutId={`title-${service.id}`}
-                                        className="text-xl font-serif font-semibold mb-3 text-foreground group-hover:text-primary transition-colors"
+                                        className="text-lg md:text-xl font-serif font-semibold mb-2 md:mb-3 text-foreground group-hover:text-primary transition-colors leading-tight"
                                     >
                                         {service.title}
                                     </motion.h3>
 
-                                    <p className="text-muted-foreground leading-relaxed text-sm">
+                                    <p className="text-muted-foreground leading-snug md:leading-relaxed text-xs md:text-sm">
                                         {service.description}
                                     </p>
 

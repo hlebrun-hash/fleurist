@@ -58,13 +58,16 @@ export function FeaturedProductsSection() {
                                     />
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                                    {/* Price badge */}
-                                    <div className="absolute top-4 right-4 px-4 py-2 bg-white/90 backdrop-blur-sm rounded-full">
-                                        <span className="font-semibold text-foreground">
-                                            {product.price.max
-                                                ? `${product.price.min}€ - ${product.price.max}€`
-                                                : `${product.price.min}€`}
-                                        </span>
+                                    {/* Badges container */}
+                                    <div className="absolute top-2 left-2 right-2 md:top-4 md:left-4 md:right-4 flex flex-wrap gap-2 justify-end z-10">
+                                        {/* Price badge */}
+                                        <div className="px-2.5 py-1 md:px-4 md:py-2 bg-white/90 backdrop-blur-sm rounded-full shadow-sm ml-auto">
+                                            <span className="font-semibold text-[11px] md:text-sm text-foreground whitespace-nowrap">
+                                                {product.price.max
+                                                    ? `${product.price.min}€ - ${product.price.max}€`
+                                                    : `${product.price.min}€`}
+                                            </span>
+                                        </div>
                                     </div>
 
                                     {/* Quick view button */}

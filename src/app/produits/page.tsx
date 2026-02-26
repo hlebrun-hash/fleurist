@@ -194,21 +194,24 @@ export default function ProduitsPage() {
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                                            {/* Price badge */}
-                                            <div className="absolute top-3 right-3 px-3 py-1.5 bg-white/90 backdrop-blur-sm rounded-full">
-                                                <span className="font-semibold text-sm text-foreground">
-                                                    {product.price.max
-                                                        ? `${product.price.min}€ - ${product.price.max}€`
-                                                        : `${product.price.min}€`}
-                                                </span>
-                                            </div>
+                                            {/* Badges container */}
+                                            <div className="absolute top-2 left-2 sm:top-3 sm:left-3 flex flex-col gap-2 items-start z-10">
+                                                {/* Featured badge */}
+                                                {product.featured && (
+                                                    <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 bg-primary text-primary-foreground text-[10px] sm:text-xs font-medium rounded-full shadow-sm">
+                                                        Coup de cœur
+                                                    </div>
+                                                )}
 
-                                            {/* Featured badge */}
-                                            {product.featured && (
-                                                <div className="absolute top-3 left-3 px-3 py-1.5 bg-primary text-primary-foreground text-xs font-medium rounded-full">
-                                                    Coup de cœur
+                                                {/* Price badge */}
+                                                <div className="px-2.5 py-1 sm:px-3 sm:py-1.5 bg-white/90 backdrop-blur-sm rounded-full shadow-sm">
+                                                    <span className="font-semibold text-[11px] sm:text-sm text-foreground whitespace-nowrap">
+                                                        {product.price.max
+                                                            ? `${product.price.min}€ - ${product.price.max}€`
+                                                            : `${product.price.min}€`}
+                                                    </span>
                                                 </div>
-                                            )}
+                                            </div>
 
                                             {/* Hover button */}
                                             <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">

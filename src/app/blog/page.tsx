@@ -132,7 +132,7 @@ export default function BlogPage() {
         fetchPosts();
     }, []);
 
-    const featuredPost = searchQuery ? null : posts.find((post) => post.featured);
+    const featuredPost = null;
     const regularPosts = searchQuery
         ? posts.filter((post) =>
             post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -140,7 +140,7 @@ export default function BlogPage() {
             post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
             (post.tags || []).some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase()))
         )
-        : posts.filter((post) => !post.featured || post.id !== featuredPost?.id);
+        : posts;
 
     const formatDate = (dateString: string) => {
         // Ajouter T00:00:00 pour forcer l'interprétation en heure locale (évite le décalage UTC)
@@ -229,68 +229,6 @@ export default function BlogPage() {
                 </div>
             </section>
 
-            {/* Featured Post */}
-            {featuredPost && (
-                <section className="py-16">
-                    <div className="container mx-auto px-8 md:px-12 lg:px-16">
-                        <motion.div
-                            initial={{ opacity: 0, y: 30 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8 }}
-                            viewport={{ once: true }}
-                        >
-                            <Link
-                                href={`/blog/${featuredPost.slug}`}
-                                className="group grid grid-cols-1 lg:grid-cols-2 gap-8 items-center"
-                            >
-                                <div className="relative aspect-[16/10] rounded-3xl overflow-hidden">
-                                    <PostImage
-                                        src={featuredPost.image}
-                                        alt={featuredPost.title}
-                                    />
-                                    <div className="absolute top-4 left-4 px-4 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-full">
-                                        Article vedette
-                                    </div>
-                                </div>
-
-                                <div className="space-y-6">
-                                    <span className="inline-block px-4 py-1 bg-secondary text-secondary-foreground text-sm rounded-full">
-                                        {featuredPost.category}
-                                    </span>
-
-                                    <h2 className="text-3xl md:text-4xl font-bold font-serif group-hover:text-primary transition-colors">
-                                        {featuredPost.title}
-                                    </h2>
-
-                                    <p className="text-lg text-muted-foreground leading-relaxed">
-                                        {featuredPost.excerpt}
-                                    </p>
-
-                                    <div className="flex items-center gap-6 text-sm text-muted-foreground">
-                                        <div className="flex items-center gap-2">
-                                            <Calendar className="w-4 h-4" />
-                                            <span>{formatDate(featuredPost.published_at)}</span>
-                                        </div>
-                                        <div className="flex items-center gap-2">
-                                            <Clock className="w-4 h-4" />
-                                            <span>{featuredPost.reading_time} min de lecture</span>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-center gap-3">
-                                        {(() => { const a = getAuthor(featuredPost.author, featuredPost.slug); return (<><AvatarImage src={a.image} alt={a.name} size={48} /><div><p className="font-medium">{a.name}</p><p className="text-sm text-muted-foreground">{a.role}</p></div></>); })()}
-                                    </div>
-
-                                    <div className="flex items-center gap-2 text-primary font-medium group-hover:gap-4 transition-all">
-                                        <span>Lire l&apos;article</span>
-                                        <ArrowRight className="w-4 h-4" />
-                                    </div>
-                                </div>
-                            </Link>
-                        </motion.div>
-                    </div>
-                </section>
-            )}
 
             {/* All Posts Grid */}
             <section className="py-16 bg-secondary/20">
@@ -336,30 +274,27 @@ export default function BlogPage() {
                                                 />
                                             </div>
 
-                                            <div className="p-6 space-y-4">
-                                                <div className="flex items-center justify-between">
-                                                    <span className="px-3 py-1 bg-secondary text-secondary-foreground text-xs rounded-full">
+                                            <div className="p-3 md:p-6 space-y-3 md:space-y-4">
+                                                <div className="flex flex-wrap items-center gap-2 justify-between">
+                                                    <span className="px-2.5 py-1 bg-secondary text-secondary-foreground text-[10px] md:text-xs rounded-full whitespace-nowrap">
                                                         {post.category}
                                                     </span>
-                                                    <span className="text-xs text-muted-foreground flex items-center gap-1">
+                                                    <span className="text-[10px] md:text-xs text-muted-foreground flex items-center gap-1 whitespace-nowrap">
                                                         <Clock className="w-3 h-3" />
                                                         {post.reading_time} min
                                                     </span>
                                                 </div>
 
-                                                <h3 className="text-xl font-bold font-serif group-hover:text-primary transition-colors line-clamp-2">
+                                                <h3 className="text-sm md:text-xl font-bold font-serif group-hover:text-primary transition-colors leading-tight">
                                                     {post.title}
                                                 </h3>
 
-                                                <p className="text-muted-foreground text-sm line-clamp-3">
+                                                <p className="hidden md:-webkit-box text-muted-foreground text-sm line-clamp-3">
                                                     {post.excerpt}
                                                 </p>
 
-                                                <div className="flex items-center justify-between pt-4 border-t border-border">
-                                                    <div className="flex items-center gap-2">
-                                                        {(() => { const a = getAuthor(post.author, post.slug); return (<><AvatarImage src={a.image} alt={a.name} size={32} /><span className="text-sm font-medium">{a.name}</span></>); })()}
-                                                    </div>
-                                                    <span className="text-xs text-muted-foreground">
+                                                <div className="flex justify-end pt-4 border-t border-border mt-auto">
+                                                    <span className="text-xs text-muted-foreground whitespace-nowrap">
                                                         {formatDate(post.published_at)}
                                                     </span>
                                                 </div>
