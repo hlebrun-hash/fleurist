@@ -11,7 +11,7 @@ export function FeaturedProductsSection() {
 
     return (
         <section id="bouquets" className="py-24 bg-background">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-8 md:px-12 lg:px-16">
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}

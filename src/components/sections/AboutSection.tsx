@@ -7,7 +7,7 @@ import { shopInfo } from '@/lib/data';
 export function AboutSection() {
     return (
         <section id="about" className="py-24 bg-secondary/20">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-8 md:px-12 lg:px-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                     {/* Image */}
                     <motion.div

@@ -341,7 +341,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
 
             <div className="min-h-screen pt-24 pb-16">
                 {/* Breadcrumb */}
-                <nav className="container mx-auto px-6 py-4">
+                <nav className="container mx-auto px-8 md:px-12 lg:px-16 py-4">
                     <ol className="flex items-center gap-2 text-sm text-muted-foreground">
                         <li><Link href="/" className="hover:text-primary transition-colors">Accueil</Link></li>
                         <li>/</li>
@@ -352,7 +352,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 </nav>
 
                 {/* Header article */}
-                <header className="container mx-auto px-6 py-8">
+                <header className="container mx-auto px-8 md:px-12 lg:px-16 py-8">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="max-w-4xl mx-auto text-center">
                         <span className="inline-block px-4 py-1 bg-primary/10 text-primary text-sm rounded-full mb-6 font-medium">{post!.category}</span>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-serif mb-8 leading-tight text-foreground">{post!.title}</h1>
@@ -369,14 +369,14 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 </header>
 
                 {/* Image principale */}
-                <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="container mx-auto px-6 mb-16">
+                <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="container mx-auto px-8 md:px-12 lg:px-16 mb-16">
                     <div className="relative aspect-[21/9] max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl">
                         <PostImage src={post!.image ?? ''} alt={post!.title} className="object-cover" />
                     </div>
                 </motion.div>
 
                 {/* Contenu de l'article — décalé pour laisser place à la sidebar fixe */}
-                <div className="container mx-auto px-6 xl:pr-80">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16 xl:pr-80">
                     <div className="flex gap-8 max-w-5xl mx-auto xl:max-w-none">
 
                         {/* Boutons partage gauche */}
@@ -450,7 +450,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Articles liés */}
                 {relatedPosts.length > 0 && (
                     <section className="py-20 mt-20 bg-secondary/30 border-t border-border">
-                        <div className="container mx-auto px-6">
+                        <div className="container mx-auto px-8 md:px-12 lg:px-16">
                             <div className="flex items-center justify-between mb-12">
                                 <h2 className="text-3xl font-bold font-serif">À lire aussi</h2>
                                 <Link href="/blog" className="hidden md:inline-flex items-center gap-2 text-primary font-medium hover:underline">
@@ -475,7 +475,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 )}
 
                 {/* Retour */}
-                <div className="container mx-auto px-6 py-8 text-center">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16 py-8 text-center">
                     <Link href="/blog" className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-all hover:-translate-x-1">
                         <ArrowLeft className="w-4 h-4" /> Retourner à la liste des articles
                     </Link>

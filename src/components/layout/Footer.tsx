@@ -11,7 +11,7 @@ export function Footer() {
     return (
         <footer className="bg-primary text-primary-foreground border-t border-primary-foreground/10">
             {/* Main Footer Content */}
-            <div className="container mx-auto px-6 py-16">
+            <div className="container mx-auto px-8 md:px-12 lg:px-16 py-16">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
                     {/* Brand & Description */}
                     <div className="space-y-4">
@@ -121,7 +121,7 @@ export function Footer() {
 
             {/* Bottom Bar */}
             <div className="border-t border-secondary-foreground/10 bg-black/10">
-                <div className="container mx-auto px-6 py-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16 py-6">
                     <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-primary-foreground/60">
                         <p>
                             © {currentYear} {shopInfo.name}. Tous droits réservés.

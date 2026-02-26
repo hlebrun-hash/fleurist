@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,6 +23,15 @@ export default function ProduitsPage() {
     const [showFilters, setShowFilters] = useState(false);
     const { isVisible } = useScrollVisibility();
 
+    useEffect(() => {
+        // Lire le paramètre 'search' depuis l'URL au chargement
+        const params = new URLSearchParams(window.location.search);
+        const search = params.get('search');
+        if (search) {
+            setSearchQuery(search);
+        }
+    }, []);
+
     const filteredProducts = useMemo(() => {
         return products.filter((product) => {
             const matchesSearch =
@@ -43,7 +52,7 @@ export default function ProduitsPage() {
         <div className="min-h-screen pt-24 pb-16">
             {/* Hero Header */}
             <section className="relative py-16 bg-secondary/30">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -68,7 +77,7 @@ export default function ProduitsPage() {
                     isVisible ? "top-[80px]" : "top-0" // Desktop: suit la navbar. Mobile: top-0 (navbar en bas) mais on peut affiner.
                 )}
             >
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
                         {/* Search */}
                         <div className="relative w-full md:w-96">
@@ -150,7 +159,7 @@ export default function ProduitsPage() {
 
             {/* Products Grid */}
             <section className="py-12 relative z-0">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     {/* Results count */}
                     <p className="text-muted-foreground mb-8">
                         {filteredProducts.length} produit{filteredProducts.length > 1 ? 's' : ''} trouvé{filteredProducts.length > 1 ? 's' : ''}

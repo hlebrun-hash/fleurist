@@ -67,7 +67,7 @@ function ContactContent() {
         <div className="min-h-screen pt-24 pb-16">
             {/* Hero Header */}
             <section className="relative py-16 bg-secondary/30">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -87,7 +87,7 @@ function ContactContent() {
 
             {/* Contact Section */}
             <section className="py-16">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
                         {/* Contact Form */}
                         <motion.div
@@ -332,7 +332,7 @@ function ContactContent() {
 
             {/* FAQ Section */}
             <section className="py-16 bg-secondary/20">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-2xl md:text-3xl font-bold font-serif text-center mb-12">
                             Questions fréquentes

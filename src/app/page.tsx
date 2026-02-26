@@ -5,6 +5,7 @@ import ScrollExpandMedia from '@/components/ui/scroll-expansion-hero';
 import dynamic from 'next/dynamic';
 
 const ServicesSection = dynamic(() => import('@/components/sections/ServicesSection').then(mod => mod.ServicesSection));
+const TrendingCategoriesSection = dynamic(() => import('@/components/sections/TrendingCategoriesSection').then(mod => mod.TrendingCategoriesSection));
 const FeaturedProductsSection = dynamic(() => import('@/components/sections/FeaturedProductsSection').then(mod => mod.FeaturedProductsSection));
 const TestimonialsSection = dynamic(() => import('@/components/sections/TestimonialsSection').then(mod => mod.TestimonialsSection));
 const AboutSection = dynamic(() => import('@/components/sections/AboutSection').then(mod => mod.AboutSection));
@@ -40,6 +41,9 @@ export default function HomePage() {
       </ScrollExpandMedia>
 
 
+
+      {/* Trending Categories */}
+      <TrendingCategoriesSection />
 
       {/* Featured Products */}
       <FeaturedProductsSection />

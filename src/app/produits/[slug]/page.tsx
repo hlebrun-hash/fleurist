@@ -42,7 +42,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     return (
         <div className="min-h-screen pt-24 pb-16">
             {/* Breadcrumb */}
-            <nav className="container mx-auto px-6 py-4">
+            <nav className="container mx-auto px-8 md:px-12 lg:px-16 py-4">
                 <ol className="flex items-center gap-2 text-sm text-muted-foreground">
                     <li>
                         <Link href="/" className="hover:text-primary transition-colors">
@@ -61,7 +61,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             </nav>
 
             {/* Product Hero */}
-            <section className="container mx-auto px-6 py-8">
+            <section className="container mx-auto px-8 md:px-12 lg:px-16 py-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
                     {/* Product Image */}
                     <motion.div
@@ -213,7 +213,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* Storytelling Section */}
             <section className="bg-secondary/20 py-16 mt-16">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-2xl md:text-3xl font-bold font-serif mb-8 text-center">
                             L'histoire de <span className="text-primary">{product.name}</span>
@@ -248,7 +248,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* FAQ Section */}
             <section className="py-16">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <div className="max-w-3xl mx-auto">
                         <h2 className="text-2xl md:text-3xl font-bold font-serif mb-8 text-center">
                             Questions fréquentes
@@ -281,7 +281,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             {/* Related Products */}
             {relatedProducts.length > 0 && (
                 <section className="py-16 bg-secondary/20">
-                    <div className="container mx-auto px-6">
+                    <div className="container mx-auto px-8 md:px-12 lg:px-16">
                         <div className="flex items-center justify-between mb-8">
                             <h2 className="text-2xl md:text-3xl font-bold font-serif">
                                 Vous aimerez aussi
@@ -326,7 +326,7 @@ export default function ProductPage({ params }: ProductPageProps) {
             )}
 
             {/* Back link */}
-            <div className="container mx-auto px-6 pt-8">
+            <div className="container mx-auto px-8 md:px-12 lg:px-16 pt-8">
                 <Link
                     href="/produits"
                     className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors"

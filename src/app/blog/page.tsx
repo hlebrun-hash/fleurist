@@ -182,7 +182,7 @@ export default function BlogPage() {
         <div className="min-h-screen pt-24 pb-16">
             {/* Hero Header */}
             <section className="relative py-16 bg-secondary/30">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -232,7 +232,7 @@ export default function BlogPage() {
             {/* Featured Post */}
             {featuredPost && (
                 <section className="py-16">
-                    <div className="container mx-auto px-6">
+                    <div className="container mx-auto px-8 md:px-12 lg:px-16">
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             whileInView={{ opacity: 1, y: 0 }}
@@ -294,7 +294,7 @@ export default function BlogPage() {
 
             {/* All Posts Grid */}
             <section className="py-16 bg-secondary/20">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <h2 className="text-2xl md:text-3xl font-bold font-serif mb-12 text-center">
                         {searchQuery ? `Résultats pour « ${searchQuery} »` : 'Tous nos articles'}
                     </h2>
@@ -375,7 +375,7 @@ export default function BlogPage() {
 
             {/* Newsletter CTA */}
             <section className="py-16">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-8 md:px-12 lg:px-16">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
