@@ -7,7 +7,7 @@ import { products } from '@/lib/data';
 import { ArrowRight } from 'lucide-react';
 
 export function FeaturedProductsSection() {
-    const featuredProducts = products.filter((p) => p.featured).slice(0, 3);
+    const featuredProducts = products.filter((p) => p.featured).slice(0, 4);
 
     return (
         <section id="bouquets" className="py-24 bg-background">
@@ -30,7 +30,7 @@ export function FeaturedProductsSection() {
                     </p>
                 </motion.div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
                     {featuredProducts.map((product, index) => (
                         <motion.div
                             key={product.id}

@@ -457,7 +457,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                     Voir tout le blog <ArrowLeft className="w-4 h-4 rotate-180" />
                                 </Link>
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 md:gap-8 max-w-7xl mx-auto">
                                 {relatedPosts.map((relPost) => (
                                     <Link key={relPost.id} href={`/blog/${relPost.slug}`} className="group flex flex-col">
                                         <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 shadow-sm group-hover:shadow-md transition-shadow">
