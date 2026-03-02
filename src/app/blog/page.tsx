@@ -9,6 +9,16 @@ import { Search, X } from 'lucide-react';
 import { AnimatedInput } from '@/components/ui/animated-input';
 import { supabase } from '@/lib/supabase';
 
+/* ─── Résolution d'URL image Supabase Storage ─── */
+function resolveImageUrl(image: string | null | undefined): string {
+    if (!image) return '';
+    if (image.startsWith('http://') || image.startsWith('https://') || image.startsWith('/')) {
+        return image;
+    }
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+    return `${supabaseUrl}/storage/v1/object/public/${image}`;
+}
+
 interface BlogPost {
     id: string;
     title: string;
@@ -269,7 +279,7 @@ export default function BlogPage() {
                                         <article className="h-full bg-card border border-border rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-primary/5 transition-all duration-500">
                                             <div className="relative aspect-[16/10]">
                                                 <PostImage
-                                                    src={post.image}
+                                                    src={resolveImageUrl(post.image)}
                                                     alt={post.title}
                                                 />
                                             </div>
