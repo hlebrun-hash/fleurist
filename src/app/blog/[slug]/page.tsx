@@ -5,6 +5,18 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+
+/* ─── Résolution d'URL image Supabase Storage ─── */
+function resolveImageUrl(image: string | null | undefined): string {
+    if (!image) return '';
+    // Si c'est déjà une URL complète, on la retourne telle quelle
+    if (image.startsWith('http://') || image.startsWith('https://') || image.startsWith('/')) {
+        return image;
+    }
+    // Sinon, c'est un chemin relatif dans le bucket Supabase Storage
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? '';
+    return `${supabaseUrl}/storage/v1/object/public/${image}`;
+}
 import { Calendar, Clock, ArrowLeft, ChevronUp, Twitter, Facebook, Linkedin, Link as LinkIcon, Sparkles, ExternalLink, List, User } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { AnimatedInput } from '@/components/ui/animated-input';
@@ -371,7 +383,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 {/* Image principale */}
                 <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="container mx-auto px-8 md:px-12 lg:px-16 mb-16">
                     <div className="relative aspect-[21/9] max-w-6xl mx-auto rounded-3xl overflow-hidden shadow-2xl">
-                        <PostImage src={post!.image ?? ''} alt={post!.title} className="object-cover" />
+                        <PostImage src={resolveImageUrl(post!.image)} alt={post!.title} className="object-cover" />
                     </div>
                 </motion.div>
 
@@ -461,7 +473,7 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                                 {relatedPosts.map((relPost) => (
                                     <Link key={relPost.id} href={`/blog/${relPost.slug}`} className="group flex flex-col">
                                         <div className="relative aspect-[4/3] rounded-2xl overflow-hidden mb-5 shadow-sm group-hover:shadow-md transition-shadow">
-                                            <PostImage src={relPost.image ?? ''} alt={relPost.title} className="object-cover transition-transform duration-700 group-hover:scale-105" />
+                                            <PostImage src={resolveImageUrl(relPost.image)} alt={relPost.title} className="object-cover transition-transform duration-700 group-hover:scale-105" />
                                             <div className="absolute top-4 left-4 bg-background/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-medium text-foreground">{relPost.category ?? 'Article'}</div>
                                         </div>
                                         <h3 className="text-xl font-bold font-serif mb-2 group-hover:text-primary transition-colors leading-tight">{relPost.title}</h3>
