@@ -110,10 +110,18 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 // Normaliser les champs null pour éviter les crashes
                 const parseExternalLink = (raw: unknown) => {
                     if (!raw) return null;
-                    if (typeof raw === 'string') {
-                        try { return JSON.parse(raw); } catch { return null; }
+                    let parsed = raw;
+
+                    try {
+                        // S'il est sous forme de chaîne, on le parse
+                        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+                        // Parfois Make.com envoie le texte doublement converti en chaîne
+                        if (typeof parsed === 'string') parsed = JSON.parse(parsed);
+                    } catch (e) {
+                        return null;
                     }
-                    if (typeof raw === 'object') return raw;
+
+                    if (typeof parsed === 'object' && parsed !== null) return parsed;
                     return null;
                 };
                 const normalized = {
@@ -172,8 +180,11 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 .replace(/\s+/g, '-')
                 .replace(/^-+|-+$/g, '');
 
-        // Normaliser les fins de ligne (Windows \r\n → \n)
-        const raw = (post.content ?? '').replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+        // Normaliser les fins de ligne et remplacer les "\n" textuels en vrais sauts de ligne
+        const raw = (post.content ?? '')
+            .replace(/\\n/g, '\n')
+            .replace(/\r\n/g, '\n')
+            .replace(/\r/g, '\n');
 
         const lines = raw.split('\n');
         const htmlLines: string[] = [];
