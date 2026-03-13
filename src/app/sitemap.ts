@@ -2,42 +2,46 @@ import { MetadataRoute } from 'next';
 
 const BASE_URL = 'https://fleuriste11.vercel.app';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 3600; // Revalidate every hour
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+    const now = new Date();
     // Pages statiques
     const staticPages: MetadataRoute.Sitemap = [
         {
             url: BASE_URL,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 1,
         },
         {
             url: `${BASE_URL}/blog`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'daily',
             priority: 0.9,
         },
         {
             url: `${BASE_URL}/produits`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'weekly',
             priority: 0.8,
         },
         {
             url: `${BASE_URL}/contact`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'monthly',
             priority: 0.7,
         },
         {
             url: `${BASE_URL}/mentions-legales`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'yearly',
             priority: 0.2,
         },
         {
             url: `${BASE_URL}/politique-confidentialite`,
-            lastModified: new Date(),
+            lastModified: now,
             changeFrequency: 'yearly',
             priority: 0.2,
         },
