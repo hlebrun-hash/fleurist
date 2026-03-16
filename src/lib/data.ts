@@ -36,6 +36,7 @@ export interface Product {
     featured: boolean;
     occasion?: string[];
     composition?: string[];
+    sku?: string;
     dimensions?: {
         height: string;
         diameter: string;

@@ -28,15 +28,18 @@ export default function HomePage() {
         textBlend
       >
         {/* Content after scroll expansion */}
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold font-serif mb-6 text-foreground">
-            Bienvenue dans notre <span className="text-primary">univers floral</span>
+        <div className="max-w-4xl mx-auto text-center py-12">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif mb-10 text-foreground leading-tight">
+            Qu'est-ce qui définit l'art floral de <span className="text-primary italic">Jardin Digital</span> ?
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-            Depuis 2016, nous créons des compositions florales uniques qui capturent l'essence
-            de vos émotions. Chaque bouquet est une œuvre d'art, pensée et réalisée avec passion
-            par nos artisans fleuristes au cœur du 11ème arrondissement de Paris.
-          </p>
+          <div className="space-y-6 text-xl text-muted-foreground leading-relaxed text-left md:text-center px-4">
+            <p>
+              <strong>Jardin Digital</strong> est un atelier de fleuriste artisan situé au cœur du 11ème arrondissement de Paris, spécialisé dans la création de compositions florales éco-responsables et personnalisées. Notre philosophie repose sur l'utilisation de fleurs de saison, sourcées principalement en circuit court, pour garantir une fraîcheur exceptionnelle et une tenue prolongée de nos bouquets. Que vous recherchiez une composition pour un mariage élégant, un événement professionnel sur mesure ou simplement un bouquet unique pour exprimer vos émotions, nos artisans mettent leur expertise au service de votre vision créative.
+            </p>
+            <p>
+              Depuis notre ouverture en 2016, nous nous distinguons par un style qui mêle naturalité sauvage et élégance parisienne. Chaque création est pensée comme une œuvre d'art éphémère, respectant le cycle de la nature. Nous proposons également un service de livraison express dans tout Paris et l'Île-de-France, assurant que vos fleurs arrivent dans des conditions optimales. En choisissant Jardin Digital, vous soutenez un artisanat local passionné qui transforme chaque pétale en un message inoubliable.
+            </p>
+          </div>
         </div>
       </ScrollExpandMedia>
 

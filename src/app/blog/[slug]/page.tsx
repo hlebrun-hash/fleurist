@@ -517,17 +517,37 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
                 </motion.button>
             )}
 
-            {/* Schema.org */}
+            {/* Schema.org BlogPosting */}
             <script type="application/ld+json" dangerouslySetInnerHTML={{
                 __html: JSON.stringify({
                     '@context': 'https://schema.org',
                     '@type': 'BlogPosting',
+                    mainEntityOfPage: {
+                        '@type': 'WebPage',
+                        '@id': `https://fleuriste11.vercel.app/blog/${post!.slug}`,
+                    },
                     headline: post!.title,
                     description: post!.excerpt,
-                    image: post!.image,
+                    image: resolveImageUrl(post!.image),
                     datePublished: post!.published_at,
-                    author: { '@type': 'Person', name: author.name, jobTitle: author.role },
-                    publisher: { '@type': 'Organization', name: 'Jardin Digital' },
+                    dateModified: post!.published_at, // Use published_at as modified if not separate
+                    author: {
+                        '@type': 'Person',
+                        name: author.name,
+                        jobTitle: author.role,
+                        image: author.image,
+                        url: author.linkedin || undefined,
+                    },
+                    publisher: {
+                        '@type': 'Organization',
+                        name: 'Jardin Digital',
+                        logo: {
+                            '@type': 'ImageObject',
+                            url: 'https://fleuriste11.vercel.app/favicon.ico', // Placeholder for logo
+                        }
+                    },
+                    keywords: post!.tags?.join(', '),
+                    articleBody: post!.content?.substring(0, 1000), // AI summary aid
                 })
             }} />
         </>

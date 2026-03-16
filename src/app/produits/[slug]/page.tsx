@@ -345,19 +345,27 @@ export default function ProductPage({ params }: ProductPageProps) {
                         '@type': 'Product',
                         name: product.name,
                         description: product.description,
-                        image: product.images[0],
+                        image: product.images,
+                        sku: product.sku || product.slug,
+                        category: product.category,
                         brand: {
                             '@type': 'Brand',
                             name: 'Jardin Digital',
                         },
                         offers: {
                             '@type': 'AggregateOffer',
+                            priceCurrency: 'EUR',
                             lowPrice: product.price.min,
                             highPrice: product.price.max || product.price.min,
-                            priceCurrency: 'EUR',
-                            availability: product.inStock
+                            offerCount: product.price.max ? '2' : '1',
+                            availability: product.inStock !== false
                                 ? 'https://schema.org/InStock'
                                 : 'https://schema.org/OutOfStock',
+                            url: `https://fleuriste11.vercel.app/produits/${product.slug}`,
+                            seller: {
+                                '@type': 'Florist',
+                                name: 'Jardin Digital'
+                            }
                         },
                     }),
                 }}

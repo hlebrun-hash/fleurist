@@ -89,8 +89,53 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Florist",
+    "name": "Jardin Digital",
+    "image": "https://images.unsplash.com/photo-1487530811176-3780de880c2d?w=1200&q=80",
+    "@id": "https://fleuriste11.vercel.app/#organization",
+    "url": "https://fleuriste11.vercel.app",
+    "telephone": "+33100000000",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Rue de Charonne",
+      "addressLocality": "Paris",
+      "postalCode": "75011",
+      "addressCountry": "FR"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 48.8534,
+      "longitude": 2.3795
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "09:00",
+      "closes": "19:30"
+    },
+    "sameAs": [
+      "https://www.instagram.com/jardindigital",
+      "https://www.facebook.com/jardindigital"
+    ]
+  };
+
   return (
     <html lang="fr" className={`${cormorant.variable} ${mulish.variable}`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="antialiased font-sans text-foreground bg-background">
         <Providers>
           <CustomCursor />

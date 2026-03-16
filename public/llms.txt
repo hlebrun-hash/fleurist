@@ -1,26 +1,20 @@
-# Jardin Digital - Fleuriste Artisan Paris 11ème
+# Jardin Digital - Fleuriste Artisan à Paris 11
 
-## À propos
-Jardin Digital est un fleuriste artisan situé au cœur du 11ème arrondissement de Paris.
-Nous créons des bouquets sur mesure, des compositions florales uniques et accompagnons
-vos mariages et événements avec l'art floral.
+> Fleuriste artisan proposant des bouquets sur mesure, des compositions florales pour mariages et événements, et une livraison rapide à Paris et en Île-de-France.
 
-## Services
-- Bouquets sur mesure
-- Compositions florales
-- Décoration mariage et événements
-- Abonnement floral
-- Livraison Paris et Île-de-France
+## Sections Principales
+- [Accueil](https://fleuriste11.vercel.app/): Présentation de notre savoir-faire, nos engagements et nos créations phares.
+- [Boutique de Fleurs](https://fleuriste11.vercel.app/produits): Catalogue de nos bouquets saisonniers, plantes et accessoires.
+- [Blog Floral](https://fleuriste11.vercel.app/blog): Conseils d'entretien, tendances florales et coulisses de notre atelier.
+- [Contact](https://fleuriste11.vercel.app/contact): Nous trouver dans le 11ème arrondissement de Paris ou nous envoyer un message.
 
-## Contact
-Adresse : 42 Rue des Lilas, 75011 Paris, France
-Téléphone : +33 1 23 45 67 89
+## Services Clés
+- **Bouquets sur mesure** : Créations uniques réalisées avec des fleurs fraîches de saison.
+- **Événements & Mariages** : Décoration florale complète pour vos moments d'exception.
+- **Livraison Express** : Livraison à domicile ou au bureau à Paris et en proche banlieue.
+- **Abonnements Floraux** : Recevez des fleurs fraîches régulièrement pour votre domicile ou votre entreprise.
 
-## Pages principales
-- Accueil : https://fleuriste11.vercel.app/
-- Boutique : https://fleuriste11.vercel.app/produits
-- Blog : https://fleuriste11.vercel.app/blog
-- Contact : https://fleuriste11.vercel.app/contact
-
-## Sitemap
-https://fleuriste11.vercel.app/sitemap.xml
+## Informations Pratiques
+- **Adresse** : Paris 11ème, France
+- **Zone de livraison** : Paris (tous arrondissements) et Île-de-France.
+- **Style** : Artisanal, bohème, élégant et éco-responsable.
